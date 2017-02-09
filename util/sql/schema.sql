@@ -57,7 +57,7 @@ CREATE INDEX inventory_added_by_user    ON inventory (added_by_user);
 
 
 -- Foreign key constraints
-ALTER TABLE inventory_descriptions ADD CONSTRAINT inventory_descriptions_item_id_fkey     FOREIGN KEY (item_id)     REFERENCES inventory  (item_id)     ON DELETE CASCADE ON UPDATE CASCADE;
-ALTER TABLE retrieval_records      ADD CONSTRAINT retrieval_records_item_id_fkey          FOREIGN KEY (item_id)     REFERENCES inventory  (item_id)     ON DELETE CASCADE ON UPDATE CASCADE;
-ALTER TABLE inventory_category_map ADD CONSTRAINT inventory_category_map_item_id_fkey     FOREIGN KEY (item_id)     REFERENCES inventory  (item_id)     ON DELETE CASCADE ON UPDATE CASCADE;
-ALTER TABLE inventory_category_map ADD CONSTRAINT inventory_category_map_category_id_fkey FOREIGN KEY (category_id) REFERENCES categories (category_id) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE inventory_descriptions ADD CONSTRAINT inventory_descriptions_item_id_fkey     FOREIGN KEY (item_id)     REFERENCES inventory  (item_id)     ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE retrieval_records      ADD CONSTRAINT retrieval_records_item_id_fkey          FOREIGN KEY (item_id)     REFERENCES inventory  (item_id)     ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE inventory_category_map ADD CONSTRAINT inventory_category_map_item_id_fkey     FOREIGN KEY (item_id)     REFERENCES inventory  (item_id)     ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE inventory_category_map ADD CONSTRAINT inventory_category_map_category_id_fkey FOREIGN KEY (category_id) REFERENCES categories (category_id) ON DELETE NO ACTION ON UPDATE NO ACTION;
