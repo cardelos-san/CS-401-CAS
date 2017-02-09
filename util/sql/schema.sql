@@ -33,6 +33,8 @@ CREATE TABLE retrieval_records (
     item_id mediumint(8) unsigned NOT NULL,
     first_name varchar(50) NOT NULL,
     last_name varchar(50) NOT NULL,
+    email varchar(50),
+    phone varchar(10),
     identification varchar(30) NOT NULL
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8  COLLATE=utf8_unicode_ci;
 
