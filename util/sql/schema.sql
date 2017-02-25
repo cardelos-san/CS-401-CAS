@@ -24,8 +24,9 @@ CREATE TABLE inventory (
 
 CREATE TABLE inventory_descriptions (
     item_id mediumint(8) unsigned NOT NULL PRIMARY KEY,
-    description text NOT NULL FULLTEXT
-) ENGINE=MyISAM
+    description text NOT NULL,
+    FULLTEXT (description)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8  COLLATE=utf8_unicode_ci;
 
 
 CREATE TABLE retrieval_records (
