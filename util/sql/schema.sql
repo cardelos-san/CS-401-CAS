@@ -14,8 +14,8 @@ CREATE TABLE inventory_category_map (
 
 CREATE TABLE inventory (
     item_id mediumint(8) unsigned NOT NULL auto_increment PRIMARY KEY,
-    status enum('lost', 'retrieved')
-    date_created timestamp NOT NULL default CURRENT_TIMESTAMP,
+    status enum('lost', 'retrieved'),
+    date_created timestamp NOT NULL default NOW(),
     date_found DATE NOT NULL,
     date_retrieved DATE NOT NULL,
     added_by_user mediumint(8) unsigned NOT NULL
