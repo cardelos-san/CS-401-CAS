@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+	<script src = "LostNFound.js"></script>
+	
+	
+		<link rel="stylesheet" type="text/css" href="LostNFoundStyle.css" media="screen" />
+
+		<title>
+
+		Rhode Island Lost and Found
+
+		</title>
+
+	</head>
+	
+
+	<body>
+		
+		<img id = "bannerProperties" src = "LostNFoundBanner.png"  >
+		
+		<p class = "welcome"> Welcome, <span style = "float: right;"> <a href = "linkToAdminlogin"> Administrator</a></span> </p>
+		
+		<div id = "searchProperties">
+		
+			<form>
+				<input class = "search" type = "text" placeholder = "e.g. Biologic Book" required>
+				<input type = "button" value = "Search">
+			</form>
+			
+			
+			<form action="" method="post">
+				<table id= "tableProperties">
+					<tr>
+						<td><input onChange="submitForm()" type="checkbox" name="category" value="cellphones"> Cell Phones</td>
+						<td><input onChange="submit()" type="checkbox" name="category" value="books"> Books</td>
+						<td><input onChange="submit()" type="checkbox" name="category" value="Headphones"> Headphones</td>
+						<td><input onChange="submit()" type="checkbox" name="category" value="Misc"> Miscellaneous</td>
+					</tr>
+					<tr>
+						<td><input onChange="submit()" type="checkbox" name="category" value="Wallets"> Wallets</td>
+						<td><input onChange="submit()" type="checkbox" name="category" value="Glasses"> Glasses</td>
+						<td><input onChange="submit()" type="checkbox" name="category" value="Keys"> Keys</td>
+					</tr>
+					
+					
+					
+				</table>
+			</form>
+			
+		</div>
+		
+	</body>
+
+</html>
