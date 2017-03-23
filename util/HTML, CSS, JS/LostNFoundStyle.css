@@ -1,4 +1,4 @@
-/*Fixed page size
+/*Fixed page size not used
 
 #wrapper {
     margin-left:auto;
@@ -6,7 +6,10 @@
     width:900px;
 }*/
 
-/*h1 {
+
+/* Some Fonts not used
+
+	h1 {
 	font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
 	font-size: 50px;
 	font-style: normal;
@@ -26,19 +29,22 @@ h2.under{
 
 */
 
-#bannerProperties{
+#banner{
     display: block;
     margin: auto;
     width: 50%;
 }
 
-#searchProperties{
-	width:500px;
-    margin:50px auto;
+.moveRight{
+	float: right;
+}
+
+.autoAlign{
+	width:670px;
+    margin: 70px auto;
 }
 
 p.welcome{
-	
 	border: groove black;
 }
 
@@ -47,6 +53,79 @@ p.welcome{
 	width:300px;
 }
 
-#tableSettings{
+#categories{
 	width:100%
 }
+
+
+table#body {
+    border-top-style: solid;
+	border-left-style: solid;
+    border-bottom-style: solid;
+	border-right-style: solid;
+    border-collapse: collapse;
+	border-width: 1px;
+	border-color: black;
+	width:100%
+}
+
+
+tr#boldBorder{
+	border-top-style: solid;
+    border-left-style: solid;
+	border-bottom-style: solid;
+	border-right-style: solid;
+	border-width: 3px;
+}
+
+.lightBorderRight{
+	border-right-style: solid;
+	border-width: 1px;
+}
+
+.lightBorder{
+
+border-style: solid;
+border-width: 1px;
+	
+}
+
+.paddingTH{
+	
+	padding-right: 20px;
+	padding-left: 20px;
+}
+
+.paddingTD{
+	padding: 20px;
+}
+	
+
+.centerText{
+	
+	text-align: center;
+}
+
+.paddingSearch{
+	padding-left: 150px;
+}
+
+.footer{
+	background-color: pink;
+	border-style: solid;
+	border-color: pink;
+	border-width: 5px;
+	margin: -8px;
+}
+
+#ricLogo{
+	
+	width: 10%;
+}
+
+.contact{
+	padding-top: 25px;
+	padding-right:20px;
+	float:right;
+}
+
