@@ -70,7 +70,7 @@ table#body {
 }
 
 
-tr#boldBorder{
+.boldBorder{
 	border-top-style: solid;
     border-left-style: solid;
 	border-bottom-style: solid;
@@ -112,15 +112,18 @@ border-width: 1px;
 
 .footer{
 	background-color: pink;
-	border-style: solid;
+	border-top-style: groove;
 	border-color: pink;
 	border-width: 5px;
-	margin: -8px;
+	margin-right: -8px;
+	margin-left: -8px;
+	box-shadow: 0px 500px 0px 500px pink;
 }
 
 #ricLogo{
 	
 	width: 10%;
+	padding-top: 6px;
 }
 
 .contact{
