@@ -14,19 +14,13 @@ CREATE TABLE inventory_category_map (
 
 CREATE TABLE inventory (
     item_id mediumint(8) unsigned NOT NULL auto_increment PRIMARY KEY,
+    description text NOT NULL,
     status enum('lost', 'retrieved'),
     date_created timestamp NOT NULL default NOW(),
     date_found DATE NOT NULL,
     date_retrieved DATE NOT NULL,
     added_by_user mediumint(8) unsigned NOT NULL
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8  COLLATE=utf8_unicode_ci;
-
-
-CREATE TABLE inventory_descriptions (
-    item_id mediumint(8) unsigned NOT NULL PRIMARY KEY,
-    description text NOT NULL,
-    FULLTEXT (description)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8  COLLATE=utf8_unicode_ci;
 
 
 CREATE TABLE retrieval_records (
@@ -52,13 +46,13 @@ CREATE TABLE users (
 
 
 -- Indexes
-CREATE INDEX inventory_date_found       ON inventory (date_found);
-CREATE INDEX inventory_date_retrieved   ON inventory (date_retrieved);
-CREATE INDEX inventory_added_by_user    ON inventory (added_by_user);
+CREATE          INDEX inventory_date_found     ON inventory (date_found);
+CREATE          INDEX inventory_date_retrieved ON inventory (date_retrieved);
+CREATE          INDEX inventory_added_by_user  ON inventory (added_by_user);
+CREATE FULLTEXT INDEX inventory_description    ON inventory (description);
 
 
 -- Foreign key constraints
-ALTER TABLE inventory_descriptions ADD CONSTRAINT inventory_descriptions_item_id_fkey     FOREIGN KEY (item_id)     REFERENCES inventory  (item_id)     ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE retrieval_records      ADD CONSTRAINT retrieval_records_item_id_fkey          FOREIGN KEY (item_id)     REFERENCES inventory  (item_id)     ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE inventory_category_map ADD CONSTRAINT inventory_category_map_item_id_fkey     FOREIGN KEY (item_id)     REFERENCES inventory  (item_id)     ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE inventory_category_map ADD CONSTRAINT inventory_category_map_category_id_fkey FOREIGN KEY (category_id) REFERENCES categories (category_id) ON DELETE NO ACTION ON UPDATE NO ACTION;
