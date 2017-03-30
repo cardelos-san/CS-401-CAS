@@ -1,16 +1,23 @@
 <!DOCTYPE html>
 
 <html>
-
-	<head>
 	
-	<script src = "jquery-3.2.0"></script>
-
-	<link rel = "stylesheet" type = "text/css" href ="//cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css"/>
-	<script type = "text/javascript" src = "//cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+	<!--Page head. Contains scripts and CSS-->
+	<head>
+	<!--Importing jQuery library-->
+	<script type = "text/javascript" src = "http://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+	<!--Importing DataTables plugin-->
+	<script type = "text/javascript" src = "http://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+	<!--Importing CSS for DataTables plugin, in addition to internal CSS-->
+	<link rel = "stylesheet" type = "text/css" href ="http://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css"/>
+	<!--Implementing DataTables plugin into page-->
 	<script type = "text/javascript">$(document).ready(function(){
-    $('#body').DataTable();
-});</script>
+		$('#body').DataTable({
+			"columnDefs": [{ 
+				"orderable": false, "targets": [1,3] 
+			}]
+		});
+	});</script>
 	
 	<link rel="stylesheet" type="text/css" href="LostNFoundStyle.css" media="screen" />
 	
@@ -19,20 +26,20 @@
 		</title>
 		
 	</head>
-	
+	<!--Page body, contains images, menus, and table-->
 	<body>
-		
+		<!--Page top-->
 		<img id = "banner" src = "banner.png"  >
 		
 		<p class = "welcome"> Welcome, Guest <span class = "moveRight"> <a href = "linkToAdminlogin"> Administrator</a></span> </p>
 		
 		<div class = "autoAlign">
-		
+			<!--Search Bar-->
 			<form class = "paddingSearch">
 				<input class = "search" type = "text" placeholder = "e.g. Biologic Book" required>
 				<input type = "button" value = "Search">
 			</form><br>
-			
+			<!--Categories-->
 			<form action="" method="post">
 				<table id = "categories">
 					<tr>
@@ -48,7 +55,7 @@
 					</tr>
 				</table></br>
 			</form>
-			
+			<!--Dynamic table-->
 			<table id = "body">
 				<thead class = "boldBorder">
 				<tr>
@@ -56,13 +63,59 @@
 					<th class = "lightBorderRight paddingTH">Image</th> 
 					<th class = "lightBorderRight paddingTH">Description</th>
 					<th class = "lightBorderRight paddingTH">Category</th>
-					<th class = "lightBorderRight paddingTH">Date Received</th>
+					<th class = "lightBorderRight paddingTH">Date received</th>
 					<th class = "paddingTH">Status</th>
 				</tr>
 				</thead>
 				
 				<tbody>
 				<tr>
+					<!--No.-->
+					<td class = "lightBorder centerText paddingTD">1</td>
+					<!--Image-->
+					<td class = "lightBorder centerText paddingTD">Image here</td> 
+					<!--Description-->
+					<td class = "lightBorder centerText paddingTD">Black wallet</td>
+					<!--Category-->
+					<td class = "lightBorder centerText paddingTD">Wallets</td>
+					<!--Date-->
+					<td class = "lightBorder centerText paddingTD">March 27, 2017</td>
+					<!--Status-->
+					<td class = "lightBorder centerText paddingTD">Found</td>
+				</tr>
+				<tr>
+					<td class = "lightBorder centerText paddingTD">2</td>
+					<td class = "lightBorder centerText paddingTD">Image here</td> 
+					<td class = "lightBorder centerText paddingTD">Math Book</td>
+					<td class = "lightBorder centerText paddingTD">Books</td>
+					<td class = "lightBorder centerText paddingTD">March 26, 2017</td>
+					<td class = "lightBorder centerText paddingTD">Retreived</td>
+				</tr>
+				<tr>
+					<td class = "lightBorder centerText paddingTD">3</td>
+					<td class = "lightBorder centerText paddingTD">Image here</td> 
+					<td class = "lightBorder centerText paddingTD">Apple watch</td>
+					<td class = "lightBorder centerText paddingTD">Miscellaneous</td>
+					<td class = "lightBorder centerText paddingTD">January 11, 2017</td>
+					<td class = "lightBorder centerText paddingTD">Found</td>
+				</tr>
+				<tr>
+					<td class = "lightBorder centerText paddingTD">Number here</td>
+					<td class = "lightBorder centerText paddingTD">Image here</td> 
+					<td class = "lightBorder centerText paddingTD">Description here</td>
+					<td class = "lightBorder centerText paddingTD">Category here</td>
+					<td class = "lightBorder centerText paddingTD">Date Received here</td>
+					<td class = "lightBorder centerText paddingTD">Status here</td>
+				</tr>
+				<tr>
+					<td class = "lightBorder centerText paddingTD">Number here</td>
+					<td class = "lightBorder centerText paddingTD">Image here</td> 
+					<td class = "lightBorder centerText paddingTD">Description here</td>
+					<td class = "lightBorder centerText paddingTD">Category here</td>
+					<td class = "lightBorder centerText paddingTD">Date Received here</td>
+					<td class = "lightBorder centerText paddingTD">Status here</td>
+				</tr>
+				<tr>
 					<td class = "lightBorder centerText paddingTD">Number here</td>
 					<td class = "lightBorder centerText paddingTD">Image here</td> 
 					<td class = "lightBorder centerText paddingTD">Description here</td>
@@ -87,6 +140,21 @@
 					<td class = "lightBorder centerText paddingTD">Status here</td>
 				</tr>
 				<tr>
+					<td class = "lightBorder centerText paddingTD">Number here</td>
+					<td class = "lightBorder centerText paddingTD">Image here</td> 
+					<td class = "lightBorder centerText paddingTD">Description here</td>
+					<td class = "lightBorder centerText paddingTD">Category here</td>
+					<td class = "lightBorder centerText paddingTD">Date Received here</td>
+					<td class = "lightBorder centerText paddingTD">Status here</td>
+				</tr>
+				<tr>
+					<td class = "lightBorder centerText paddingTD">Number here</td>
+					<td class = "lightBorder centerText paddingTD">Image here</td> 
+					<td class = "lightBorder centerText paddingTD">Description here</td>
+					<td class = "lightBorder centerText paddingTD">Category here</td>
+					<td class = "lightBorder centerText paddingTD">Date Received here</td>
+					<td class = "lightBorder centerText paddingTD">Status here</td>
+				</tr><tr>
 					<td class = "lightBorder centerText paddingTD">Number here</td>
 					<td class = "lightBorder centerText paddingTD">Image here</td> 
 					<td class = "lightBorder centerText paddingTD">Description here</td>
@@ -122,7 +190,7 @@
 			</table>
 			
 		</div>
-		
+		<!--Page footer-->
 		<footer class = "footer">
 		
 			<img  id = "ricLogo" src = "riclogo_footer_156px.png">
