@@ -18,7 +18,7 @@ import java.util.*;
 
 public class ExampleController {
 
-	public static void main(String[] args){
+	public static void runExample(){
 		Scanner kbd = new Scanner(System.in);
 	    ItemModel model = new ItemModel();
 	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
