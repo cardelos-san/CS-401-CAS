@@ -4,7 +4,7 @@ package lostandfound.model;
 import lostandfound.util.*;
 import java.util.*;
 
-public class ItemModel {
+public class Item {
 
 	Scanner kbd = new Scanner(System.in);
   DBase db = new DBase("root", "Kpopfeen96!!");

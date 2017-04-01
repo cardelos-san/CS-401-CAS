@@ -20,7 +20,7 @@ public class ExampleController {
 
 	public static void runExample(){
 		Scanner kbd = new Scanner(System.in);
-	    ItemModel model = new ItemModel();
+	    Item model = new Item();
 	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
 		int functionNo = 1;
 
