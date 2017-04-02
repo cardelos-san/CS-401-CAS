@@ -16,8 +16,8 @@ INSERT INTO users (user_id, email, passwd, role, first_name, last_name) VALUES
 
 -- Inventory
 INSERT INTO inventory (item_id, description, `status`, date_found, date_retrieved, added_by_user) VALUES
-(1, 'Brown leather wallet', 'lost', NOW(), NULL, 1),
-(2, 'iPhone with light blue case', 'retrieved', NOW(), NOW(), 1);
+(1, 'Brown leather wallet', 'lost', CURDATE(), NULL, 1),
+(2, 'iPhone with light blue case', 'retrieved', CURDATE() - INTERVAL 1 MONTH, CURDATE() - INTERVAL 1 WEEK, 1);
 
 -- Retrieval
 INSERT INTO retrieval_records (retrieval_id, item_id, first_name, last_name, email, phone, identification) VALUES
@@ -27,5 +27,9 @@ INSERT INTO retrieval_records (retrieval_id, item_id, first_name, last_name, ema
 INSERT INTO inventory_category_map (item_id, category_id) VALUES
 (1, 2),
 (2, 1);
+
+-- User Codes
+INSERT INTO user_codes (user_id, hash_code, expiration_date) VALUES
+(1, '27c30ca513d2651d076f74738b255a2038961bde9a1aa552e9fbacf4c71b8113', CURDATE() + INTERVAL 30 DAY);
 
 COMMIT;
