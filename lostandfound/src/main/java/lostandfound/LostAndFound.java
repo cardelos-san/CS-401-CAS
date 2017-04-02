@@ -1,10 +1,11 @@
 package lostandfound;
 
+import lostandfound.controller.*;
+
 public class LostAndFound {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		ExampleController.runExample();
 	}
 
 }
