@@ -81,4 +81,45 @@ public class DBase {
     	catch (Exception e) {}
     }
     
+    /**
+     * addUser - Adds a user to the database
+     * @param email user email
+     * @param passwd hashed user password
+     * @param role user role
+     * @param firstName user first name
+     * @param lastName user last name
+     */
+    public void addUser(String email, String passwd, String role,
+    		String firstName, String lastName) {
+    	
+    	PreparedStatement stmt = null;
+    	String sql;
+    	
+    	// Return if the database is closed.
+    	if (!isopen) return;
+    	
+    	try {
+    		// Create a statement for the update
+    		sql = "INSERT INTO users " +
+    				"(email, passwd, role, first_name, last_name) " +
+    				"VALUES (?, ?, ?, ?, ?, ?)";
+    		stmt = conn.prepareStatement(sql);
+    		
+    		// Set the parameters in the statement
+    		stmt.setString(1, email);
+    		stmt.setString(2, passwd);
+    		stmt.setString(4, role);
+    		stmt.setString(5, firstName);
+    		stmt.setString(6, lastName);
+    	
+    		// Execute statement
+    		stmt.executeUpdate();
+    	} catch (Exception e) {}
+    	
+    	// Close the update statement and return
+    	try {
+    		stmt.close();
+    	} catch (Exception e) {}
+    }
+    
 } //End of class
