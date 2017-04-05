@@ -19,7 +19,11 @@ public class DBase {
     private boolean isopen;
     //private Scanner kbd = new Scanner(System.in); MAY NOT NEED THIS
     
-    // Attempt to connect to the JavaDB lost_and_found database.
+    /**
+     * DBase - Attempts to connect to the lost_and_found database
+     * @param uname	the username the database is locked with
+     * @param pword	the password the database is locked with
+     */
     public DBase(String uname, String pword) 
     {
         try {
@@ -30,10 +34,17 @@ public class DBase {
         isopen = (conn != null);
     }
 	
-    // Test whether the database is open.
+    /**
+     * isOpen - Tests whether the database is open or closed
+     * @return returns the boolean value to determine if the database
+     * is open or closed
+     */
     public boolean isOpen() {return isopen;}
 	
-    // Close the database connection.
+    /**
+     * close - Closes the database connection
+     * @return returns to the calling method if the database is not open
+     */
     public void close() 
     {
         if (!isopen) return;
@@ -43,8 +54,15 @@ public class DBase {
         conn = null; // Clean up before clearing
     }
 	
-    // This method will add an item to the database, given all an
-    // item's attributes
+    /**
+     * addItem - Adds an item to the database
+     * @param id the item's id
+     * @param description a description of the item
+     * @param status the status of the item ('lost' or 'found')
+     * @param dateFound the date of which the item was found
+     * @param dateRetrieved the date of which the item was retrieved (if item was found)
+     * @param adminId the id of the administrator that is processing this transaction
+     */
     public void addItem(int id, String description, String status,
     		java.sql.Date dateFound, java.sql.Date dateRetrieved, int adminId)
     {
@@ -69,16 +87,161 @@ public class DBase {
     		stmt.setDate(5, dateRetrieved);
     		stmt.setInt(6, adminId);
     	
-    		// 3. Execute SQL Update
+    		// Execute SQL Update
     		stmt.executeUpdate();
         
-        	// 4. Process the result set
-        	System.out.println("Completed Insert!");
+        	// Confirm the process
+        	//System.out.println("Completed Insert!");
     	} catch (Exception e) {}
     	
     	// Close the update statement and return
     	try {stmt.close();}
     	catch (Exception e) {}
+    }
+    
+    /**
+     * deleteItem - Deletes an item in the database
+     * @param id the item's id
+     */
+    public void deleteItem(int id)
+    {
+    	PreparedStatement stmt = null;
+        String sql;
+        
+        // Return if the database is closed.
+        if (!isopen) return;
+        
+        try {
+            // Create a PreparedStatement for the update.
+            sql = "DELETE FROM inventory WHERE item_id = ?";
+            stmt = conn.prepareStatement(sql);
+
+            // Set the parameters in the statement
+            stmt.setInt(1, id);
+
+            // Execute SQL Update
+            stmt.executeUpdate();     
+        } catch (Exception e) {}
+        
+        // Close the update statement and return.
+        try {stmt.close();}
+        catch (Exception e) {}
+    }
+    
+    /**
+     * editItem - Edits an item in the database
+     */
+    public void editItem()
+    {
+    	
+    }
+    
+    /**
+     * viewItem - View all information of an item in the database
+     * @param id the item's id
+     * @return returns ... (!!! EDIT)
+     * WARNING: THIS INFO SHOULD BE RETURNED, SHOULD NOT PRINT IN DBASE
+     */
+    public void viewItem(int id)
+    {
+    	PreparedStatement stmt = null;
+    	ResultSet rset = null; // result - gets returned
+        String sql, description, status;
+        int itemId, adminId;
+		java.sql.Date dateCreated, dateFound, dateRetrieved;
+        
+        // Return if the database is closed.
+        if (!isopen) return;
+        
+        try {
+            // Create a PreparedStatement for the update.
+            sql = "SELECT * FROM inventory WHERE inventory.item_id = ?";
+            stmt = conn.prepareStatement(sql);
+
+            // Set the parameters in the statement
+            stmt.setInt(1, id);
+
+            // Execute SQL Update
+            rset = stmt.executeQuery();
+            
+            // Process the result set
+            // Print the tag names
+            //System.out.println("");
+            //System.out.println("ID\tDescription\tStatus\tDate Created\t" +
+            		//"Date Found\ttDate Retrieved\tAdded By User\n");
+            // Loop through the result and print
+            while (rset.next()) {
+                itemId = rset.getInt(1);
+                description = rset.getString(2);
+                status = rset.getString(3);
+                dateCreated = rset.getDate(4);
+                dateFound = rset.getDate(5);
+                dateRetrieved = rset.getDate(6);
+                adminId = rset.getInt(7);
+                // WARNING: THIS INFO SHOULD BE RETURNED, SHOULD NOT PRINT HERE
+                //System.out.printf("%n Item No. %-8d %n Description: %-50s %n " +
+                		//"Status: %-10s %n Date Created: %tD %n Date Found: %tD %n " +
+                		//"Date Retrieved: %tD %n Admin Id: %-8d %n%n",
+                   		//itemId, description, status, dateCreated, dateFound, dateRetrieved, adminId);
+            }
+
+        } catch (Exception e) {}
+        
+        // Close the update statement and return.
+        try {stmt.close();}
+        catch (Exception e) {}
+    }
+    
+    /**
+     * showRetrievedItem - Search and return all items marked as retrieved in the database
+     * @return returns ... (!!! EDIT)
+     * WARNING: THIS INFO SHOULD BE RETURNED, SHOULD NOT PRINT IN DBASE
+     */
+    public void showRetrievedItems()
+    {
+    	PreparedStatement stmt = null;
+    	ResultSet rset = null; // result - gets returned
+        String sql, description, status;
+        int itemId, adminId;
+		java.sql.Date dateCreated, dateFound, dateRetrieved;
+        
+        // Return if the database is closed.
+        if (!isopen) return;
+    	
+    	try{	
+        	// Create a PreparedStatement for the update.
+        	sql = "SELECT * FROM inventory WHERE inventory.status = 'Retrieved'";
+        	stmt = conn.prepareStatement(sql);
+        
+        	// Execute SQL Update
+        	rset = stmt.executeQuery();
+        	
+        	// Process the result set
+            // Print the tag names
+            //System.out.println("");
+            //System.out.println("ID\tDescription\tStatus\tDate Created\t" +
+            		//"Date Found\ttDate Retrieved\tAdded By User\n");
+            // Loop through the result and print
+            while (rset.next()) {
+                itemId = rset.getInt(1);
+                description = rset.getString(2);
+                status = rset.getString(3);
+                dateCreated = rset.getDate(4);
+                dateFound = rset.getDate(5);
+                dateRetrieved = rset.getDate(6);
+                adminId = rset.getInt(7);
+                // WARNING: THIS INFO SHOULD BE RETURNED, SHOULD NOT PRINT HERE
+                //System.out.printf("%n Item No. %-8d %n Description: %-50s %n " +
+                		//"Status: %-10s %n Date Created: %tD %n Date Found: %tD %n " +
+                		//"Date Retrieved: %tD %n Admin Id: %-8d %n%n",
+                   		//itemId, description, status, dateCreated, dateFound, dateRetrieved, adminId);
+            }
+        	
+    	} catch (Exception e) {}
+    	
+    	// Close the query statement and return.
+        try {stmt.close();}
+        catch (Exception e) {}
     }
     
     /**
@@ -122,7 +285,9 @@ public class DBase {
     	} catch (Exception e) {}
     }
     
-  //Requesting inventory data
+    /**
+     * requestTable - Requesting inventory data
+     */
     public void requestTable()
      	 throws SQLException {
 
@@ -147,10 +312,10 @@ public class DBase {
      		        if (stmt != null) { stmt.close(); }
      		    }
      		    
-     		}
+     }
 
      
- } //End of class
+ } // End of class
 
     
 
