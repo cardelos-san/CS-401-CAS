@@ -122,4 +122,35 @@ public class DBase {
     	} catch (Exception e) {}
     }
     
-} //End of class
+  //Requesting inventory data
+    public void requestTable()
+     	 throws SQLException {
+
+     		    Statement stmt = null;
+     		    String query =
+     		        "select item_id, description, status " +
+     		        "from " + "inventory";
+
+     		    try {
+     		        stmt = conn.createStatement();
+     		        ResultSet rs = stmt.executeQuery(query);
+     		        while (rs.next()) {
+     		            int item_id = rs.getInt("item_id");
+     		            String description = rs.getString("description");
+     		            String status = rs.getString("status");
+     		            
+     		            System.out.println(item_id + "\t" + description +
+     		                               "\t" + status);
+     		        }
+     		    } catch (SQLException e ) {} 
+     		    finally {
+     		        if (stmt != null) { stmt.close(); }
+     		    }
+     		    
+     		}
+
+     
+ } //End of class
+
+    
+
