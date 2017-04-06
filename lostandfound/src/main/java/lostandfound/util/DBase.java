@@ -274,8 +274,6 @@ public class DBase {
     		userData.put( "firstName", rset.getString( "first_name" ) );
     		userData.put( "lastName", rset.getString( "last_name" ) );
     		userData.put( "role", rset.getString( "role" ) );
-    	} catch ( SQLException e ) {
-    		throw e;
     	} finally {
     		stmt.close();
     	}
@@ -318,8 +316,6 @@ public class DBase {
     	
     		// Execute statement
     		stmt.executeUpdate();
-    	} catch (SQLException e) {
-    		throw e;
     	} finally {
     		stmt.close();
     	}
