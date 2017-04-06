@@ -1,5 +1,6 @@
 package lostandfound;
 import lostandfound.controller.*;
+import lostandfound.util.Configuration;
 
 
 import static spark.Spark.get;
@@ -16,6 +17,7 @@ hands control to Controller class*/
 public class LostAndFound {
 	
 	public static void main(String[] args) {
+			Configuration.initialize();
 		
 			//Initializing a template resolver for template settings//
 			ITemplateResolver templateResolver = createTemplateResolver();

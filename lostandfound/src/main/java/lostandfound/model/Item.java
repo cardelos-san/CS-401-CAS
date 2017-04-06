@@ -5,10 +5,17 @@ import lostandfound.util.*;
 import java.util.*;
 
 public class Item {
-
 	Scanner kbd = new Scanner(System.in);
-	DBase db = new DBase("root", "Kpopfeen96!!");
+	DBase db;
 	String cmd;
+	
+	public Item() {
+		// Set up DBase object
+		Configuration config = Configuration.getInstance();
+		String dbuser = config.getProperty("dbuser");
+		String dbpasswd = config.getProperty("dbpasswd");
+		this.db = new DBase(dbuser, dbpasswd);
+	}
 	
 	/**
 	 * chackDBconnection - Checks whether there is a connection to the database
