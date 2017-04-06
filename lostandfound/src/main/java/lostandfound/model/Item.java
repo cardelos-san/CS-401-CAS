@@ -2,7 +2,12 @@ package lostandfound.model;
 
 //import java.sql.SQLException;
 import lostandfound.util.*;
+
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.*;
+
+import org.json.JSONException;
 
 public class Item {
 	Scanner kbd = new Scanner(System.in);
@@ -91,4 +96,12 @@ public class Item {
 		db.showRetrievedItems();
 	}
 	
+	public void sendInventoryData() throws IOException{
+		
+		try {
+		db.requestTable();
+		}
+		catch(SQLException e){}
+		catch(JSONException e){}
+	}
 } // End of Class
