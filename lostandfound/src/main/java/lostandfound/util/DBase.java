@@ -9,12 +9,19 @@
 
 package lostandfound.util;
 
+import java.io.FileWriter;
+import java.io.IOException;
+ 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+ 
+
 import java.sql.*; //Allows you to use JDBC classes/interfaces
 import java.util.HashMap;
 //import java.util.*; MAY NOT NEED THIS
 //import java.util.Date; MAY NOT NEED THIS
 import java.util.Map;
-
+import org.json.JSONException;
 public class DBase {
 
 	private Connection conn;
@@ -325,25 +332,19 @@ public class DBase {
      * requestTable - Requesting inventory data
      */
     public void requestTable()
-     	 throws SQLException {
+     	 throws SQLException, JSONException, IOException {
 
      		    Statement stmt = null;
      		    String query =
-     		        "select item_id, description, status " +
+     		        "select item_id, description, status, date_retrieved " +
      		        "from " + "inventory";
 
      		    try {
      		        stmt = conn.createStatement();
      		        ResultSet rs = stmt.executeQuery(query);
-     		        while (rs.next()) {
-     		            int item_id = rs.getInt("item_id");
-     		            String description = rs.getString("description");
-     		            String status = rs.getString("status");
-     		            
-     		            System.out.println(item_id + "\t" + description +
-     		                               "\t" + status);
-     		        }
-     		    } catch (SQLException e ) {} 
+     		        ResultSetToJSON.convert(rs);
+     		        
+     		    }catch (SQLException e ) {} 
      		    finally {
      		        if (stmt != null) { stmt.close(); }
      		    }
