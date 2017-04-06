@@ -1,10 +1,15 @@
 package lostandfound;
 import lostandfound.controller.*;
+import lostandfound.model.Item;
 import lostandfound.util.Configuration;
+import lostandfound.model.Item;
 
 
 import static spark.Spark.get;
 import static spark.Spark.staticFileLocation;
+
+import java.io.IOException;
+
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 import org.thymeleaf.templateresolver.ITemplateResolver;
@@ -17,8 +22,13 @@ hands control to Controller class*/
 public class LostAndFound {
 	
 	public static void main(String[] args) {
+			
+			//Sending inventory data to server//
+		    Item inventory = new Item();
+		    try{inventory.sendInventoryData();}
+		    catch(IOException e){}
+		    //Initializing database configuration//
 			Configuration.initialize();
-		
 			//Initializing a template resolver for template settings//
 			ITemplateResolver templateResolver = createTemplateResolver();
 			
@@ -47,7 +57,7 @@ public class LostAndFound {
 		ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
 		//Sets template mode//
 		templateResolver.setTemplateMode(TemplateMode.HTML);
-		//Sets resources/templates/ as root folder// 
+		//Sets resources/templates/ as root folder//
 		templateResolver.setPrefix("templates/");
 		//Looks for HTML file extension//
 		templateResolver.setSuffix(".html");
