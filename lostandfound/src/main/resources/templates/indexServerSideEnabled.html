@@ -15,7 +15,15 @@
 		$('#body').DataTable({
 			"processing": true,
 			"serverSide": true,
-			"ajax": "address goes here"
+			"ajax": "../../data.json",
+			 "columns": [
+            { "data": "item_id" },
+            { "data": "image" },
+            { "data": "description" },
+            { "data": "category" },
+            { "data": "date_retrieved" },
+            { "data": "status" }
+        ]
 		});
 	});</script>
 	
@@ -36,10 +44,10 @@
 		
 		<div class = "autoAlign">
 			<!--Search Bar-->
-			<form class = "paddingSearch">
+			<!--<form class = "paddingSearch">
 				<input class = "search" type = "text" placeholder = "e.g. Biologic Book" required>
 				<input type = "button" value = "Search">
-			</form><br>
+			</form><br>-->
 			<!--Categories-->
 			<form action="" method="post">
 				<table id = "categories">
