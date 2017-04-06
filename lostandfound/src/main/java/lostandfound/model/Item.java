@@ -96,6 +96,7 @@ public class Item {
 		db.showRetrievedItems();
 	}
 	
+	//This info should be returned here, will need to figure out how to model this data//
 	public void sendInventoryData() throws IOException{
 		
 		try {
