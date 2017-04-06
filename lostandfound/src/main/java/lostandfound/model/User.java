@@ -3,6 +3,7 @@ package lostandfound.model;
 import lostandfound.util.*;
 import org.mindrot.jbcrypt.*;
 
+
 public class User {
 	private int id;
 	private String email;
@@ -55,9 +56,10 @@ public class User {
 	 * @param role User's security role
 	 * @param firstName User's first name
 	 * @param lastName User's last name
+	 * @throws Exception If an error is encountered adding the user to the database.
 	 */
 	public static void addUser(String email, String passwd, String role,
-			String firstName, String lastName) {
+			String firstName, String lastName) throws Exception {
 		Configuration config = Configuration.getInstance();
 		String dbuser = config.getProperty("dbuser");
 		String dbpasswd = config.getProperty("dbpasswd");

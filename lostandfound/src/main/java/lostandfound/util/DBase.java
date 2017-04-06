@@ -10,8 +10,10 @@
 package lostandfound.util;
 
 import java.sql.*; //Allows you to use JDBC classes/interfaces
+import java.util.HashMap;
 //import java.util.*; MAY NOT NEED THIS
 //import java.util.Date; MAY NOT NEED THIS
+import java.util.Map;
 
 public class DBase {
 
@@ -245,21 +247,60 @@ public class DBase {
     }
     
     /**
+     * getUserData - Returns a map of data for the supplied user ID
+     * @param userID ID of the user to retrieve
+     * @return Map of user data
+     * @throws SQLException if a database error occurs
+     * @throws Exception if the database connection is not open
+     */
+    public Map<String, String> getUserData( int userID ) throws Exception {
+    	PreparedStatement stmt = null;
+    	String sql;
+    	
+    	if ( !isopen ) {
+    		throw new Exception( "Database connection is not open" );
+    	}
+    	
+    	Map<String, String> userData = new HashMap<String, String>();
+    	
+    	try {
+    		sql = "SELECT email, first_name, last_name, role FROM users WHERE user_id = ? LIMIT 1";
+    		stmt = conn.prepareStatement( sql );
+    		
+    		stmt.setInt( 1, userID );
+    		ResultSet rset = stmt.executeQuery();
+    		
+    		userData.put( "email", rset.getString( "email" ) );
+    		userData.put( "firstName", rset.getString( "first_name" ) );
+    		userData.put( "lastName", rset.getString( "last_name" ) );
+    		userData.put( "role", rset.getString( "role" ) );
+    	} catch ( SQLException e ) {
+    		throw e;
+    	} finally {
+    		stmt.close();
+    	}
+    	
+    	return userData;
+    }
+    
+    /**
      * addUser - Adds a user to the database
      * @param email user email
      * @param passwd hashed user password
      * @param role user role
      * @param firstName user first name
      * @param lastName user last name
+     * @throws Exception if the database connection is not open
      */
     public void addUser(String email, String passwd, String role,
-    		String firstName, String lastName) {
+    		String firstName, String lastName) throws Exception {
     	
     	PreparedStatement stmt = null;
     	String sql;
     	
-    	// Return if the database is closed.
-    	if (!isopen) return;
+    	if (!isopen) {
+    		throw new Exception( "Database connection is not open" );
+    	}
     	
     	try {
     		// Create a statement for the update
@@ -277,12 +318,11 @@ public class DBase {
     	
     		// Execute statement
     		stmt.executeUpdate();
-    	} catch (Exception e) {}
-    	
-    	// Close the update statement and return
-    	try {
+    	} catch (SQLException e) {
+    		throw e;
+    	} finally {
     		stmt.close();
-    	} catch (Exception e) {}
+    	}
     }
     
     /**
