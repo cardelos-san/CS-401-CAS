@@ -10,7 +10,9 @@ package lostandfound.controller;
 
 //import java.sql.SQLException;
 //import java.sql.Date;
+import lostandfound.model.*;
 import java.text.ParseException;
+
 import java.text.SimpleDateFormat;
 //import java.text.DateFormat;
 import java.util.*;
@@ -21,11 +23,14 @@ import java.util.Map;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
+import java.io.IOException;
 
 
 /*Controller class contains all handler methods*/
 
 public class Controller {
+	
+	
 	public static ModelAndView handler(Request request, Response response) {
 		/* Create a hash map of the "name" and "job" arguments from the URL.
 		 * Calls to methods that would interact with the database would go here.
@@ -33,7 +38,8 @@ public class Controller {
 		 */
 		Map<String, String> templateVars = new HashMap<String, String>();
 		templateVars.put("guest", request.params(":guest"));
-
+		
+		
 		// Return an object with the completed model data and the name of the template to use. 
 		return new ModelAndView(templateVars, "indexServerSideEnabled");
 	}
