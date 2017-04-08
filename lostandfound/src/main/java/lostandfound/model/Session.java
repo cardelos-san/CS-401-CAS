@@ -20,15 +20,14 @@ public class Session {
 	}
 	
 	/**
-	 * Gets the user object related to the current session
-	 * @return
+	 * Gets the user object related to the current session or null if no user is logged in
+	 * @return User object
 	 * @throws Exception If unable to create a user object from the current session
 	 */
 	public User getUserFromSession() throws Exception {
 		if ( userID == null ) {
-			// No user ID set, return guest user
-			// TODO: Figure out how to handle guests. Special guest class extending User?
-			return new User( 0, "", "Guest", "Guest");
+			// No user ID set, return null (guest user)
+			return null;
 		} else if ( user == null ) {
 			// User ID found but no user object yet created. Create object and return it.
 			// Set up DBase object
