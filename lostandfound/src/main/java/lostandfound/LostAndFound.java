@@ -2,7 +2,7 @@ package lostandfound;
 import lostandfound.controller.*;
 import lostandfound.model.Item;
 import lostandfound.util.Configuration;
-
+import lostandfound.util.JsonTransformer;
 
 import static spark.Spark.*;
 import java.io.IOException;
@@ -33,16 +33,10 @@ public class LostAndFound {
 		staticFiles.location("/public");
 		
 		/*Defining all routes*/
-		get( "/", IndexController::handleIndex, templateEngine);
-		path( "/ajax", () -> {
-			get( "/getItems", Controller::handler, templateEngine);
-			post( "/addItem", Controller::handler, templateEngine);
-			post( "/editItem", Controller::handler, templateEngine);
+		get( "/", IndexController::getIndex, templateEngine);
+		path( "/api", () -> {
+			get( "/getAllItems", ItemController::getAllItems, new JsonTransformer());
 		});
-		//Creating route http://localhost:4567/home/:guest//
-		//get("/home/:guest", Controller::handler, templateEngine);
-		//Creating route http://localhost:4567/index/:guest//
-		//get("/index/:guest", Controller::handler2, templateEngine);
 		
 		get("/test", ( request, response ) -> "Test string" );
 	}

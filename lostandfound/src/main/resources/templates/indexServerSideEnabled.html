@@ -15,14 +15,14 @@
 		$('#body').DataTable({
 			"processing": true,
 			"serverSide": true,
-			"ajax": "../../data.json",
+			"ajax": "api/getAllItems",
 			 "columns": [
-            { "data": "item_id" },
-            { "data": "image" },
-            { "data": "description" },
-            { "data": "category" },
-            { "data": "date_retrieved" },
-            { "data": "status" }
+            { data: "itemID" },
+            { data: "image" },
+            { data: "description" },
+            { data: "category" },
+            { data: "dateReceived" },
+            { data: "status" }
         ]
 		});
 	});</script>
@@ -31,7 +31,7 @@
       href="css/LostNFoundStyle.css"/>
 	
 		<title>
-			Rhode Island Lost and Found
+			Rhode Island College Lost and Found
 		</title>
 		
 	</head>

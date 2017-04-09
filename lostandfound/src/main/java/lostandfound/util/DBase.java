@@ -12,9 +12,6 @@ package lostandfound.util;
 import java.io.FileWriter;
 import java.io.IOException;
  
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
- 
 
 import java.sql.*; //Allows you to use JDBC classes/interfaces
 import java.util.HashMap;
