@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+
+<html>
+	
+	<!--Page head: Contains CSS and Title-->
+	<head>
+	<!--Importing CSS-->
+	<link rel="stylesheet" type="text/css" media="screen"  
+      href="../../LostNFoundStyle.css"/>
+	
+	<title>Add an Item</title>	
+	</head>
+
+	<!--Page body: Contains the form for an admin to add a new item-->
+	<body>
+		<!--Page top-->
+		<img id = "banner" src = "../../banner.png"  >
+		
+		<p class = "welcome"> Welcome, Administrator <span class = "moveRight"> <a href = "linkToIndex"> Guest</a></span> </p>
+		
+		<div class = "autoAlign">
+			<!--Title Header: Add an Item-->
+			<h1>Add an Item</h1>
+			<br>
+
+			<!--Form-->
+			<form action="">
+				No. <input class="inputValues" type="text" name="itemID" value="XXXX" readonly>
+				<br>
+				Image <input class="inputValues" type="file" name="itemPic" accept="image/*">
+				<br>
+				Description <textarea class="inputValues" name = "description" rows="5" cols="50" required></textarea>
+				<br>
+				Category <input class="inputValues" type="radio" name="category" value="cellphone"> Cell Phone
+					 <input class="inputValues" type="radio" name="category" value="headphones"> Headphones
+					 <input class="inputValues" type="radio" name="category" value=wallet"> Wallet
+					 <input class="inputValues" type="radio" name="category" value="keys"> Keys<br>
+					 <input class="inputValues" type="radio" name="category" value="books"> Books
+					 <input class="inputValues" type="radio" name="category" value="glasses"> Glasses
+					 <input class="inputValues" type="radio" name="category" value="miscellaneous"> Miscellaneous
+				<br>
+				Date Received <input class="inputValues" type="date" name"dateRecieved" required>
+				<br>
+				Status <input class="inputValues" type="radio" name="status" value="lost" checked> Lost
+				       <input class="inputValues" type="radio" name="status" value="retrieved"> Retrieved
+				<br>
+				<input class="inputValues" type="submit" value="Submit">
+			</form>
+		</div>
+
+	<!--Page footer-->
+	<footer class = "footer">
+		
+		<img  id = "ricLogo" src = "../../riclogo_footer_156px.png">
+		
+		<p class = "contact"> <a href = ""> Contact Us </a> &ensp; <a href = ""> FAQs </a> </p>
+		
+	</footer>
+	</body>
+
+</html>

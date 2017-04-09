@@ -23,7 +23,7 @@ public class Item {
 	}
 	
 	/**
-	 * chackDBconnection - Checks whether there is a connection to the database
+	 * checkDBconnection - Checks whether there is a connection to the database
 	 * @return returns a string indicating the status of the connection to the database
 	 */
 	public String checkDBconnection(){
@@ -94,6 +94,22 @@ public class Item {
 	public void showRetrievedItems()
 	{
 		db.showRetrievedItems();
+	}
+	
+	/**
+     * processRetrieval - Processes an item retrieval by getting, from the retriever, all personal
+     * information and storing it in the 'retrieval records' table in the database
+     * @param id the id of the item being retrieved
+     * @param fname the retriever's first name
+     * @param lname the retriever's last name
+     * @param emailAddress the retriever's email address
+     * @param phoneNum the retriever's phone number
+     * @param retrieverId the retriever's personal identification
+     */
+	public void processRetrieval(int id, String fname, String lname, 
+    		String emailAddress, String phoneNum, String retrieverId)
+	{
+		db.processRetrieval(id, fname, lname, emailAddress, phoneNum, retrieverId);
 	}
 	
 	//This info should be returned here, will need to figure out how to model this data//
