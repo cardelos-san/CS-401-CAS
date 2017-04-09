@@ -55,6 +55,18 @@ public class Controller {
 		// Return an object with the completed model data and the name of the template to use. 
 		return new ModelAndView(templateVars, "index");
 	}
+	
+	public static ModelAndView handler3(Request request, Response response) {
+		/* Create a hash map of the "name" and "job" arguments from the URL.
+		 * Calls to methods that would interact with the database would go here.
+		 * The code below is a simple stand-in for more complex model code.
+		 */
+		Map<String, String> templateVars = new HashMap<String, String>();
+		templateVars.put("admin", request.params(":admin"));
+
+		// Return an object with the completed model data and the name of the template to use. 
+		return new ModelAndView(templateVars, "addAnItemForm");
+	}
 }
 /*public class ExampleController {
 

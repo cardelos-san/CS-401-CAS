@@ -35,6 +35,7 @@ public class LostAndFound {
 			//Creating empty template objects with template settings//
 			ThymeleafTemplateEngine template = new ThymeleafTemplateEngine(templateResolver); 
 			ThymeleafTemplateEngine template2 = new ThymeleafTemplateEngine(templateResolver);
+			ThymeleafTemplateEngine template3 = new ThymeleafTemplateEngine(templateResolver);
 			
 			/*Grants static access to root folder contents through browser
 			e.g. type in http://localhost:4567/banner.png */
@@ -46,7 +47,8 @@ public class LostAndFound {
 			get("/home/:guest", Controller::handler, template);
 			//Creating route http://localhost:4567/index/:guest//
 			get("/index/:guest", Controller::handler2, template2);
-			
+			//Creating route http://localhost:4567/addItem/:admin//
+			get("/addItem/:admin", Controller::handler3, template3);
 			
 		}
 		

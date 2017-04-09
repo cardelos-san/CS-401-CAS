@@ -254,6 +254,61 @@ public class DBase {
     }
     
     /**
+     * processRetrieval - Processes an item retrieval by getting, from the retriever, all personal
+     * information and storing it in the 'retrieval records' table in the database
+     * @param id the id of the item being retrieved
+     * @param fname the retriever's first name
+     * @param lname the retriever's last name
+     * @param emailAddress the retriever's email address
+     * @param phoneNum the retriever's phone number
+     * @param retrieverId the retriever's personal identification
+     */
+    public void processRetrieval(int id, String fname, String lname, 
+    		String emailAddress, String phoneNum, String retrieverId)
+    {
+    	PreparedStatement stmt = null;
+    	String sql;
+    	
+    	// Return if the database is closed.
+        if (!isopen) return;
+    	
+    	try{	
+        	// Create a PreparedStatement for the update.
+        	sql = "INSERT INTO retrieval_records (item_id, first_name, "
+        			+ "last_name, email, phone, identification)"
+        			+ "VALUES (?, ?, ?, ?, ?, ?)";
+        	stmt = conn.prepareStatement(sql);
+    		
+    		// Set the parameters in the statement
+    		stmt.setInt(1, id);
+    		stmt.setString(2, fname);
+    		stmt.setString(3, lname);
+    		stmt.setString(4, emailAddress);
+    		stmt.setString(5, phoneNum);
+    		stmt.setString(6, retrieverId);
+        	
+        	// Execute SQL Update
+        	stmt.executeUpdate();
+        	
+        	// Change the item STATUS FROM 'lost' to 'retrieved'
+        	// Create a PreparedStatement for the update.
+        	sql = "UPDATE inventory SET status = 'retrieved' WHERE item_id = ?";
+        	stmt = conn.prepareStatement(sql);
+        	
+        	// Set the parameters in the statement
+    		stmt.setInt(1, id);
+        	
+    		// Execute SQL Update
+        	stmt.executeUpdate();
+        	
+    	} catch (Exception e) {}
+    	
+    	// Close the query statement and return.
+        try {stmt.close();}
+        catch (Exception e) {}
+    }
+    
+    /**
      * getUserData - Returns a map of data for the supplied user ID
      * @param userID ID of the user to retrieve
      * @return Map of user data

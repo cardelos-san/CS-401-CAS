@@ -39,6 +39,10 @@ h2.under{
 	float: right;
 }
 
+.center{
+float:center;
+}
+
 .autoAlign{
 	width:670px;
     margin: 70px auto;
@@ -53,8 +57,12 @@ p.welcome{
 	width:300px;
 }
 
+.inputValues {
+	margin-top: 20px;
+}
+
 #categories{
-	width:100%
+	width:100%;
 }
 
 
