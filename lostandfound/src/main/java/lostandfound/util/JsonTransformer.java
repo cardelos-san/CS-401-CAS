@@ -10,7 +10,7 @@ public class JsonTransformer implements ResponseTransformer {
 
     @Override
     public String render( Object model ) throws JsonProcessingException {
-    	return "{\"data\": " + mapper.writeValueAsString( model ) + " }";
+    	return "{\"data\":" + mapper.writeValueAsString( model ) + "}";
     }
 
 }
