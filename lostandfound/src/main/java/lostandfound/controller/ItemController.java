@@ -1,6 +1,7 @@
 package lostandfound.controller;
 
 import lostandfound.model.*;
+import lostandfound.util.*;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -11,9 +12,10 @@ import spark.Response;
 public class ItemController {
 	
 	public static List<ItemNew> getAllItems( Request req, Response resp ) {
-		List<ItemNew> items = new ArrayList<ItemNew>();
-		items.add( new ItemNew( 1, "None", "Brown leather wallet", "Wallet", Date.valueOf( "2017-04-07" ), "Lost" ) );
-		items.add( new ItemNew( 2, "None", "iPhone with blue case", "Phone", Date.valueOf( "2017-04-02" ), "Lost" ) );
+		Configuration config = Configuration.getInstance();
+		DBase db = new DBase( config.getProperty( "dbuser" ), 
+				config.getProperty( "dbpasswd" ) );
+		List<ItemNew> items = db.viewAllItems();
 		
 		return items;
 	}

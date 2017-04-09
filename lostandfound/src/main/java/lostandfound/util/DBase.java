@@ -11,7 +11,10 @@ package lostandfound.util;
 
 import java.io.FileWriter;
 import java.io.IOException;
- 
+import java.util.List;
+import java.util.ArrayList;
+
+import lostandfound.model.*;
 
 import java.sql.*; //Allows you to use JDBC classes/interfaces
 import java.util.HashMap;
@@ -196,6 +199,63 @@ public class DBase {
         // Close the update statement and return.
         try {stmt.close();}
         catch (Exception e) {}
+    }
+    
+    /**
+     * viewItem - View all information of an item in the database
+     * @param id the item's id
+     * @return returns ... (!!! EDIT)
+     * WARNING: THIS INFO SHOULD BE RETURNED, SHOULD NOT PRINT IN DBASE
+     */
+    public List<ItemNew> viewAllItems()
+    {
+    	PreparedStatement stmt = null;
+    	ResultSet rset = null; // result - gets returned
+        String sql, description, status;
+        int itemId, adminId;
+		java.sql.Date dateCreated, dateFound, dateRetrieved;
+		List<ItemNew> items = new ArrayList<ItemNew>();
+        
+        // Return if the database is closed.
+        if (!isopen) return null;
+        
+        try {
+            // Create a PreparedStatement for the update.
+            sql = "SELECT * FROM inventory";
+            stmt = conn.prepareStatement(sql);
+
+            // Execute SQL Update
+            rset = stmt.executeQuery();
+            
+            // Process the result set
+            // Print the tag names
+            //System.out.println("");
+            //System.out.println("ID\tDescription\tStatus\tDate Created\t" +
+            		//"Date Found\ttDate Retrieved\tAdded By User\n");
+            // Loop through the result and print
+            while (rset.next()) {
+                itemId = rset.getInt(1);
+                description = rset.getString(2);
+                status = rset.getString(3);
+                dateCreated = rset.getDate(4);
+                dateFound = rset.getDate(5);
+                dateRetrieved = rset.getDate(6);
+                adminId = rset.getInt(7);
+                // WARNING: THIS INFO SHOULD BE RETURNED, SHOULD NOT PRINT HERE
+                //System.out.printf("%n Item No. %-8d %n Description: %-50s %n " +
+                		//"Status: %-10s %n Date Created: %tD %n Date Found: %tD %n " +
+                		//"Date Retrieved: %tD %n Admin Id: %-8d %n%n",
+                   		//itemId, description, status, dateCreated, dateFound, dateRetrieved, adminId);
+                items.add( new ItemNew( itemId, "", description, "", dateCreated, status ) );
+            }
+
+        } catch (Exception e) {}
+        
+        // Close the update statement and return.
+        try {stmt.close();}
+        catch (Exception e) {}
+        
+        return items;
     }
     
     /**
