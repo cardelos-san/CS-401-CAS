@@ -13,6 +13,6 @@ public class IndexController {
 		Map<String, String> templateVars = new HashMap<String, String>();
 		templateVars.put( "userFirstName", "Guest" );
 		return new ModelAndView( templateVars, "indexServerSideEnabled" );
-	}
+	}	
 	
 }
