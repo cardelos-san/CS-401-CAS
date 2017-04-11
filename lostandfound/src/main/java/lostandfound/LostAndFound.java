@@ -38,7 +38,7 @@ public class LostAndFound {
 			get( "/getAllItems", ItemController::getAllItems, new JsonTransformer());
 		});
 		
-		get("/test", ( request, response ) -> "Test string" );
+		post( "/session/login", SessionController::handleLogin, templateEngine);
 	}
 		
 
