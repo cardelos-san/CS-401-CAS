@@ -29,7 +29,7 @@ INSERT INTO inventory_category_map (item_id, category_id) VALUES
 (2, 1);
 
 -- User Codes
-INSERT INTO user_codes (user_id, hash_code, expiration_date) VALUES
+INSERT INTO user_hashes (user_id, `hash`, expiration_date) VALUES
 (1, '27c30ca513d2651d076f74738b255a2038961bde9a1aa552e9fbacf4c71b8113', CURDATE() + INTERVAL 30 DAY);
 
 -- Images
