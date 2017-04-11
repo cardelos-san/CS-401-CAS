@@ -17,9 +17,9 @@ import java.util.ArrayList;
 import lostandfound.model.*;
 
 import java.sql.*; //Allows you to use JDBC classes/interfaces
+import java.time.LocalDate;
 import java.util.HashMap;
-//import java.util.*; MAY NOT NEED THIS
-//import java.util.Date; MAY NOT NEED THIS
+import java.util.Date;
 import java.util.Map;
 import org.json.JSONException;
 public class DBase {
@@ -462,6 +462,95 @@ public class DBase {
      		    }
      		    
      }
+    
+    /**
+     * Looks up a userID from a cookie hash. Returns userID or null if
+     * hash either could not be resolved to an ID or the hash has expired
+     * @param hash Hash in string form
+     * @return User ID
+     * @throws SQLException 
+     */
+    public Integer getUserIDFromCookieHash( String hash ) throws SQLException {
+    	PreparedStatement stmt = null;
+    	String sql;
+    	Integer userID = null;
+    	
+    	sql = "SELECT * FROM user_hashes WHERE hash = ? LIMIT 1";
+    	
+    	try {
+    		stmt = conn.prepareStatement( sql );
+    		stmt.setString( 1, hash );
+    		ResultSet rset = stmt.executeQuery();
+    		
+    		if ( rset.next() ) {
+    			Date today = new Date();
+    			Date expiration = rset.getDate( "expiration_date" );
+    			if ( expiration.after( today ) ) {
+    				userID = rset.getInt( "user_id" );
+    			}
+    		}
+    	} finally {
+    		stmt.close();
+    	}
+    	
+    	return userID;
+    }
+    
+    public void setCookieHashForUser( String hash, int userID, LocalDate expiration ) throws Exception {
+    	PreparedStatement stmt = null;
+    	String sql;
+    	java.sql.Date sqlDate = java.sql.Date.valueOf( expiration );
+    	
+    	
+    	if (!isopen) {
+    		throw new Exception( "Database connection is not open" );
+    	}
+    	
+    	try {
+    		// Create a statement for the update
+    		sql = "INSERT INTO user_hashes " +
+    				"(hash, user_id, expiration_date) " +
+    				"VALUES (?, ?, ?)";
+    		stmt = conn.prepareStatement(sql);
+    		
+    		// Set the parameters in the statement
+    		stmt.setString(1, hash);
+    		stmt.setInt(2, userID);
+    		stmt.setDate(1, sqlDate);
+    	
+    		// Execute statement
+    		stmt.executeUpdate();
+    	} finally {
+    		stmt.close();
+    	}
+    }
+    
+    /**
+     * Gets encrypted password hash for a user
+     * @param email Email address of user to retrieve hash for
+     * @return Authentication hash or an empty string if user not found
+     * @throws SQLException 
+     */
+    public String getAuthenticationHash( String email ) throws SQLException {
+    	PreparedStatement stmt = null;
+    	String sql;
+    	String hash = "";
+    	
+    	sql = "SELECT passwd FROM users WHERE email = ? LIMIT 1";
+    	try {
+    		stmt = conn.prepareStatement( sql );
+    		stmt.setString( 1, email );
+    		ResultSet rset = stmt.executeQuery();
+    		
+    		if ( rset.next() ) {
+    			hash = rset.getString( "email" );
+    		}
+    	} finally {
+    		stmt.close();
+    	}
+    	
+    	return hash;
+    }
 
      
  } // End of class
