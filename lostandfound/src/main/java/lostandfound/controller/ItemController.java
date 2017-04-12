@@ -11,11 +11,11 @@ import spark.Response;
 
 public class ItemController {
 	
-	public static List<ItemNew> getAllItems( Request req, Response resp ) {
+	public static List<Item> getAllItems( Request req, Response resp ) {
 		Configuration config = Configuration.getInstance();
 		DBase db = new DBase( config.getProperty( "dbuser" ), 
 				config.getProperty( "dbpasswd" ) );
-		List<ItemNew> items = db.viewAllItems();
+		List<Item> items = db.getAllItems();
 		
 		return items;
 	}
