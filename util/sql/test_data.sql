@@ -12,7 +12,7 @@ INSERT INTO categories (category_id, name) VALUES
 
 -- User
 INSERT INTO users (user_id, email, passwd, role, first_name, last_name) VALUES
-(1, 'test@example.net', 'nopasswd', 'admin', 'Admin', 'User');
+(1, 'tester@example.net', '$2a$10$NHHKb4wYP6d60sHrpVUIxudvpqyOnPAKw6J..B9PE2YYycWChHE6u', 'admin', 'Admin', 'User'); -- Password is "tester"
 
 -- Inventory
 INSERT INTO inventory (item_id, description, `status`, date_found, date_retrieved, added_by_user) VALUES
