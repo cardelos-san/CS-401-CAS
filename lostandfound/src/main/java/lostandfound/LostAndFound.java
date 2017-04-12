@@ -12,6 +12,8 @@ import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 
+import org.mindrot.jbcrypt.*;
+
 
 
 /*LostAndFoundApp establishes web application routes and 
@@ -42,6 +44,8 @@ public class LostAndFound {
 			post( "/login", SessionController::handleLogin, templateEngine);
 		});
 		
+		// Test bcrypt hash
+		get( "/bcrypt/:pw", ( req, res ) -> BCrypt.hashpw( req.params( ":pw" ), BCrypt.gensalt() ) );
 	}
 		
 

@@ -26,10 +26,7 @@ public class Session {
 	public Session( Request request ) {
 		// Get userID from session
 		this.request = request;
-		String userIDString = request.session().attribute( "userID" );
-		if ( userIDString != null ) {
-			userID = Integer.valueOf( userIDString );
-		}
+		userID = request.session().attribute( "userID" );
 			
 		if ( userID == null ) {
 			// Get userID from hashed cookie
@@ -128,7 +125,7 @@ public class Session {
 		String hash = "";
 		
 		try {
-			hash = db.getAuthenticationHash( "email" );
+			hash = db.getAuthenticationHash( email );
 		} catch ( SQLException e ) {
 			throw new Exception ( "Unable to retrieve user authentication hash from database: " + e.getMessage() );
 		} finally {

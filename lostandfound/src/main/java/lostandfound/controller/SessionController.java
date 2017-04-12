@@ -31,7 +31,7 @@ public class SessionController {
 			template = "loginForm";
 		}
 		
-		if ( authenticated == true ) {
+		if ( authenticated ) {
 			Configuration config = Configuration.getInstance();
 			String dbuser = config.getProperty( "dbuser" );
 			String dbpasswd = config.getProperty( "dbpasswd" );
@@ -48,10 +48,9 @@ public class SessionController {
 			} finally {
 				db.close();
 			}
-			
-			templateVars.put( "userFirstName", user.getFirstName() );
-			template = "indexServerSideEnabled";
 			session.setUserID( user.getID() );
+			// Redirect user to index
+			res.redirect( "/" );
 		} else {
 			String errorMsg = "Error: Invalid email or password.";
 			templateVars.put( "error" , errorMsg );

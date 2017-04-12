@@ -388,8 +388,10 @@ public class DBase {
     		stmt.setInt( 1, userID );
     		ResultSet rset = stmt.executeQuery();
     		
-    		user = new User( userID, rset.getString( "email" ),
+    		if ( rset.next() ) {
+    			user = new User( userID, rset.getString( "email" ),
     				rset.getString( "first_name" ),  rset.getString( "last_name" ) );
+    		}
     	} finally {
     		stmt.close();
     	}
@@ -420,8 +422,10 @@ public class DBase {
     		stmt.setString( 1, email );
     		ResultSet rset = stmt.executeQuery();
     		
-    		user = new User( rset.getInt( "user_id" ), email,
+    		if ( rset.next() ) {
+    			user = new User( rset.getInt( "user_id" ), email,
     				rset.getString( "first_name" ),  rset.getString( "last_name" ) );
+    		}
     	} finally {
     		stmt.close();
     	}
@@ -572,7 +576,7 @@ public class DBase {
     		ResultSet rset = stmt.executeQuery();
     		
     		if ( rset.next() ) {
-    			hash = rset.getString( "email" );
+    			hash = rset.getString( "passwd" );
     		}
     	} finally {
     		stmt.close();
