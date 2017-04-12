@@ -37,8 +37,11 @@ public class LostAndFound {
 		path( "/api", () -> {
 			get( "/getAllItems", ItemController::getAllItems, new JsonTransformer());
 		});
+		path( "/session", () -> {
+			get( "/login", SessionController::displayLogin, templateEngine);
+			post( "/login", SessionController::handleLogin, templateEngine);
+		});
 		
-		post( "/session/login", SessionController::handleLogin, templateEngine);
 	}
 		
 

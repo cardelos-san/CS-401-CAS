@@ -24,8 +24,11 @@ public class Session {
 	 */
 	public Session( Request request ) {
 		// Get userID from session
-		userID = Integer.valueOf( request.session().attribute( "userID" ) );
-		
+		String userIDString = request.session().attribute( "userID" );
+		if ( userIDString != null ) {
+			userID = Integer.valueOf( userIDString );
+		}
+			
 		if ( userID == null ) {
 			// Get userID from hashed cookie
 			String hash = request.cookie( "userHash" );
@@ -129,6 +132,10 @@ public class Session {
 			db.close();
 		}
 		
-		return BCrypt.checkpw( passwd, hash );
+		if ( hash.isEmpty() ) {
+			return false;
+		} else {
+			return BCrypt.checkpw( passwd, hash );
+		}
 	}
 }
