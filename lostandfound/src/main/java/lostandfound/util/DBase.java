@@ -26,7 +26,6 @@ public class DBase {
 
 	private Connection conn;
     private boolean isopen;
-    //private Scanner kbd = new Scanner(System.in); MAY NOT NEED THIS
     
     /**
      * DBase - Attempts to connect to the lost_and_found database
@@ -65,14 +64,13 @@ public class DBase {
 	
     /**
      * addItem - Adds an item to the database
-     * @param id the item's id
      * @param description a description of the item
      * @param status the status of the item ('lost' or 'found')
      * @param dateFound the date of which the item was found
      * @param dateRetrieved the date of which the item was retrieved (if item was found)
      * @param adminId the id of the administrator that is processing this transaction
      */
-    public void addItem(int id, String description, String status,
+    public void addItem(String description, String status,
     		java.sql.Date dateFound, java.sql.Date dateRetrieved, int adminId)
     {
     	PreparedStatement stmt = null;
@@ -83,24 +81,21 @@ public class DBase {
     	
     	try{
     		// Create a statement for the update
-    		sql = "INSERT INTO inventory (item_id," + 
-    				" description, status, date_found, date_retrieved," + 
-    				" added_by_user) VALUES (?, ?, ?, ?, ?, ?)";
+    		sql = "INSERT INTO inventory (" + 
+    				"description, status, date_found, date_retrieved, " + 
+    				"added_by_user) VALUES (?, ?, ?, ?, ?)";
     		stmt = conn.prepareStatement(sql);
     	
     		// Set the parameters in the statement
-    		stmt.setInt(1, id);
-    		stmt.setString(2, description);
-    		stmt.setString(3, status);
-    		stmt.setDate(4, dateFound);
-    		stmt.setDate(5, dateRetrieved);
-    		stmt.setInt(6, adminId);
+    		stmt.setString(1, description);
+    		stmt.setString(2, status);
+    		stmt.setDate(3, dateFound);
+    		stmt.setDate(4, dateRetrieved);
+    		stmt.setInt(5, adminId);
     	
     		// Execute SQL Update
     		stmt.executeUpdate();
         
-        	// Confirm the process
-        	//System.out.println("Completed Insert!");
     	} catch (Exception e) {}
     	
     	// Close the update statement and return
@@ -150,6 +145,8 @@ public class DBase {
      * @param id the item's id
      * @return returns ... (!!! EDIT)
      * WARNING: THIS INFO SHOULD BE RETURNED, SHOULD NOT PRINT IN DBASE
+     * NEED TO RETURN MORE STUFF!!! -- Damin will view have this view
+     * it should also return info about the retriever
      */
     public void viewItem(int id)
     {
@@ -187,11 +184,9 @@ public class DBase {
                 dateFound = rset.getDate(5);
                 dateRetrieved = rset.getDate(6);
                 adminId = rset.getInt(7);
+                
                 // WARNING: THIS INFO SHOULD BE RETURNED, SHOULD NOT PRINT HERE
-                //System.out.printf("%n Item No. %-8d %n Description: %-50s %n " +
-                		//"Status: %-10s %n Date Created: %tD %n Date Found: %tD %n " +
-                		//"Date Retrieved: %tD %n Admin Id: %-8d %n%n",
-                   		//itemId, description, status, dateCreated, dateFound, dateRetrieved, adminId);
+               
             }
 
         } catch (Exception e) {}
@@ -202,15 +197,13 @@ public class DBase {
     }
     
     /**
-     * viewItem - View all information of an item in the database
-     * @param id the item's id
-     * @return returns ... (!!! EDIT)
-     * WARNING: THIS INFO SHOULD BE RETURNED, SHOULD NOT PRINT IN DBASE
+     * viewAllItem - View all information of an item in the database
+     * @return returns a list of all the items in the database
      */
     public List<ItemNew> viewAllItems()
     {
     	PreparedStatement stmt = null;
-    	ResultSet rset = null; // result - gets returned
+    	ResultSet rset = null;
         String sql, description, status;
         int itemId, adminId;
 		java.sql.Date dateCreated, dateFound, dateRetrieved;
@@ -228,10 +221,6 @@ public class DBase {
             rset = stmt.executeQuery();
             
             // Process the result set
-            // Print the tag names
-            //System.out.println("");
-            //System.out.println("ID\tDescription\tStatus\tDate Created\t" +
-            		//"Date Found\ttDate Retrieved\tAdded By User\n");
             // Loop through the result and print
             while (rset.next()) {
                 itemId = rset.getInt(1);
@@ -241,11 +230,7 @@ public class DBase {
                 dateFound = rset.getDate(5);
                 dateRetrieved = rset.getDate(6);
                 adminId = rset.getInt(7);
-                // WARNING: THIS INFO SHOULD BE RETURNED, SHOULD NOT PRINT HERE
-                //System.out.printf("%n Item No. %-8d %n Description: %-50s %n " +
-                		//"Status: %-10s %n Date Created: %tD %n Date Found: %tD %n " +
-                		//"Date Retrieved: %tD %n Admin Id: %-8d %n%n",
-                   		//itemId, description, status, dateCreated, dateFound, dateRetrieved, adminId);
+                
                 items.add( new ItemNew( itemId, "", description, "", dateCreated, status ) );
             }
 
@@ -260,19 +245,19 @@ public class DBase {
     
     /**
      * showRetrievedItem - Search and return all items marked as retrieved in the database
-     * @return returns ... (!!! EDIT)
-     * WARNING: THIS INFO SHOULD BE RETURNED, SHOULD NOT PRINT IN DBASE
+     * @return returns a list of all retrieved items in the database
      */
-    public void showRetrievedItems()
+    public List<ItemNew> showRetrievedItems()
     {
     	PreparedStatement stmt = null;
     	ResultSet rset = null; // result - gets returned
         String sql, description, status;
         int itemId, adminId;
 		java.sql.Date dateCreated, dateFound, dateRetrieved;
+		List<ItemNew> retrievedItems = new ArrayList<ItemNew>();
         
         // Return if the database is closed.
-        if (!isopen) return;
+        if (!isopen) return null;
     	
     	try{	
         	// Create a PreparedStatement for the update.
@@ -283,10 +268,6 @@ public class DBase {
         	rset = stmt.executeQuery();
         	
         	// Process the result set
-            // Print the tag names
-            //System.out.println("");
-            //System.out.println("ID\tDescription\tStatus\tDate Created\t" +
-            		//"Date Found\ttDate Retrieved\tAdded By User\n");
             // Loop through the result and print
             while (rset.next()) {
                 itemId = rset.getInt(1);
@@ -296,11 +277,8 @@ public class DBase {
                 dateFound = rset.getDate(5);
                 dateRetrieved = rset.getDate(6);
                 adminId = rset.getInt(7);
-                // WARNING: THIS INFO SHOULD BE RETURNED, SHOULD NOT PRINT HERE
-                //System.out.printf("%n Item No. %-8d %n Description: %-50s %n " +
-                		//"Status: %-10s %n Date Created: %tD %n Date Found: %tD %n " +
-                		//"Date Retrieved: %tD %n Admin Id: %-8d %n%n",
-                   		//itemId, description, status, dateCreated, dateFound, dateRetrieved, adminId);
+                
+                retrievedItems.add(new ItemNew (itemId, "", description, "", dateCreated, status));
             }
         	
     	} catch (Exception e) {}
@@ -308,6 +286,8 @@ public class DBase {
     	// Close the query statement and return.
         try {stmt.close();}
         catch (Exception e) {}
+        
+        return retrievedItems;
     }
     
     /**
@@ -587,6 +567,3 @@ public class DBase {
 
      
  } // End of class
-
-    
-

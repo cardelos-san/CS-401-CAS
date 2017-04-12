@@ -16,7 +16,7 @@
 		<!--Page top-->
 		<img id = "banner" src = "/images/banner.png"  >
 		
-		<p class = "welcome"> Welcome, Administrator <span class = "moveRight"> <a href = "linkToIndex"> Guest</a></span> </p>
+		<p class = "welcome"> Welcome, Administrator <span class = "moveRight"> <a href = "/"> Guest</a></span> </p>
 		
 		<div class = "autoAlign">
 			<!--Title Header: Add an Item-->
@@ -24,27 +24,26 @@
 			<br>
 
 			<!--Form-->
-			<form action="">
-				No. <input class="inputValues" type="text" name="itemID" value="XXXX" readonly>
+			<form action="/item/addItem" method="post">
+				<label class="formLabels">Image</label> <input id="itemPic" class="inputValues" type="file" name="itemPic" accept="image/*">
 				<br>
-				Image <input class="inputValues" type="file" name="itemPic" accept="image/*">
+				<label class="formLabels">Description</label> <textarea id="itemDescription" class="inputValues" type="text" name="itemDescription" rows="5" cols="50" required></textarea>
 				<br>
-				Description <textarea class="inputValues" name = "description" rows="5" cols="50" required></textarea>
+				<label class="formLabels">Category</label> 
+					<input id="categoryCellPhone" class="inputValues" type="radio" name="category" value="cellphone" required> Cell Phone
+					<input id="categoryHeadphones" class="inputValues" type="radio" name="category" value="headphones"> Headphones
+				 	<input id="categoryWallet" class="inputValues" type="radio" name="category" value="wallet"> Wallet
+					<input id="categoryKeys" class="inputValues" type="radio" name="category" value="keys"> Keys<br>
+					<input id="categoryBooks" class="inputValues" type="radio" name="category" value="books"> Books
+					<input id="categoryGlasses" class="inputValues" type="radio" name="category" value="glasses"> Glasses
+					<input id="categoryMiscellaneous" class="inputValues" type="radio" name="category" value="miscellaneous"> Miscellaneous
 				<br>
-				Category <input class="inputValues" type="radio" name="category" value="cellphone"> Cell Phone
-					 <input class="inputValues" type="radio" name="category" value="headphones"> Headphones
-					 <input class="inputValues" type="radio" name="category" value=wallet"> Wallet
-					 <input class="inputValues" type="radio" name="category" value="keys"> Keys<br>
-					 <input class="inputValues" type="radio" name="category" value="books"> Books
-					 <input class="inputValues" type="radio" name="category" value="glasses"> Glasses
-					 <input class="inputValues" type="radio" name="category" value="miscellaneous"> Miscellaneous
+				<label class="formLabels">Date Received</label> <input id="itemDateReceived" class="inputValues" type="date" name="itemDateReceived" required>
 				<br>
-				Date Received <input class="inputValues" type="date" name"dateRecieved" required>
+				<label class="formLabels">Status</label> <input id="itemStatusLost" class="inputValues" type="radio" name="status" value="lost" checked> Lost
+				       <input id="itemStatusRetrieved" class="inputValues" type="radio" name="status" value="retrieved"> Retrieved
 				<br>
-				Status <input class="inputValues" type="radio" name="status" value="lost" checked> Lost
-				       <input class="inputValues" type="radio" name="status" value="retrieved"> Retrieved
-				<br>
-				<input class="inputValues" type="submit" value="Submit">
+				<input id="submit" class="inputValues" type="submit" name="submit" value="Submit">
 			</form>
 		</div>
 

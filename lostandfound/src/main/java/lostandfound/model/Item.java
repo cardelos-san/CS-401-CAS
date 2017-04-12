@@ -40,17 +40,16 @@ public class Item {
 	 * addItem - Adds an item to the database. Retrieves information regarding an item 
 	 * and calls a method in the DBase class with the given information to complete
 	 * the transaction
-	 * @param id the item's id
      * @param description a description of the item
      * @param status the status of the item ('lost' or 'found')
      * @param dateFound the date of which the item was found
      * @param dateRetrieved the date of which the item was retrieved (if item was found)
      * @param adminId the id of the administrator that is processing this transaction
 	 */
-	public void addItem(int id, String description, String status,
+	public void addItem(String description, String status,
 			java.sql.Date dateFound, java.sql.Date dateRetrieved, int adminId)
 	{
-		db.addItem(id, description, status, dateFound, dateRetrieved, adminId);
+		db.addItem(description, status, dateFound, dateRetrieved, adminId);
 	}
 	
 	/**

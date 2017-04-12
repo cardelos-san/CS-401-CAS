@@ -39,9 +39,19 @@ public class LostAndFound {
 		path( "/api", () -> {
 			get( "/getAllItems", ItemController::getAllItems, new JsonTransformer());
 		});
+		path( "/api", () -> {
+			get( "/getRetrievedItems", ItemController::getRetrievedItems, new JsonTransformer());
+		});
 		path( "/session", () -> {
 			get( "/login", SessionController::displayLogin, templateEngine);
 			post( "/login", SessionController::handleLogin, templateEngine);
+		});
+		
+
+		//Also need a path for the adminView - security measures
+		path( "/item", () -> {
+			get( "/addItem", ItemController::addAnItem, templateEngine);
+			post( "/addItem",ItemController::addItemHandler, templateEngine);
 		});
 		
 		// Test bcrypt hash
