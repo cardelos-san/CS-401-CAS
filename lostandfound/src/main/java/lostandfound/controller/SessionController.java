@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import lostandfound.model.*;
+import lostandfound.util.Configuration;
+import lostandfound.util.DBase;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -19,23 +21,40 @@ public class SessionController {
 		Map<String, String> templateVars = new HashMap<String, String>();
 		String email = req.queryParams( "email" );
 		String passwd = req.queryParams( "passwd" );
-		String template = "indexServerSideEnabled";
+		String template = "loginForm";
 		boolean authenticated = false;
+		Session session = new Session( req );
 		
-		//Session session = new Session( req );
 		try {
-			Session session = new Session( req );
 			authenticated = session.authenticate( email, passwd );
 		} catch ( Exception e ) {
-			// TODO: Should return error template
-			template = "indexServerSideEnabled";
+			template = "loginForm";
 		}
+		
 		if ( authenticated == true ) {
-			// TODO insert real user name
-			templateVars.put( "userFirstName", "Admin" );
+			Configuration config = Configuration.getInstance();
+			String dbuser = config.getProperty( "dbuser" );
+			String dbpasswd = config.getProperty( "dbpasswd" );
+			DBase db = new DBase( dbuser, dbpasswd );
+			User user;
+			
+			try {
+				user = db.getUserFromEmail( email );
+			} catch ( Exception e ) {
+				// TODO: Log exception
+				String errorMsg = "Error: Invalid email or password.";
+				templateVars.put( "error" , errorMsg );
+				return new ModelAndView( templateVars, "loginForm" );
+			} finally {
+				db.close();
+			}
+			
+			templateVars.put( "userFirstName", user.getFirstName() );
 			template = "indexServerSideEnabled";
+			session.setUserID( user.getID() );
 		} else {
-			templateVars.put( "userFirstName", "Guest" );
+			String errorMsg = "Error: Invalid email or password.";
+			templateVars.put( "error" , errorMsg );
 		}
 		
 		return new ModelAndView( templateVars, template );

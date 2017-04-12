@@ -372,15 +372,14 @@ public class DBase {
      * @throws SQLException if a database error occurs
      * @throws Exception if the database connection is not open
      */
-    public Map<String, String> getUserData( int userID ) throws Exception {
+    public User getUserFromID( int userID ) throws Exception {
     	PreparedStatement stmt = null;
     	String sql;
+    	User user = null;
     	
     	if ( !isopen ) {
     		throw new Exception( "Database connection is not open" );
     	}
-    	
-    	Map<String, String> userData = new HashMap<String, String>();
     	
     	try {
     		sql = "SELECT email, first_name, last_name, role FROM users WHERE user_id = ? LIMIT 1";
@@ -389,15 +388,45 @@ public class DBase {
     		stmt.setInt( 1, userID );
     		ResultSet rset = stmt.executeQuery();
     		
-    		userData.put( "email", rset.getString( "email" ) );
-    		userData.put( "firstName", rset.getString( "first_name" ) );
-    		userData.put( "lastName", rset.getString( "last_name" ) );
-    		userData.put( "role", rset.getString( "role" ) );
+    		user = new User( userID, rset.getString( "email" ),
+    				rset.getString( "first_name" ),  rset.getString( "last_name" ) );
     	} finally {
     		stmt.close();
     	}
     	
-    	return userData;
+    	return user;
+    }
+    
+    /**
+     * getUserData - Returns a map of data for the supplied user ID
+     * @param userID ID of the user to retrieve
+     * @return Map of user data
+     * @throws SQLException if a database error occurs
+     * @throws Exception if the database connection is not open
+     */
+    public User getUserFromEmail( String email ) throws Exception {
+    	PreparedStatement stmt = null;
+    	String sql;
+    	User user = null;
+    	
+    	if ( !isopen ) {
+    		throw new Exception( "Database connection is not open" );
+    	}
+    	
+    	try {
+    		sql = "SELECT user_id, first_name, last_name, role FROM users WHERE email = ? LIMIT 1";
+    		stmt = conn.prepareStatement( sql );
+    		
+    		stmt.setString( 1, email );
+    		ResultSet rset = stmt.executeQuery();
+    		
+    		user = new User( rset.getInt( "user_id" ), email,
+    				rset.getString( "first_name" ),  rset.getString( "last_name" ) );
+    	} finally {
+    		stmt.close();
+    	}
+    	
+    	return user;
     }
     
     /**

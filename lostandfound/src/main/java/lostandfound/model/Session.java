@@ -17,6 +17,7 @@ import spark.Response;
 public class Session {
 	private Integer userID;
 	private boolean isGuest;
+	private Request request;
 	
 	/**
 	 * Creates a new Session object
@@ -24,6 +25,7 @@ public class Session {
 	 */
 	public Session( Request request ) {
 		// Get userID from session
+		this.request = request;
 		String userIDString = request.session().attribute( "userID" );
 		if ( userIDString != null ) {
 			userID = Integer.valueOf( userIDString );
@@ -54,7 +56,7 @@ public class Session {
 	 * @return User object
 	 * @throws Exception If unable to create a user object from the current session
 	 */
-	public int getUserID() throws Exception {
+	public int getUserID() {
 		return userID;
 	}
 	
@@ -65,6 +67,7 @@ public class Session {
 	 */
 	public void setUserID( int userID ){
 		this.userID = userID;
+		request.session().attribute( "userID", userID );
 	}
 	
 	/**
@@ -137,5 +140,25 @@ public class Session {
 		} else {
 			return BCrypt.checkpw( passwd, hash );
 		}
+	}
+	
+	public String getUserFirstNameFromSession() {
+		if ( isGuest ) return "Guest";
+		Configuration config = Configuration.getInstance();
+		String dbuser = config.getProperty("dbuser");
+		String dbpasswd = config.getProperty("dbpasswd");
+		DBase db = new DBase( dbuser, dbpasswd );
+		User user = null;
+		String userName = "";
+		
+		try {
+			user = db.getUserFromID( userID );
+		} catch ( Exception e ) {
+			// Log exception
+		} finally {
+			db.close();
+		}
+		
+		return user.getFirstName();
 	}
 }

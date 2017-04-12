@@ -17,17 +17,20 @@
 		<img id = "banner" src = "/images/banner.png"  >
 		
 		<p class = "welcome"> Welcome, Guest <span class = "moveRight"> <a href = "/"> Guest</a></span> </p>
-		
 		<div class = "autoAlign">
 			<!--Title Header: Add an Item-->
 			<h1>Administrator Login</h1>
 			<br>
-
+			<!--Errors-->
+			<p th:if="${error}" th:text="${error}" style="color:red">Error: Invalid email or password.</p>
 			<!--Form-->
 			<form action="/session/login" method="post">
 				Email <input class="inputValues" type="text" name="email" value="">
 				<br>
 				Password <input class="inputValues" type="password" name="passwd" value="">
+				<br>
+				<input type="checkbox" checked="checked"> Remember me
+				<br>
 				<br>
 				<input class="inputValues" type="submit" value="Submit">
 			</form>

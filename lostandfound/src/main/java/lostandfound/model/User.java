@@ -10,6 +10,13 @@ public class User {
 	private String firstName;
 	private String lastName;
 	
+	/**
+	 * Constructs a User object
+	 * @param id User ID
+	 * @param email User email
+	 * @param firstName User's first name
+	 * @param lastName User's last name
+	 */
 	public User( int id, String email, String firstName, String lastName ) {
 		this.id = id;
 		this.email = email;
