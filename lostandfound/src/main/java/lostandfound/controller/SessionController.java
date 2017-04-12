@@ -58,4 +58,11 @@ public class SessionController {
 		
 		return new ModelAndView( templateVars, template );
 	}
+	
+	public static ModelAndView handleLogout( Request req, Response res ) {
+		Session session = new Session( req );
+		session.logout( res );
+		res.redirect( "/" );
+		return null;
+	}
 }

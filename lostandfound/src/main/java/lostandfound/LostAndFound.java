@@ -42,6 +42,7 @@ public class LostAndFound {
 		path( "/session", () -> {
 			get( "/login", SessionController::displayLogin, templateEngine);
 			post( "/login", SessionController::handleLogin, templateEngine);
+			get( "/logout", SessionController::handleLogout);
 		});
 		
 		// Test bcrypt hash
