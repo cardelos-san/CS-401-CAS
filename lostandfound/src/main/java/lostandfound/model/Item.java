@@ -17,6 +17,13 @@ public class Item {
 	
 	/**
 	 * Creates a new Item object
+	 */
+	public Item() {
+		
+	}
+	
+	/**
+	 * Creates a new Item object
 	 * @param itemID ID of the item
 	 * @param image Path to the image of the item
 	 * @param desription Description of the item

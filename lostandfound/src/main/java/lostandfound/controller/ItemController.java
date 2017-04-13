@@ -60,8 +60,8 @@ public class ItemController {
 		//Are all these values valid??
 		
 			//if so... 
-				//Item newItem = new Item ();
-				//newItem.addItem(description, status, date, null, 1);
+				Item newItem = new Item ();
+				newItem.addItem(description, status, date, null, 1);
 				
 				//parse dateCreated, adminId = need to grab account
 				//public void addItem(String description, String status,
