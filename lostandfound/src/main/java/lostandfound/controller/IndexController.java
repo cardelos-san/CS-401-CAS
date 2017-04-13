@@ -13,9 +13,10 @@ public class IndexController {
 		Map<String, String> templateVars = new HashMap<String, String>();
 		Session session = new Session( request );
 		
+		String template = ( session.isGuest() ) ? "indexServerSideEnabled" : "adminView";
 		templateVars.put( "userFirstName", session.getUserFirstNameFromSession() );
 		
-		return new ModelAndView( templateVars, "indexServerSideEnabled" );
+		return new ModelAndView( templateVars, template );
 	}	
 	
 }
