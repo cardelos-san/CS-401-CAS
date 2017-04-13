@@ -20,6 +20,10 @@
 			//"processing": true,
 			//"serverSide": true,
 			"ajax": "/api/getAllItems",
+			"columnDefs": [{ 
+			"searchable": false, "targets": 1,
+			"orderable": false, "targets": 1
+			}],
 			 "columns": [
             { data: "itemID" },
             { data: "image" },
@@ -38,87 +42,92 @@
 	</head>
 
 	<!--Page body, contains images, menus, and table-->
-	<body>
+	<body id ="background">
 		<!--Page top-->
 		<img id = "banner" src = "/images/banner.png">
 		
 		<p class = "welcome"> Welcome, [(${userFirstName})] 
 		<span class = "moveRight"> 
+			<!-- Trigger/Open The Modal -->
+			<a href="#" id="loginButton">Administrator Login</a>
 
-		<!-- Trigger/Open The Modal -->
-		<a href="#" id="loginButton">Administrator Login</a>
-
-		<!-- The Modal -->
-		<div id="loginModal" class="modal">
-			
-			<!-- Modal content -->
-			<div class="modal-content">
-				<span class="close">&times;</span>
-				<p><form action="/session/login" method="post">
+			<!-- The Modal -->
+			<div id="loginModal" class="modal">
 					
-					<div class="container">
-						<label><b>Email</b></label>
-						<input type="text" placeholder="Enter Email" name="email" required>
-						
-						<label><b>Password</b></label>
-						<input type="password" placeholder="Enter Password" name="passwd" required>
-						
-						<button type="submit">Login</button>
-						<input type="checkbox" checked="checked"> Remember me
-					</div>
+				<!-- Modal content -->
+				<div class="modal-content">
+					<span class="close">&times;</span>
+					<p>
+					<form action="/session/login" method="post">
+							
+						<div class="container">
+							<label><b>Email</b></label>
+							<input type="text" placeholder="Enter Email" name="email" required>
+										
+							<label><b>Password</b></label>
+							<input type="password" placeholder="Enter Password" name="passwd" required>
+										
+							<button type="submit">Login</button>
+							<input type="checkbox" checked="checked"> Remember me
+						</div>
+									
+						<div class="container" style="background-color:#f7f7f7">
+							<button type="button" class="cancelbtn">Cancel</button>
+							<span class="psw">Forgot <a href="#">password?</a></span>
+						</div>
+								
+					</form>
+					</p>
+				</div>
 					
-					<div class="container" style="background-color:#f1f1f1">
-						<button type="button" class="cancelbtn">Cancel</button>
-						<span class="psw">Forgot <a href="#">password?</a></span>
-					</div>
-					
-				</form></p>
+				<script type="text/javascript">login();</script>
+				
 			</div>
-			
-		<script type="text/javascript">login();</script>
 		
-		</div>
+		</span>
+		</p>
 		
-		</span> </p>
+		
+		
+			<div class = "autoAlign">
+				<!--Search Bar-->
+				<!--<form class = "paddingSearch">
+					<input class = "search" type = "text" placeholder = "e.g. Biology Book" required>
+					<input type = "button" value = "Search">
+				</form><br>-->
 
-		<div class = "autoAlign">
-			<!--Search Bar-->
-			<!--<form class = "paddingSearch">
-				<input class = "search" type = "text" placeholder = "e.g. Biology Book" required>
-				<input type = "button" value = "Search">
-			</form><br>-->
+				<!--Categories-->
+				<form action="" method="post">
+					<table id = "categories">
+						<tr>
+							<td><input onChange="submit()" type="checkbox" name="category" value="cellphones"> Cell Phones</td>
+							<td><input onChange="submit()" type="checkbox" name="category" value="books"> Books</td>
+							<td><input onChange="submit()" type="checkbox" name="category" value="headphones"> Headphones</td>
+							<td><input onChange="submit()" type="checkbox" name="category" value="misc"> Miscellaneous</td>
+						</tr>
+						<tr>
+							<td><input onChange="submit()" type="checkbox" name="category" value="wallets"> Wallets</td>
+							<td><input onChange="submit()" type="checkbox" name="category" value="glasses"> Glasses</td>
+							<td><input onChange="submit()" type="checkbox" name="category" value="keys"> Keys</td>
+						</tr>
+					</table></br>
+				</form>
 
-			<!--Categories-->
-			<form action="" method="post">
-				<table id = "categories">
+				<!--Dynamic table-->
+				<table id = "body">
+					<thead class = "boldBorder">
 					<tr>
-						<td><input onChange="submit()" type="checkbox" name="category" value="cellphones"> Cell Phones</td>
-						<td><input onChange="submit()" type="checkbox" name="category" value="books"> Books</td>
-						<td><input onChange="submit()" type="checkbox" name="category" value="headphones"> Headphones</td>
-						<td><input onChange="submit()" type="checkbox" name="category" value="misc"> Miscellaneous</td>
+						<th class = "lightBorderRight paddingTH">No.</th>
+						<th class = "lightBorderRight paddingTH">Image</th> 
+						<th class = "lightBorderRight paddingTH">Description</th>
+						<th class = "lightBorderRight paddingTH">Category</th>
+						<th class = "lightBorderRight paddingTH">Date received</th>
+						<th class = "paddingTH">Status</th>
 					</tr>
-					<tr>
-						<td><input onChange="submit()" type="checkbox" name="category" value="wallets"> Wallets</td>
-						<td><input onChange="submit()" type="checkbox" name="category" value="glasses"> Glasses</td>
-						<td><input onChange="submit()" type="checkbox" name="category" value="keys"> Keys</td>
-					</tr>
-				</table></br>
-			</form>
-
-			<!--Dynamic table-->
-			<table id = "body">
-				<thead class = "boldBorder">
-				<tr>
-					<th class = "lightBorderRight paddingTH">No.</th>
-					<th class = "lightBorderRight paddingTH">Image</th> 
-					<th class = "lightBorderRight paddingTH">Description</th>
-					<th class = "lightBorderRight paddingTH">Category</th>
-					<th class = "lightBorderRight paddingTH">Date received</th>
-					<th class = "paddingTH">Status</th>
-				</tr>
-				</thead>
-			</table>
-		</div>
+					</thead>
+				</table>
+			</div>
+		
 
 		<!--Page footer-->
 		<footer class = "footer">
