@@ -31,25 +31,29 @@
 			//"scrollY": 200,
 			select: true,
 			"ajax": "/api/getAllItems",
-			 "columns": [
-            { data: "itemID" },
-            { data: "image" },
-            { data: "description" },
-            { data: "category" },
-            { data: "dateReceived" },
-            { data: "status" },
-            { data: "itemID",
-            	"fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-            		$(nTd).html(
-            			"<a href='/item/processItem/" + oData.itemID + "'><img src='/images/ic_keyboard_return_black_18px.svg' title='Process Retrieval'></a>" +
-            			" " +
-            			"<a href='/item/editItem/" + oData.itemID + "'><img src='/images/ic_edit_black_18px.svg' title='Edit'></a>" +
-            			" " +
-            			"<a href='/item/deleteItem/" + oData.itemID + "'><img src='/images/ic_delete_black_18px.svg' title='Delete'></a>"
-            			);
-            	}
-            }
-        ]
+			"columnDefs": [{ 
+			"searchable": false, "targets": [1,6],
+			"orderable": false, "targets": [1,6] 
+			}],
+			"columns": [
+				{ data: "itemID" },
+				{ data: "image" },
+				{ data: "description" },
+				{ data: "category" },
+				{ data: "dateReceived" },
+				{ data: "status" },
+				{ data: "itemID",
+					"fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+						$(nTd).html(
+							"<a href='/item/processItem/" + oData.itemID + "'><img src='/images/ic_keyboard_return_black_18px.svg' title='Process Retrieval'></a>" +
+							" " +
+							"<a href='/item/editItem/" + oData.itemID + "'><img src='/images/ic_edit_black_18px.svg' title='Edit'></a>" +
+							" " +
+							"<a href='/item/deleteItem/" + oData.itemID + "'><img src='/images/ic_delete_black_18px.svg' title='Delete'></a>"
+						);
+					}
+				}
+			]
 		});
 	});
 	</script>
@@ -60,11 +64,11 @@
 		
 	</head>
 	<!--Page body, contains images, menus, and table-->
-	<body>
+	<body id = "background">
 		<!--Page top-->
 		<img id = "banner" src = "/images/banner.png">
 		
-		<p class = "welcome"> Welcome, [(${userFirstName})] 
+		<p class = "welcome"> Welcome, Administrator 
 		<span class = "moveRight"> 
 		<a href="/session/logout" >Log Out</a>
 		</span> </p>
