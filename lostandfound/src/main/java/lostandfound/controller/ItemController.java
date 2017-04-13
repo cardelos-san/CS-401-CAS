@@ -15,23 +15,25 @@ import spark.Response;
 
 public class ItemController {
 	
-	public static List<ItemNew> getAllItems( Request req, Response resp ) {
+	public static List<Item> getAllItems( Request req, Response resp ) {
 		Configuration config = Configuration.getInstance();
 		DBase db = new DBase( config.getProperty( "dbuser" ), 
 				config.getProperty( "dbpasswd" ) );
-		List<ItemNew> items = db.viewAllItems();
+		List<Item> items = db.getAllItems();
 		
 		return items;
 	}
 	
-	public static List<ItemNew> getRetrievedItems( Request req, Response resp) {
+	/*
+	public static List<Item> getRetrievedItems( Request req, Response resp) {
 		Configuration config = Configuration.getInstance();
 		DBase db = new DBase( config.getProperty( "dbuser" ), 
 				config.getProperty( "dbpasswd" ) );
-		List<ItemNew> retrievedItems = db.showRetrievedItems();
+		List<Item> retrievedItems = db.showRetrievedItems();
 		
 		return retrievedItems;
 	}
+	*/
 	
 	public static ModelAndView addAnItem( Request req, Response res ) {
 		Map<String, String> templateVars = new HashMap<String, String>();
@@ -58,8 +60,9 @@ public class ItemController {
 		//Are all these values valid??
 		
 			//if so... 
-				Item newItem = new Item ();
-				newItem.addItem(description, status, date, null, 1);
+				//Item newItem = new Item ();
+				//newItem.addItem(description, status, date, null, 1);
+				
 				//parse dateCreated, adminId = need to grab account
 				//public void addItem(String description, String status,
 				//java.sql.Date dateFound, java.sql.Date dateRetrieved, int adminId)

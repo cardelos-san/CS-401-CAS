@@ -200,14 +200,14 @@ public class DBase {
      * viewAllItem - View all information of an item in the database
      * @return returns a list of all the items in the database
      */
-    public List<ItemNew> viewAllItems()
+    public List<Item> getAllItems()
     {
     	PreparedStatement stmt = null;
     	ResultSet rset = null;
         String sql, description, status;
         int itemId, adminId;
 		java.sql.Date dateCreated, dateFound, dateRetrieved;
-		List<ItemNew> items = new ArrayList<ItemNew>();
+		List<Item> items = new ArrayList<Item>();
         
         // Return if the database is closed.
         if (!isopen) return null;
@@ -220,18 +220,15 @@ public class DBase {
             // Execute SQL Update
             rset = stmt.executeQuery();
             
-            // Process the result set
-            // Loop through the result and print
             while (rset.next()) {
-                itemId = rset.getInt(1);
-                description = rset.getString(2);
-                status = rset.getString(3);
-                dateCreated = rset.getDate(4);
-                dateFound = rset.getDate(5);
-                dateRetrieved = rset.getDate(6);
-                adminId = rset.getInt(7);
-                
-                items.add( new ItemNew( itemId, "", description, "", dateCreated, status ) );
+                itemId = rset.getInt( "item_id" );
+                description = rset.getString( "description" );
+                status = rset.getString( "status" );
+                dateCreated = rset.getDate( "date_created" );
+                dateFound = rset.getDate( "date_found" );
+                dateRetrieved = rset.getDate( "date_retrieved" );
+                adminId = rset.getInt( "added_by_user" );
+                items.add( new Item( itemId, "", description, "", dateCreated, dateFound, dateRetrieved, status ) );
             }
 
         } catch (Exception e) {}
@@ -247,14 +244,15 @@ public class DBase {
      * showRetrievedItem - Search and return all items marked as retrieved in the database
      * @return returns a list of all retrieved items in the database
      */
-    public List<ItemNew> showRetrievedItems()
+    /*
+    public List<Item> showRetrievedItems()
     {
     	PreparedStatement stmt = null;
     	ResultSet rset = null; // result - gets returned
         String sql, description, status;
         int itemId, adminId;
 		java.sql.Date dateCreated, dateFound, dateRetrieved;
-		List<ItemNew> retrievedItems = new ArrayList<ItemNew>();
+		List<Item> retrievedItems = new ArrayList<Item>();
         
         // Return if the database is closed.
         if (!isopen) return null;
@@ -278,7 +276,7 @@ public class DBase {
                 dateRetrieved = rset.getDate(6);
                 adminId = rset.getInt(7);
                 
-                retrievedItems.add(new ItemNew (itemId, "", description, "", dateCreated, status));
+                retrievedItems.add(new Item (itemId, "", description, "", dateCreated, status));
             }
         	
     	} catch (Exception e) {}
@@ -289,6 +287,8 @@ public class DBase {
         
         return retrievedItems;
     }
+    */
+    
     
     /**
      * processRetrieval - Processes an item retrieval by getting, from the retriever, all personal
@@ -454,29 +454,6 @@ public class DBase {
     }
     
     /**
-     * requestTable - Requesting inventory data
-     */
-    public void requestTable()
-     	 throws SQLException, JSONException, IOException {
-
-     		    Statement stmt = null;
-     		    String query =
-     		        "select item_id, description, status, date_retrieved " +
-     		        "from " + "inventory";
-
-     		    try {
-     		        stmt = conn.createStatement();
-     		        ResultSet rs = stmt.executeQuery(query);
-     		        ResultSetToJSON.convert(rs);
-     		        
-     		    }catch (SQLException e ) {} 
-     		    finally {
-     		        if (stmt != null) { stmt.close(); }
-     		    }
-     		    
-     }
-    
-    /**
      * Looks up a userID from a cookie hash. Returns userID or null if
      * hash either could not be resolved to an ID or the hash has expired
      * @param hash Hash in string form
@@ -509,6 +486,13 @@ public class DBase {
     	return userID;
     }
     
+    /**
+     * Sets a user cookie hash in the database
+     * @param hash Hash to store
+     * @param userID ID of the user to store the hash for
+     * @param expiration Date the hash should expire
+     * @throws Exception If database addition fails
+     */
     public void setCookieHashForUser( String hash, int userID, LocalDate expiration ) throws Exception {
     	PreparedStatement stmt = null;
     	String sql;

@@ -158,4 +158,13 @@ public class Session {
 		
 		return user.getFirstName();
 	}
+	
+	/**
+	 * Logs out the current user and removes any user cookie set
+	 * @param response Response object
+	 */
+	public void logout( Response response ) {
+		request.session().removeAttribute( "userID" );
+		response.removeCookie( "userID" );
+	}
 }
