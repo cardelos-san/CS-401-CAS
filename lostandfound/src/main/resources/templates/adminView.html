@@ -37,7 +37,12 @@
             { data: "description" },
             { data: "category" },
             { data: "dateReceived" },
-            { data: "status" }
+            { data: "status" },
+            { data: "itemID",
+            	"fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+            		$(nTd).html("<a href='/item/editItem/" + oData.itemID + "'>Edit</a> | <a href='/item/deleteItem/" + oData.itemID + "'>Delete</a>");
+            	}
+            }
         ]
 		});
 	});
@@ -94,7 +99,8 @@
 					<th class = "lightBorderRight paddingTH">Description</th>
 					<th class = "lightBorderRight paddingTH">Category</th>
 					<th class = "lightBorderRight paddingTH">Date received</th>
-					<th class = "paddingTH">Status</th>
+					<th class = "lightBorderRight paddingTH">Status</th>
+					<th class = "paddingTH">Actions</th>
 				</tr>
 				</thead>
 			</table>
