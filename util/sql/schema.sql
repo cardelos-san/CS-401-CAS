@@ -22,7 +22,9 @@ CREATE TABLE inventory_category_map (
 
 CREATE TABLE inventory (
     item_id mediumint(8) unsigned NOT NULL auto_increment PRIMARY KEY,
-    description text NOT NULL,
+    description_public text NOT NULL,
+    description_private text,
+    location_found varchar(255),
     status enum('lost', 'retrieved') NOT NULL DEFAULT 'lost',
     date_created timestamp NOT NULL default CURRENT_TIMESTAMP,
     date_found date NOT NULL,
@@ -61,11 +63,13 @@ CREATE TABLE user_hashes (
 
 
 -- Indexes
-CREATE          INDEX inventory_date_found     ON inventory (date_found);
-CREATE          INDEX inventory_date_retrieved ON inventory (date_retrieved);
-CREATE          INDEX inventory_added_by_user  ON inventory (added_by_user);
-CREATE FULLTEXT INDEX inventory_description    ON inventory (description);
-CREATE UNIQUE   INDEX user_email               ON users (email);
+CREATE          INDEX inventory_date_found          ON inventory (date_found);
+CREATE          INDEX inventory_date_retrieved      ON inventory (date_retrieved);
+CREATE          INDEX inventory_added_by_user       ON inventory (added_by_user);
+CREATE FULLTEXT INDEX inventory_description_public  ON inventory (description_public);
+CREATE FULLTEXT INDEX inventory_description_private ON inventory (description_private);
+CREATE FULLTEXT INDEX inventory_location_found      ON inventory (location_found);
+CREATE UNIQUE   INDEX user_email                    ON users (email);
 
 
 -- Foreign key constraints

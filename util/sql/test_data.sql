@@ -15,9 +15,9 @@ INSERT INTO users (user_id, email, passwd, role, first_name, last_name) VALUES
 (1, 'tester@example.net', '$2a$10$NHHKb4wYP6d60sHrpVUIxudvpqyOnPAKw6J..B9PE2YYycWChHE6u', 'admin', 'Admin', 'User'); -- Password is "tester"
 
 -- Inventory
-INSERT INTO inventory (item_id, description, `status`, date_found, date_retrieved, added_by_user) VALUES
-(1, 'Brown leather wallet', 'lost', CURDATE(), NULL, 1),
-(2, 'iPhone with light blue case', 'retrieved', CURDATE() - INTERVAL 1 MONTH, CURDATE() - INTERVAL 1 WEEK, 1);
+INSERT INTO inventory (item_id, description_public, description_private, location_found, `status`, date_found, date_retrieved, added_by_user) VALUES
+(1, 'Brown leather wallet', 'Contains ID of Robert Lattner', 'Found on the quad', 'lost', CURDATE(), NULL, 1),
+(2, 'iPhone with light blue case', 'Lock screen says it belongs to Abbie Reily', 'Adams Library near the entrance', 'retrieved', CURDATE() - INTERVAL 1 MONTH, CURDATE() - INTERVAL 1 WEEK, 1);
 
 -- Retrieval
 INSERT INTO retrieval_records (retrieval_id, item_id, first_name, last_name, email, phone, identification) VALUES
