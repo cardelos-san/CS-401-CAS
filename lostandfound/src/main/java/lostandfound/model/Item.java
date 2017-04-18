@@ -29,7 +29,9 @@ public class Item {
 	 * Creates a new Item object
 	 * @param itemID ID of the item
 	 * @param image Path to the image of the item
-	 * @param desription Description of the item
+	 * @param publicDesription Publicly viewable description of the item
+	 * @param privateDesription Item information only visible by admin users
+	 * @param locationFound Location the item was found at
 	 * @param category Category the item belongs to
 	 * @param dateReceived Date the item was received
 	 * @param dateFound Date the item was found
@@ -55,7 +57,9 @@ public class Item {
 	 * Creates a new Item object
 	 * @param itemID ID of the item
 	 * @param image Path to the image of the item
-	 * @param desription Description of the item
+	 * @param publicDesription Publicly viewable description of the item
+	 * @param privateDesription Item information only visible by admin users
+	 * @param locationFound Location the item was found at
 	 * @param category Category the item belongs to
 	 * @param dateReceived Date the item was received
 	 * @param dateFound Date the item was found
