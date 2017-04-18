@@ -1,5 +1,6 @@
 package lostandfound.controller;
 
+import java.security.GeneralSecurityException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,6 +22,7 @@ public class SessionController {
 		Map<String, String> templateVars = new HashMap<String, String>();
 		String email = req.queryParams( "email" );
 		String passwd = req.queryParams( "passwd" );
+		String remember = req.queryParams( "remember" );
 		String template = "loginForm";
 		boolean authenticated = false;
 		Session session = new Session( req );
@@ -49,6 +51,17 @@ public class SessionController {
 				db.close();
 			}
 			session.setUserID( user.getID() );
+			
+			// Set cookie if requested
+			if ( remember != null ) {
+				try {
+					session.setCookieFromSession( res );
+				} catch ( Exception e ) {
+					// Unable to set cookie
+					// TODO: Log exception
+					System.out.println( e.getMessage() );
+				}
+			}
 			// Redirect user to index
 			res.redirect( "/" );
 		} else {

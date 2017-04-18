@@ -6,6 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 
 import lostandfound.util.Configuration;
 import lostandfound.util.DBase;
@@ -30,18 +31,21 @@ public class Session {
 			
 		if ( userID == null ) {
 			// Get userID from hashed cookie
-			String hash = request.cookie( "userHash" );
-			Configuration config = Configuration.getInstance();
-			String dbuser = config.getProperty("dbuser");
-			String dbpasswd = config.getProperty("dbpasswd");
-			DBase db = new DBase( dbuser, dbpasswd );
+			String hash = request.cookie( "userID" );
+			if ( hash != null ) {
+				Configuration config = Configuration.getInstance();
+				String dbuser = config.getProperty("dbuser");
+				String dbpasswd = config.getProperty("dbpasswd");
+				DBase db = new DBase( dbuser, dbpasswd );
 			
-			try {
-				userID = db.getUserIDFromCookieHash( hash );
-			} catch ( SQLException e ) {
-				// Log exception
-			} finally {
-				db.close();
+				try {
+					Integer tmpID = db.getUserIDFromCookieHash( hash );
+					if ( tmpID != null ) setUserID( tmpID );
+				} catch ( SQLException e ) {
+					// Log exception
+				} finally {
+					db.close();
+				}
 			}
 		}
 		
@@ -86,9 +90,9 @@ public class Session {
 		// TODO make this configurable
 		int expirationDays = 30;
 		// Create random hash
-		MessageDigest sha256 = MessageDigest.getInstance( "SHA256" );
+		MessageDigest sha256 = MessageDigest.getInstance( "SHA-256" );
 		SecureRandom random = new SecureRandom();
-		String hash = sha256.digest( random.generateSeed( 130 ) ).toString();
+		String hash = ( new HexBinaryAdapter() ).marshal( sha256.digest( random.generateSeed( 130 ) ) );
 		
 		// Create a maximum age for the cookie
 		LocalDate expiration = LocalDate.now().plusDays( 30 );
@@ -102,7 +106,7 @@ public class Session {
 		
 		try {
 			db.setCookieHashForUser( hash, userID, expiration );
-			response.cookie( "userID", hash, maxAge, true );
+			response.cookie( "/", "userID", hash, maxAge, false );
 		} catch ( Exception e ) {
 			throw new Exception( "Unable to create new session cookie in database: " + e.getMessage() );
 		} finally {
@@ -146,7 +150,6 @@ public class Session {
 		String dbpasswd = config.getProperty("dbpasswd");
 		DBase db = new DBase( dbuser, dbpasswd );
 		User user = null;
-		String userName = "";
 		
 		try {
 			user = db.getUserFromID( userID );
@@ -164,7 +167,25 @@ public class Session {
 	 * @param response Response object
 	 */
 	public void logout( Response response ) {
+		String hash = request.cookie( "userID" );
 		request.session().removeAttribute( "userID" );
-		response.removeCookie( "userID" );
+		if ( hash != null ) {
+			response.cookie( "/", "userID", "", 0, false ); // Ugly hack due to https://github.com/perwendel/spark/issues/780
+			// TODO: Use the below line in 2.5.6 when released:
+			//response.removeCookie( "/", "userID" );
+			Configuration config = Configuration.getInstance();
+			String dbuser = config.getProperty("dbuser");
+			String dbpasswd = config.getProperty("dbpasswd");
+			DBase db = new DBase( dbuser, dbpasswd );
+			
+			try {
+				db.deleteCookieHashForUser( hash, userID );
+			} catch ( Exception e ) {
+				// Failed to remove hash from database - non-fatal
+				// Log exception
+			} finally {
+				db.close();
+			}
+		}
 	}
 }

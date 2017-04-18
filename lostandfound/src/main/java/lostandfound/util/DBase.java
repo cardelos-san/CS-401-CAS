@@ -516,7 +516,37 @@ public class DBase {
     		// Set the parameters in the statement
     		stmt.setString(1, hash);
     		stmt.setInt(2, userID);
-    		stmt.setDate(1, sqlDate);
+    		stmt.setDate(3, sqlDate);
+    	
+    		// Execute statement
+    		stmt.executeUpdate();
+    	} finally {
+    		stmt.close();
+    	}
+    }
+    
+    /**
+     * Deletes a user cookie hash from the database
+     * @param hash Hash to remove
+     * @param userID ID of the user to remove the hash for
+     * @throws Exception If database delete fails
+     */
+    public void deleteCookieHashForUser( String hash, int userID ) throws Exception {
+    	PreparedStatement stmt = null;
+    	String sql;
+    	
+    	if (!isopen) {
+    		throw new Exception( "Database connection is not open" );
+    	}
+    	
+    	try {
+    		// Create a statement for the update
+    		sql = "DELETE FROM user_hashes WHERE hash = ? AND user_id = ? LIMIT 1";
+    		stmt = conn.prepareStatement(sql);
+    		
+    		// Set the parameters in the statement
+    		stmt.setString(1, hash);
+    		stmt.setInt(2, userID);
     	
     		// Execute statement
     		stmt.executeUpdate();
