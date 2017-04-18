@@ -70,7 +70,7 @@ public class DBase {
      * @param dateRetrieved the date of which the item was retrieved (if item was found)
      * @param adminId the id of the administrator that is processing this transaction
      */
-    public void addItem(String description, String status,
+    public void addItem(String publicDescription, String privateDescription, String locationFound, String status,
     		java.sql.Date dateFound, java.sql.Date dateRetrieved, int adminId)
     {
     	PreparedStatement stmt = null;
@@ -82,16 +82,18 @@ public class DBase {
     	try{
     		// Create a statement for the update
     		sql = "INSERT INTO inventory (" + 
-    				"description, status, date_found, date_retrieved, " + 
-    				"added_by_user) VALUES (?, ?, ?, ?, ?)";
+    				"description_public, description_private, location_found, status, " +
+    				"date_found, date_retrieved, added_by_user) VALUES (?, ?, ?, ?, ?, ?, ?)";
     		stmt = conn.prepareStatement(sql);
     	
     		// Set the parameters in the statement
-    		stmt.setString(1, description);
-    		stmt.setString(2, status);
-    		stmt.setDate(3, dateFound);
-    		stmt.setDate(4, dateRetrieved);
-    		stmt.setInt(5, adminId);
+    		stmt.setString(1, publicDescription);
+    		stmt.setString(2, privateDescription);
+    		stmt.setString(3, locationFound);
+    		stmt.setString(4, status);
+    		stmt.setDate(5, dateFound);
+    		stmt.setDate(6, dateRetrieved);
+    		stmt.setInt(7, adminId);
     	
     		// Execute SQL Update
     		stmt.executeUpdate();

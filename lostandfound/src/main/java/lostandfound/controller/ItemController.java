@@ -44,16 +44,18 @@ public class ItemController {
 		Map<String, String> templateVars = new HashMap<String, String>();
 		
 		//itemPic
-		String description = req.queryParams("itemDescription");
+		String publicDescription = req.queryParams("itemDescriptionPublic");
+		String privateDescription = req.queryParams("itemDescriptionPrivate");
+		String locationFound = req.queryParams("itemLocationFound");
 		String category = req.queryParams("category");
-		String dateCreatedString = req.queryParams("itemDateReceived");
+		String dateFoundString = req.queryParams("itemDateFound");
 		String status = req.queryParams("status");
 		//System.out.println("ID: " + itemId);
 		//System.out.println("Status: " + status);
 		//System.out.println("Description: " + description);
 		//System.out.println("Date: " + dateCreatedString);
 		//System.out.println("Category: " + category);
-		Date date = Date.valueOf(dateCreatedString);
+		Date date = Date.valueOf(dateFoundString);
 		//System.out.print(date);
 		
 		
@@ -61,7 +63,7 @@ public class ItemController {
 		
 			//if so... 
 				Item newItem = new Item ();
-				newItem.addItem(description, status, date, null, 1);
+				newItem.addItem(publicDescription, privateDescription, locationFound, status, date, null, 1);
 				
 				//parse dateCreated, adminId = need to grab account
 				//public void addItem(String description, String status,

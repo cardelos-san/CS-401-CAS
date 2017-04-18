@@ -26,9 +26,14 @@
 
 			<!--Form-->
 			<form action="/item/addItem" method="post">
+				<input type="hidden" name="status" value="lost">
 				<label class="formLabels">Image</label> <input id="itemPic" class="inputValues" type="file" name="itemPic" accept="image/*">
 				<br>
-				<label class="formLabels">Description</label> <textarea id="itemDescription" class="inputValues" type="text" name="itemDescription" rows="5" cols="50" required></textarea>
+				<label class="formLabels">Public Description</label> <textarea id="itemDescriptionPublic" class="inputValues" type="text" name="itemDescriptionPublic" rows="5" cols="50" required></textarea>
+				<br>
+				<label class="formLabels">Private Description</label> <textarea id="itemDescriptionPrivate" class="inputValues" type="text" name="itemDescriptionPrivate" rows="5" cols="50" required></textarea>
+				<br>
+				<label class="formLabels">Location Found</label> <textarea id="itemLocationFound" class="inputValues" type="text" name="itemLocationFound" rows="5" cols="50" maxlength="255" required></textarea>
 				<br>
 				<label class="formLabels">Category</label> 
 					<input id="categoryCellPhone" class="inputValues" type="radio" name="category" value="cellphone" required> Cell Phone
@@ -39,10 +44,7 @@
 					<input id="categoryGlasses" class="inputValues" type="radio" name="category" value="glasses"> Glasses
 					<input id="categoryMiscellaneous" class="inputValues" type="radio" name="category" value="miscellaneous"> Miscellaneous
 				<br>
-				<label class="formLabels">Date Received</label> <input id="itemDateReceived" class="inputValues" type="date" name="itemDateReceived" required>
-				<br>
-				<label class="formLabels">Status</label> <input id="itemStatusLost" class="inputValues" type="radio" name="status" value="lost" checked> Lost
-				       <input id="itemStatusRetrieved" class="inputValues" type="radio" name="status" value="retrieved"> Retrieved
+				<label class="formLabels">Date Found</label> <input id="itemDateFound" class="inputValues" type="date" name="itemDateFound" required>
 				<br>
 				<input id="submit" class="inputValues" type="submit" name="submit" value="Submit">
 			</form>

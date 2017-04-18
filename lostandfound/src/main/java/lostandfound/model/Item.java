@@ -118,7 +118,7 @@ public class Item {
      * @param dateRetrieved the date of which the item was retrieved (if item was found)
      * @param adminId the id of the administrator that is processing this transaction
 	 */
-	public void addItem(String description, String status,
+	public void addItem(String publicDescription, String privateDescription, String locationFound, String status,
 			java.sql.Date dateFound, java.sql.Date dateRetrieved, int adminId)
 	{
 		Configuration config = Configuration.getInstance();
@@ -126,7 +126,7 @@ public class Item {
 		String dbpasswd = config.getProperty("dbpasswd");
 		DBase db = new DBase(dbuser, dbpasswd);
 		
-		db.addItem(description, status, dateFound, dateRetrieved, adminId);
+		db.addItem(publicDescription, privateDescription, locationFound, status, dateFound, dateRetrieved, adminId);
 	}
 	
 	/**
