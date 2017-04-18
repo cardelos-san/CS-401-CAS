@@ -59,7 +59,6 @@ public class SessionController {
 				} catch ( Exception e ) {
 					// Unable to set cookie
 					// TODO: Log exception
-					System.out.println( e.getMessage() );
 				}
 			}
 			// Redirect user to index
