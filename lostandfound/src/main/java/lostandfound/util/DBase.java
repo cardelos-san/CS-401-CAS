@@ -204,7 +204,7 @@ public class DBase {
     {
     	PreparedStatement stmt = null;
     	ResultSet rset = null;
-        String sql, description, status;
+        String sql, publicDescription, privateDescription, locationFound, status;
         int itemId, adminId;
 		java.sql.Date dateCreated, dateFound, dateRetrieved;
 		List<Item> items = new ArrayList<Item>();
@@ -222,13 +222,16 @@ public class DBase {
             
             while (rset.next()) {
                 itemId = rset.getInt( "item_id" );
-                description = rset.getString( "description" );
+                publicDescription = rset.getString( "description_public" );
+                privateDescription = rset.getString( "description_private" );
+                locationFound = rset.getString( "location_found" );
                 status = rset.getString( "status" );
                 dateCreated = rset.getDate( "date_created" );
                 dateFound = rset.getDate( "date_found" );
                 dateRetrieved = rset.getDate( "date_retrieved" );
                 adminId = rset.getInt( "added_by_user" );
-                items.add( new Item( itemId, "", description, "", dateCreated, dateFound, dateRetrieved, status ) );
+                items.add( new Item( itemId, "", publicDescription, privateDescription, locationFound,
+                		"", dateCreated, dateFound, dateRetrieved, status ) );
             }
 
         } catch (Exception e) {}

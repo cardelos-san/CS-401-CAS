@@ -2,12 +2,15 @@ package lostandfound.model;
 
 import lostandfound.util.*;
 import java.util.Date;
+import javax.validation.constraints.*;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class Item {
 	private int itemID;
 	public String image;
-	public String description;
+	public String publicDescription;
+	public String privateDescription;
+	public String locationFound;
 	public String category;
 	public Date dateReceived;
 	public Date dateFound;
@@ -33,11 +36,13 @@ public class Item {
 	 * @param dateRetrieved Date the item was picked up
 	 * @param status Status of the item
 	 */
-	public Item( int itemID, String image, String description, String category,
-			Date dateReceived, Date dateFound, Date dateRetrieved, String status ) {
+	public Item( int itemID, String image, String publicDescription, String privateDescription, String locationFound,
+			String category, Date dateReceived, Date dateFound, Date dateRetrieved, String status ) {
 		this.itemID = itemID;
 		this.image = image;
-		this.description = description;
+		this.publicDescription = publicDescription;
+		this.privateDescription = privateDescription;
+		this.locationFound = locationFound;
 		this.category = category;
 		this.dateReceived = dateReceived;
 		this.dateFound = dateFound;
@@ -58,12 +63,14 @@ public class Item {
 	 * @param status Status of the item
 	 * @param retrieval ItemRetrieval object detailing retrieval information
 	 */
-	public Item( int itemID, String image, String description, String category,
-			Date dateReceived, Date dateFound, Date dateRetrieved, String status,
+	public Item( int itemID, String image, String publicDescription, String privateDescription, String locationFound,  
+			String category, Date dateReceived, Date dateFound, Date dateRetrieved, String status,
 			ItemRetrieval retrieval ) {
 		this.itemID = itemID;
 		this.image = image;
-		this.description = description;
+		this.publicDescription = publicDescription;
+		this.privateDescription = privateDescription;
+		this.locationFound = locationFound;
 		this.category = category;
 		this.dateReceived = dateReceived;
 		this.dateFound = dateFound;
