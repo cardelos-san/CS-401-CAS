@@ -13,7 +13,7 @@
 	</head>
 
 	<!--Page body: Contains the form for an admin to add a new item-->
-	<body>
+	<body id = "backgrund">
 		<!--Page top-->
 		<img id = "banner" src = "/images/banner.png"  >
 		
@@ -29,13 +29,13 @@
 				<input type="hidden" name="status" value="lost">
 				<label class="formLabels">Image</label> <input id="itemPic" class="inputValues" type="file" name="itemPic" accept="image/*">
 				<br>
-				<label class="formLabels">Public Description</label> <textarea id="itemDescriptionPublic" class="inputValues" type="text" name="itemDescriptionPublic" rows="5" cols="50" required></textarea>
+				<label class="formLabels">Public Description: </label> <br> <textarea id="itemDescriptionPublic" class="inputValues" type="text" name="itemDescriptionPublic" rows="5" cols="50" required></textarea>
 				<br>
-				<label class="formLabels">Private Description</label> <textarea id="itemDescriptionPrivate" class="inputValues" type="text" name="itemDescriptionPrivate" rows="5" cols="50"></textarea>
+				<label class="formLabels">Private Description: </label> <br> <textarea id="itemDescriptionPrivate" class="inputValues" type="text" name="itemDescriptionPrivate" rows="5" cols="50"></textarea>
 				<br>
-				<label class="formLabels">Location Found</label> <textarea id="itemLocationFound" class="inputValues" type="text" name="itemLocationFound" rows="5" cols="50" maxlength="255" required></textarea>
+				<label class="formLabels">Location Found: </label> <br> <textarea id="itemLocationFound" class="inputValues" type="text" name="itemLocationFound" rows="5" cols="50" maxlength="255" required></textarea>
 				<br>
-				<label class="formLabels">Category</label>
+				<label class="formLabels">Category</label> <br>
 					<label><input id="categoryCellPhone" class="inputValues" type="radio" name="category" value="cellphone" required> Cell Phone</label>
 					<label><input id="categoryHeadphones" class="inputValues" type="radio" name="category" value="headphones"> Headphones</label>
 				 	<label><input id="categoryWallet" class="inputValues" type="radio" name="category" value="wallet"> Wallet</label>

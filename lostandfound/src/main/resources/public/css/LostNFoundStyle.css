@@ -19,6 +19,13 @@
     margin: 70px auto 5px;
 }
 
+.autoAlign{
+	
+	width:670px;
+    margin: 70px auto;
+	
+}
+
 .autoAlignTable{
     width:1000px;
     margin: 0px auto 70px;
