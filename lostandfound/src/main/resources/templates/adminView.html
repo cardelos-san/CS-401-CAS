@@ -32,10 +32,12 @@
 			//"scrollY": 200,
 			select: true,
 			"ajax": "/api/getAllItems",
-			"columnDefs": [{ 
-			"searchable": false, "targets": [1,8],
-			"orderable": false, "targets": [1,8] 
-			}],
+			"columnDefs": [ 
+			{"searchable": false, "targets": [1,8]},
+			{"orderable": false, "targets": [1,8]},
+			{"width": "20%", "targets": 1},
+			{"width": "11.5%", "targets": 8}
+			],
 			"columns": [
 				{ data: "itemID" },
 				{ data: "image" },
@@ -78,7 +80,7 @@
 		<a href="/session/logout" >Log Out</a>
 		</span> </p>
 		
-		<div class = "autoAlign">
+		<div class = "autoAlignCategories">
 			<!--Search Bar-->
 			<!--<form class = "paddingSearch">
 				<input class = "search" type = "text" placeholder = "e.g. Biology Book" required>
@@ -100,7 +102,9 @@
 					</tr>
 				</table></br>
 			</form>
-
+		</div>
+		
+		<div class = "autoAlignTable">
 			<button class="functionButton" id="addBtn" type="addBtn" onclick="window.location.href='/item/addItem';">Add</button>
 			<!--
 			<button class="functionButton" id="editBtn" type="editBtn" onclick="alert("This edit btn was clicked on!");">Edit</button> 

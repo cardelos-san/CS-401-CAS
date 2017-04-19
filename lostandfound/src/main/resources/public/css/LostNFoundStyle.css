@@ -14,9 +14,14 @@
 	float: right;
 }
 
-.autoAlign{
+.autoAlignCategories{
 	width:670px;
-    margin: 70px auto;
+    margin: 70px auto 5px;
+}
+
+.autoAlignTable{
+    width:1000px;
+    margin: 0px auto 70px;
 }
 
 p.welcome{
@@ -51,7 +56,6 @@ table#body {
     border-collapse: collapse;
 	border-width: 1px;
 	border-color: black;
-	width:100%
 }
 
 
