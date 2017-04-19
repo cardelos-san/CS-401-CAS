@@ -77,4 +77,32 @@ public class ItemController {
 		return new ModelAndView( templateVars, "addItemForm" );
 	}
 	
+	
+	public static ModelAndView retrieveItem( Request req, Response res ) {
+		Map<String, String> templateVars = new HashMap<String, String>();
+		int itemID = Integer.valueOf( req.queryParams( "itemID" ) );
+		String template = "retrieveItemForm";
+		Item item = null;
+		
+		Configuration config = Configuration.getInstance();
+		String dbuser = config.getProperty( "dbuser" );
+		String dbpasswd = config.getProperty( "dbpasswd" );
+		DBase db = new DBase( dbuser, dbpasswd );
+		
+		try {
+			item = db.getItem( itemID );
+		} catch ( Exception e ) {
+			//TODO Log exception
+		}
+		
+		if ( item != null ) {
+			templateVars = item.toMap();
+		} else {
+			templateVars.put( "error", "No such item ID or no item ID passed!" );
+			template = "error";
+		}
+		
+		return new ModelAndView( templateVars, template );
+	}
+	
 }

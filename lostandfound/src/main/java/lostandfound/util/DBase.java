@@ -141,63 +141,60 @@ public class DBase {
     }
     
     /**
-     * viewItem - View all information of an item in the database
-     * @param id the item's id
-     * @return returns ... (!!! EDIT)
-     * WARNING: THIS INFO SHOULD BE RETURNED, SHOULD NOT PRINT IN DBASE
-     * NEED TO RETURN MORE STUFF!!! -- Damin will view have this view
-     * it should also return info about the retriever
+     * getItem - Get all information of an item in the database
+     * @param itemID ID of the item to get
+     * @return returns Item object of the item requested
      */
-    public void viewItem(int id)
-    {
+    public Item getItem( int itemID ) throws Exception {
     	PreparedStatement stmt = null;
     	ResultSet rset = null; // result - gets returned
-        String sql, description, status;
-        int itemId, adminId;
+    	String sql, publicDescription, privateDescription, locationFound, category, status;
+        int adminId;
 		java.sql.Date dateCreated, dateFound, dateRetrieved;
+		Item item = null;
         
         // Return if the database is closed.
-        if (!isopen) return;
+        if (!isopen) throw new Exception( "Could not connect to database: Connection closed!" );
         
         try {
             // Create a PreparedStatement for the update.
-            sql = "SELECT * FROM inventory WHERE inventory.item_id = ?";
-            stmt = conn.prepareStatement(sql);
+            sql = "SELECT * FROM inventory WHERE inventory.item_id = ? LIMIT 1";
+            stmt = conn.prepareStatement( sql );
 
             // Set the parameters in the statement
-            stmt.setInt(1, id);
+            stmt.setInt( 1, itemID );
 
             // Execute SQL Update
             rset = stmt.executeQuery();
-            
-            // Process the result set
-            // Print the tag names
-            //System.out.println("");
-            //System.out.println("ID\tDescription\tStatus\tDate Created\t" +
-            		//"Date Found\ttDate Retrieved\tAdded By User\n");
-            // Loop through the result and print
-            while (rset.next()) {
-                itemId = rset.getInt(1);
-                description = rset.getString(2);
-                status = rset.getString(3);
-                dateCreated = rset.getDate(4);
-                dateFound = rset.getDate(5);
-                dateRetrieved = rset.getDate(6);
-                adminId = rset.getInt(7);
+
+            if ( rset.next() ) {
+                publicDescription = rset.getString( "description_public" );
+                privateDescription = rset.getString( "description_private" );
+                locationFound = rset.getString( "location_found" );
+                category = rset.getString( "category" );
+                status = rset.getString( "status" );
+                dateCreated = rset.getDate( "date_created" );
+                dateFound = rset.getDate( "date_found" );
+                dateRetrieved = rset.getDate( "date_retrieved" );
+                adminId = rset.getInt( "added_by_user" );
                 
-                // WARNING: THIS INFO SHOULD BE RETURNED, SHOULD NOT PRINT HERE
-               
+                item = new Item( itemID, "", publicDescription, privateDescription, locationFound, category,
+                		dateCreated, dateFound, dateRetrieved, status );
             }
 
-        } catch (Exception e) {}
+        } catch ( Exception e ) {
+        	// TODO: Log exception
+        }
         
         // Close the update statement and return.
-        try {stmt.close();}
+        try { stmt.close(); }
         catch (Exception e) {}
+        
+        return item;
     }
     
     /**
-     * viewAllItem - View all information of an item in the database
+     * getAllItem - View all information of an item in the database
      * @return returns a list of all the items in the database
      */
     public List<Item> getAllItems()

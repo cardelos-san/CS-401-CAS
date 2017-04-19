@@ -55,6 +55,7 @@ public class LostAndFound {
 		path( "/item", () -> {
 			get( "/addItem", ItemController::addAnItem, templateEngine);
 			post( "/addItem",ItemController::addItemHandler, templateEngine);
+			get( "/retrieveItem/:itemID", ItemController::retrieveItem, templateEngine);
 		});
 		
 		// Test bcrypt hash

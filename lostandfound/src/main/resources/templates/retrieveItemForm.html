@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+
+<html>
+	
+	<!--Page head: Contains CSS and Title-->
+	<head>
+	<link rel="icon" type="image/png" href="/images/favicon.png">
+	<!--Importing CSS-->
+	<link rel="stylesheet" type="text/css" media="screen"  
+      href="/css/LostNFoundStyle.css"/>
+	
+	<title>Retrieve an Item</title>	
+	</head>
+
+	<!--Page body: Contains the form for an admin to add a new item-->
+	<body>
+		<!--Page top-->
+		<img id = "banner" src = "/images/banner.png"  >
+		
+		<p class = "welcome"> Welcome, Administrator <span class = "moveRight"> <a href = "/"> Home</a></span> </p>
+		
+		<div class = "autoAlign">
+			<h1>Retrieve an Item</h1>
+			<br>
+
+			<!-- Item info -->
+			<p>Item ID: <span th:text="${itemID}"></span><br>
+			Item Description (Public): <span th:text="${publicDescription}"></span><br>
+			Item Description (Private): <span th:text="${privateDescription}"></span><br>
+			</p>
+			
+
+			<!--Form-->
+			<form th:action="/item/retrieveItem/${itemID}" method="post">
+				<label class="formLabels">Retriever First Name:</label> <text id="retrievalFirstName" class="inputValues" type="text" name="retrievalFirstName" maxlength="50" required></text>
+				<br>
+				<label class="formLabels">Retriever Last Name:</label> <text id="retrievalLastName" class="inputValues" type="text" name="retrievalLastName" maxlength="50" required></text>
+				<br>
+				<label class="formLabels">Retriever Email:</label> <text id="retrievalEmail" class="inputValues" type="text" name="retrievalEmail" maxlength="50" required></text>
+				<br>
+				<label class="formLabels">Retriever Phone Number:</label> <text id="retrievalPhone" class="inputValues" type="text" name="retrievalPhone" maxlength="10" required></text>
+				<br>
+				<label class="formLabels">Retriever Identification:</label> <text id="retrievalIdent" class="inputValues" type="text" name="retrievalIdent" maxlength="30" required></text>
+				<br>
+				<input id="submit" class="inputValues" type="submit" name="submit" value="Submit">
+			</form>
+		</div>
+
+	<!--Page footer-->
+	<footer class = "footer">
+		
+		<img  id = "ricLogo" src = "/images/riclogo_footer_156px.png">
+		
+		<p class = "contact"> <a href = ""> Contact Us </a> &ensp; <a href = ""> FAQs </a> </p>
+		
+	</footer>
+	</body>
+
+</html>

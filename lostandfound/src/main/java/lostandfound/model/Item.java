@@ -1,12 +1,15 @@
 package lostandfound.model;
 
 import lostandfound.util.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Date;
 import javax.validation.constraints.*;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class Item {
-	private int itemID;
+	@JsonSerialize( using = IntToStringSerializer.class )
+	public int itemID;
 	public String image;
 	public String publicDescription;
 	public String privateDescription;
@@ -100,15 +103,6 @@ public class Item {
 	}
 	
 	/**
-	 * Gets the item ID number
-	 * @return Item ID
-	 */
-	@JsonSerialize( using = IntToStringSerializer.class )
-	public int getItemID() {
-		return itemID;
-	}
-	
-	/**
 	 * addItem - Adds an item to the database. Retrieves information regarding an item 
 	 * and calls a method in the DBase class with the given information to complete
 	 * the transaction
@@ -148,4 +142,22 @@ public class Item {
 		db.showRetrievedItems();
 	}
 	*/
+	
+	public Map<String,String> toMap() {
+		Map<String,String> map = new HashMap<String,String>();
+		
+		map.put( "itemID", String.valueOf( itemID ) );
+		map.put( "image",  image );
+		map.put( "publicDescription", publicDescription );
+		map.put( "privateDescription", privateDescription );
+		map.put( "locationFound", locationFound );
+		map.put( "category", category );
+		map.put( "status", status );
+		map.put( "dateReceived" , dateReceived.toString() );
+		map.put( "dateFound" , dateFound.toString() );
+		if ( dateRetrieved != null ) map.put( "dateRetrieved" , dateRetrieved.toString() );
+		// if ( retrieval != null ) map.putAll( retrieval.toMap() );  TODO: Add retrieval stuff like this?
+		
+		return map;
+	}
 }
