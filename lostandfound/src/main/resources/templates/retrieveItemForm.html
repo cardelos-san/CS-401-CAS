@@ -31,16 +31,16 @@
 			
 
 			<!--Form-->
-			<form th:action="/item/retrieveItem/${itemID}" method="post">
-				<label class="formLabels">Retriever First Name:</label> <text id="retrievalFirstName" class="inputValues" type="text" name="retrievalFirstName" maxlength="50" required></text>
+			<form th:action="@{~/item/retrieveItem/} + ${itemID}" method="post">
+				<label class="formLabels">Retriever First Name:</label> <input id="retrievalFirstName" class="inputValues" type="text" name="retrievalFirstName" maxlength="50" required></input>
 				<br>
-				<label class="formLabels">Retriever Last Name:</label> <text id="retrievalLastName" class="inputValues" type="text" name="retrievalLastName" maxlength="50" required></text>
+				<label class="formLabels">Retriever Last Name:</label> <input id="retrievalLastName" class="inputValues" type="text" name="retrievalLastName" maxlength="50" required></input>
 				<br>
-				<label class="formLabels">Retriever Email:</label> <text id="retrievalEmail" class="inputValues" type="text" name="retrievalEmail" maxlength="50" required></text>
+				<label class="formLabels">Retriever Email:</label> <input id="retrievalEmail" class="inputValues" type="text" name="retrievalEmail" maxlength="50" required></input>
 				<br>
-				<label class="formLabels">Retriever Phone Number:</label> <text id="retrievalPhone" class="inputValues" type="text" name="retrievalPhone" maxlength="10" required></text>
+				<label class="formLabels">Retriever Phone Number:</label> <input id="retrievalPhone" class="inputValues" type="text" name="retrievalPhone" maxlength="10" required></input>
 				<br>
-				<label class="formLabels">Retriever Identification:</label> <text id="retrievalIdent" class="inputValues" type="text" name="retrievalIdent" maxlength="30" required></text>
+				<label class="formLabels">Retriever Identification:</label> <input id="retrievalIdent" class="inputValues" type="text" name="retrievalIdent" maxlength="30" required></input>
 				<br>
 				<input id="submit" class="inputValues" type="submit" name="submit" value="Submit">
 			</form>

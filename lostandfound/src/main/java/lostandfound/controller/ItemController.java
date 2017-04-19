@@ -80,7 +80,7 @@ public class ItemController {
 	
 	public static ModelAndView retrieveItem( Request req, Response res ) {
 		Map<String, String> templateVars = new HashMap<String, String>();
-		int itemID = Integer.valueOf( req.queryParams( "itemID" ) );
+		int itemID = Integer.valueOf( req.params( ":itemID" ) );
 		String template = "retrieveItemForm";
 		Item item = null;
 		
@@ -95,11 +95,35 @@ public class ItemController {
 			//TODO Log exception
 		}
 		
+		// TODO: Check if item has been retrieved already
+		
 		if ( item != null ) {
 			templateVars = item.toMap();
 		} else {
-			templateVars.put( "error", "No such item ID or no item ID passed!" );
+			templateVars.put( "error", "No such item ID." );
 			template = "error";
+		}
+		
+		return new ModelAndView( templateVars, template );
+	}
+	
+	
+	public static ModelAndView retrieveItemHandler( Request req, Response resp ) {
+		Map<String, String> templateVars = new HashMap<String, String>();
+		int itemID = Integer.valueOf( req.params( ":itemID" ) );
+		String template = "retrieveItemForm";
+		
+		String firstName = req.queryParams( "retrievalFirstName" );
+		String lastName = req.queryParams( "retrievalLastName" );
+		String email = req.queryParams( "retrievalEmail" );
+		String phone = req.queryParams( "retrievalPhone" );
+		String ident = req.queryParams( "retrievalIdent" );
+		
+		try {
+			ItemRetrieval.addItemRetrieval( itemID, firstName, lastName, email, phone, ident );
+			Item.setItemStatus( itemID, "retrieved" );
+		} catch ( Exception e ) {
+			// TODO: Log exception
 		}
 		
 		return new ModelAndView( templateVars, template );

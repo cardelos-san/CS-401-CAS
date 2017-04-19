@@ -127,6 +127,23 @@ public class Item {
 	}
 	
 	/**
+	 * setItemStatus - Updates the status of an item in the database
+	 * @param itemID ID of the item to update
+	 * @param status New status to set
+	 * @throws Exception if item status cannot be set
+	 */
+	public static void setItemStatus( Integer itemID, String status ) throws Exception {
+		if ( status != "lost" && status != "retrieved" ) throw new Exception( "Invalid item status" );
+		
+		Configuration config = Configuration.getInstance();
+		String dbuser = config.getProperty("dbuser");
+		String dbpasswd = config.getProperty("dbpasswd");
+		DBase db = new DBase(dbuser, dbpasswd);
+		
+		db.setItemStatus( itemID, status );
+	}
+	
+	/**
      * showRetrievedItem - Search and return all items marked as retrieved in the database
      * @return returns ... (!!! EDIT)
      * WARNING: THIS INFO SHOULD BE RETURNED, SHOULD NOT PRINT IN DBASE

@@ -579,6 +579,71 @@ public class DBase {
     	
     	return hash;
     }
+    
+	/**
+	 * addItemRetrieval - Adds an item retrieval record to the database
+	 * @param itemID ID of item being retrieved
+	 * @param firstName First name of person retrieving the item
+	 * @param lastName Last name of person retrieving the item
+	 * @param email Email address of person retrieving the item
+	 * @param phone Phone number of person retrieving the item
+	 * @param identification Identification of person retrieving the item
+	 * @throws Exception if unable to add record to database
+	 */
+    public void addItemRetrieval( Integer itemID, String firstName, String lastName, String email,
+			String phone, String identification ) throws Exception {
+    	PreparedStatement stmt = null;
+    	String sql;
+    	
+    	if ( !isopen ) {
+    		throw new Exception( "Database connection is not open" );
+    	}
+    	
+    	try {
+    		// Create a statement for the update
+    		sql = "INSERT INTO retrieval_records " +
+    				"(item_id, first_name, last_name, email, phone, identification) " +
+    				"VALUES (?, ?, ?, ?, ?, ?)";
+    		stmt = conn.prepareStatement( sql );
+    		
+    		// Set the parameters in the statement
+    		stmt.setInt( 1, itemID );
+    		stmt.setString( 2, firstName );
+    		stmt.setString( 3, lastName );
+    		stmt.setString( 4, email );
+    		stmt.setString( 5, phone );
+    		stmt.setString( 6, identification );
+    	
+    		// Execute statement
+    		stmt.executeUpdate();
+    	} finally {
+    		stmt.close();
+    	}
+    }
+    
+    public void setItemStatus( Integer itemID, String status ) throws Exception {
+    	PreparedStatement stmt = null;
+    	String sql;
+    	
+    	if ( !isopen ) {
+    		throw new Exception( "Database connection is not open" );
+    	}
+    	
+    	try {
+    		// Create a statement for the update
+    		sql = "UPDATE inventory SET status = ? WHERE item_id = ? LIMIT 1";
+    		stmt = conn.prepareStatement( sql );
+    		
+    		// Set the parameters in the statement
+    		stmt.setString( 1, status );
+    		stmt.setInt( 2, itemID );
+    	
+    		// Execute statement
+    		stmt.executeUpdate();
+    	} finally {
+    		stmt.close();
+    	}
+    }
 
      
  } // End of class
