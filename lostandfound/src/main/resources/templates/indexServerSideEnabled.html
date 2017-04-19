@@ -21,10 +21,10 @@
 			//"processing": true,
 			//"serverSide": true,
 			"ajax": "/api/getAllItems",
-			"columnDefs": [{ 
-			"searchable": false, "targets": 1,
-			"orderable": false, "targets": 1
-			}],
+			"columnDefs": [
+			{"searchable": false, "targets": 1},
+			{"orderable": false, "targets": 1}
+			],
 			 "columns": [
             { data: "itemID" },
             { data: "image" },
@@ -91,7 +91,7 @@
 		
 		
 		
-			<div class = "autoAlign">
+			<div class = "autoAlignCategories">
 				<!--Search Bar-->
 				<!--<form class = "paddingSearch">
 					<input class = "search" type = "text" placeholder = "e.g. Biology Book" required>
@@ -114,7 +114,10 @@
 						</tr>
 					</table></br>
 				</form>
-
+				
+			</div>
+			
+			<div class = "autoAlignTable">
 				<!--Dynamic table-->
 				<table id = "body">
 					<thead class = "boldBorder">
