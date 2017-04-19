@@ -63,7 +63,8 @@ public class ItemController {
 		
 			//if so... 
 				Item newItem = new Item ();
-				newItem.addItem(publicDescription, privateDescription, locationFound, status, date, null, 1);
+				newItem.addItem(publicDescription, privateDescription, locationFound,
+						category, status, date, null, 1);
 				
 				//parse dateCreated, adminId = need to grab account
 				//public void addItem(String description, String status,

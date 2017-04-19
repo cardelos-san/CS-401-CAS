@@ -9,19 +9,13 @@
 
 package lostandfound.util;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
-
 import lostandfound.model.*;
-
 import java.sql.*; //Allows you to use JDBC classes/interfaces
 import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.Date;
-import java.util.Map;
-import org.json.JSONException;
+
 public class DBase {
 
 	private Connection conn;
@@ -64,14 +58,17 @@ public class DBase {
 	
     /**
      * addItem - Adds an item to the database
-     * @param description a description of the item
+     * @param publicDescription publicly viewable description of the item
+     * @param privateDescription item information to hide from the public
+     * @param locationFound location the item was found
+     * @param category category to assign the item to
      * @param status the status of the item ('lost' or 'found')
      * @param dateFound the date of which the item was found
      * @param dateRetrieved the date of which the item was retrieved (if item was found)
      * @param adminId the id of the administrator that is processing this transaction
      */
-    public void addItem(String publicDescription, String privateDescription, String locationFound, String status,
-    		java.sql.Date dateFound, java.sql.Date dateRetrieved, int adminId)
+    public void addItem(String publicDescription, String privateDescription, String locationFound, String category, 
+    		String status, java.sql.Date dateFound, java.sql.Date dateRetrieved, int adminId)
     {
     	PreparedStatement stmt = null;
     	String sql;
@@ -82,18 +79,19 @@ public class DBase {
     	try{
     		// Create a statement for the update
     		sql = "INSERT INTO inventory (" + 
-    				"description_public, description_private, location_found, status, " +
-    				"date_found, date_retrieved, added_by_user) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    				"description_public, description_private, location_found, category, status, " +
+    				"date_found, date_retrieved, added_by_user) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     		stmt = conn.prepareStatement(sql);
     	
     		// Set the parameters in the statement
     		stmt.setString(1, publicDescription);
     		stmt.setString(2, privateDescription);
     		stmt.setString(3, locationFound);
-    		stmt.setString(4, status);
-    		stmt.setDate(5, dateFound);
-    		stmt.setDate(6, dateRetrieved);
-    		stmt.setInt(7, adminId);
+    		stmt.setString(4, category);
+    		stmt.setString(5, status);
+    		stmt.setDate(6, dateFound);
+    		stmt.setDate(7, dateRetrieved);
+    		stmt.setInt(8, adminId);
     	
     		// Execute SQL Update
     		stmt.executeUpdate();
@@ -206,7 +204,7 @@ public class DBase {
     {
     	PreparedStatement stmt = null;
     	ResultSet rset = null;
-        String sql, publicDescription, privateDescription, locationFound, status;
+        String sql, publicDescription, privateDescription, locationFound, category, status;
         int itemId, adminId;
 		java.sql.Date dateCreated, dateFound, dateRetrieved;
 		List<Item> items = new ArrayList<Item>();
@@ -227,13 +225,14 @@ public class DBase {
                 publicDescription = rset.getString( "description_public" );
                 privateDescription = rset.getString( "description_private" );
                 locationFound = rset.getString( "location_found" );
+                category = rset.getString( "category" );
                 status = rset.getString( "status" );
                 dateCreated = rset.getDate( "date_created" );
                 dateFound = rset.getDate( "date_found" );
                 dateRetrieved = rset.getDate( "date_retrieved" );
                 adminId = rset.getInt( "added_by_user" );
                 items.add( new Item( itemId, "", publicDescription, privateDescription, locationFound,
-                		"", dateCreated, dateFound, dateRetrieved, status ) );
+                		category, dateCreated, dateFound, dateRetrieved, status ) );
             }
 
         } catch (Exception e) {}

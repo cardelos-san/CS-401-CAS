@@ -45,7 +45,7 @@ public class Item {
 		this.publicDescription = publicDescription;
 		this.privateDescription = privateDescription;
 		this.locationFound = locationFound;
-		this.category = category;
+		this.category = category.substring( 0, 1 ).toUpperCase() + category.substring(1); // Capitalize
 		this.dateReceived = dateReceived;
 		this.dateFound = dateFound;
 		this.dateRetrieved = dateRetrieved;
@@ -75,7 +75,7 @@ public class Item {
 		this.publicDescription = publicDescription;
 		this.privateDescription = privateDescription;
 		this.locationFound = locationFound;
-		this.category = category;
+		this.category = category.substring( 0, 1 ).toUpperCase() + category.substring(1); // Capitalize
 		this.dateReceived = dateReceived;
 		this.dateFound = dateFound;
 		this.dateRetrieved = dateRetrieved;
@@ -112,21 +112,24 @@ public class Item {
 	 * addItem - Adds an item to the database. Retrieves information regarding an item 
 	 * and calls a method in the DBase class with the given information to complete
 	 * the transaction
-     * @param description a description of the item
+     * @param publicDescription publicly viewable description of the item
+     * @param privateDescription item information to hide from the public
+     * @param locationFound location the item was found
+     * @param category category to assign the item to
      * @param status the status of the item ('lost' or 'found')
      * @param dateFound the date of which the item was found
      * @param dateRetrieved the date of which the item was retrieved (if item was found)
      * @param adminId the id of the administrator that is processing this transaction
 	 */
-	public void addItem(String publicDescription, String privateDescription, String locationFound, String status,
-			java.sql.Date dateFound, java.sql.Date dateRetrieved, int adminId)
+	public void addItem(String publicDescription, String privateDescription, String locationFound, String category,
+			String status, java.sql.Date dateFound, java.sql.Date dateRetrieved, int adminId)
 	{
 		Configuration config = Configuration.getInstance();
 		String dbuser = config.getProperty("dbuser");
 		String dbpasswd = config.getProperty("dbpasswd");
 		DBase db = new DBase(dbuser, dbpasswd);
 		
-		db.addItem(publicDescription, privateDescription, locationFound, status, dateFound, dateRetrieved, adminId);
+		db.addItem(publicDescription, privateDescription, locationFound, category, status, dateFound, dateRetrieved, adminId);
 	}
 	
 	/**
