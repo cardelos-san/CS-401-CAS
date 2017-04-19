@@ -127,6 +127,54 @@ public class Item {
 	}
 	
 	/**
+	 * deleteItem - Deletes and item in the database. Retrieves the item ID
+	 * @param itemId the ID of the item the user wishes to delete
+	 */
+	public static void deleteItem(int itemId)
+	{
+		Configuration config = Configuration.getInstance();
+		String dbuser = config.getProperty("dbuser");
+		String dbpasswd = config.getProperty("dbpasswd");
+		DBase db = new DBase(dbuser, dbpasswd);
+		
+		db.deleteItem(itemId);
+	}
+	
+	/**
+	 * deleteCategoryIdMap - Deletes the primary key mapping the inventory and inventory_category_map tables
+	 * @param itemId the ID of the item to delete
+	 */
+	public static  void deleteCategoryIdMap(int itemId)
+	{
+		Configuration config = Configuration.getInstance();
+		String dbuser = config.getProperty("dbuser");
+		String dbpasswd = config.getProperty("dbpasswd");
+		DBase db = new DBase(dbuser, dbpasswd);
+		
+		db.deleteCategoryIdMap(itemId);
+	}
+	
+	public static void deleteRetrievalIdMap(int itemId)
+	{
+		Configuration config = Configuration.getInstance();
+		String dbuser = config.getProperty("dbuser");
+		String dbpasswd = config.getProperty("dbpasswd");
+		DBase db = new DBase(dbuser, dbpasswd);
+		
+		db.deleteRetrievalIdMap(itemId);
+	}
+	
+	public static void deleteImageIdMap(int itemId)
+	{
+		Configuration config = Configuration.getInstance();
+		String dbuser = config.getProperty("dbuser");
+		String dbpasswd = config.getProperty("dbpasswd");
+		DBase db = new DBase(dbuser, dbpasswd);
+		
+		db.deleteImageIdMap(itemId);
+	}
+	
+	/**
 	 * setItemStatus - Updates the status of an item in the database
 	 * @param itemID ID of the item to update
 	 * @param status New status to set

@@ -133,6 +133,88 @@ public class DBase {
     }
     
     /**
+	 * deleteCategoryIdMap - Deletes the primary key mapping the inventory and inventory_category_map tables
+	 * @param itemId the ID of the item to delete
+	 */
+    public void deleteCategoryIdMap(int id)
+    {
+    	PreparedStatement stmt = null;
+        String sql;
+        
+        // Return if the database is closed.
+        if (!isopen) return;
+        
+        try {
+            // Create a PreparedStatement for the update.
+            sql = "DELETE FROM inventory_category_map "
+            		+ "WHERE item_id = ?";
+            stmt = conn.prepareStatement(sql);
+
+            // Set the parameters in the statement
+            stmt.setInt(1, id);
+
+            // Execute SQL Update
+            stmt.executeUpdate();     
+        } catch (Exception e) {}
+        
+        // Close the update statement and return.
+        try {stmt.close();}
+        catch (Exception e) {}
+    }
+    
+    public void deleteRetrievalIdMap(int id)
+    {
+    	PreparedStatement stmt = null;
+        String sql;
+        
+        // Return if the database is closed.
+        if (!isopen) return;
+        
+        try {
+            // Create a PreparedStatement for the update.
+            sql = "DELETE FROM retrieval_records "
+            		+ "WHERE item_id = ?";
+            stmt = conn.prepareStatement(sql);
+
+            // Set the parameters in the statement
+            stmt.setInt(1, id);
+
+            // Execute SQL Update
+            stmt.executeUpdate();     
+        } catch (Exception e) {}
+        
+        // Close the update statement and return.
+        try {stmt.close();}
+        catch (Exception e) {}
+    }
+    
+    public void deleteImageIdMap(int id)
+    {
+    	PreparedStatement stmt = null;
+        String sql;
+        
+        // Return if the database is closed.
+        if (!isopen) return;
+        
+        try {
+            // Create a PreparedStatement for the update.
+            sql = "DELETE FROM images "
+            		+ "WHERE item_id = ?";
+            stmt = conn.prepareStatement(sql);
+
+            // Set the parameters in the statement
+            stmt.setInt(1, id);
+
+            // Execute SQL Update
+            stmt.executeUpdate();     
+        } catch (Exception e) {}
+        
+        // Close the update statement and return.
+        try {stmt.close();}
+        catch (Exception e) {}
+    }
+    
+    /**
      * editItem - Edits an item in the database
      */
     public void editItem()

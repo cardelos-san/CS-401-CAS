@@ -10,6 +10,73 @@
       href="/css/LostNFoundStyle.css"/>
 	
 	<title>Add an Item</title>	
+	
+	<script>
+		function validateForm(form){
+			var alertMsg = "";
+
+			if (form.itemDescriptionPublic.value === ""){
+				alertMsg = alertMsg + "Warning: Public Description is required.\n";
+			}
+			
+			if (form.itemLocationFound.value === ""){
+				alertMsg = alertMsg + "Warning: Location Found is required.\n"
+			} 
+			/*
+			var radioLength = document.forms[form].category.length;
+			var isChecked = false;
+			for (int i = 0; i < radioLength; i++){
+				if (document.getElementsByName(form)[i].category.checked){
+					isChecked = true;
+				}
+			}
+			if (!isChecked){
+				alertMsg = alertMsg + "Category must not be empty.\n"
+			}
+			*/
+			var isChecked = false;
+			var nodeList = document.getElementsByTagName('input');
+			for (var i = 0; i < nodeList.length; i++){
+				var node = nodeList[i];
+
+				if (node.getAttribute('type') == 'radio'){
+					if (node.checked){
+						isChecked = true;
+					}
+				}
+			}
+			if (!isChecked){
+				alertMsg = alertMsg + "Warning: Category is required.\n"
+			}
+			
+			//A lost item cannot be entered if it was found after today's date
+			var todaysDate = new Date();
+			//A lost item cannot be entered if it was found before this date
+			var pastDate = new Date("2012-01-01")
+			//The date which user stated the item was found
+			var dateFound = form.itemDateFound.value;
+			//If the item was 'found' after today's date
+			if(Date.parse(todaysDate) < Date.parse(dateFound)){
+				alertMsg = alertMsg + "Warning: Date Found is invalid."
+			}
+			//If the item was 'found' before '2015-01-01'
+			else if(Date.parse(pastDate) > Date.parse(dateFound)){
+				alertMsg = alertMsg + "Warning: Date Found is invalid (before 2012)."
+			}
+			//If the item's date found has not been entered
+			else if(!dateFound){
+				alertMsg = alertMsg + "Warning: Date Found is required."
+			}
+			
+			//If there were no errors, return
+			if (alertMsg === ""){
+				return true;
+			}
+
+			alert(alertMsg);
+			return false;
+		}
+	</script>
 	</head>
 
 	<!--Page body: Contains the form for an admin to add a new item-->
@@ -25,7 +92,7 @@
 			<br>
 
 			<!--Form-->
-			<form action="/item/addItem" method="post">
+			<form name="addItemForm" action="/item/addItem" onSubmit="return validateForm(this)" method="post">
 				<input type="hidden" name="status" value="lost">
 				<label class="formLabels">Image</label> <input id="itemPic" class="inputValues" type="file" name="itemPic" accept="image/*">
 				<br>

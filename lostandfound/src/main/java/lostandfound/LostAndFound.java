@@ -51,12 +51,13 @@ public class LostAndFound {
 		});
 		
 
-		//Also need a path for the adminView - security measures
 		path( "/item", () -> {
 			get( "/addItem", ItemController::addAnItem, templateEngine);
 			post( "/addItem",ItemController::addItemHandler, templateEngine);
 			get( "/retrieveItem/:itemID", ItemController::retrieveItem, templateEngine);
 			post( "/retrieveItem/:itemID", ItemController::retrieveItemHandler, templateEngine);
+			get( "/deleteItem/:itemID", ItemController::deleteItem, templateEngine);
+			post( "/deleteItem/:itemID", ItemController::deleteItemHandler, templateEngine);
 		});
 		
 		// Test bcrypt hash

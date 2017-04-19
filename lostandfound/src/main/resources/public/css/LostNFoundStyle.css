@@ -167,6 +167,19 @@ button:hover {
     background-color: #f44336;
 }
 
+#submit {
+	background-color: maroon;
+    color: white;
+    padding: 14px 20px;
+    margin: 6px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+#submit:hover {
+	opacity: 0.8;
+}
 
 .container {
     padding: 16px;
