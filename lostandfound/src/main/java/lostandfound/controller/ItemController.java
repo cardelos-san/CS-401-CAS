@@ -129,4 +129,58 @@ public class ItemController {
 		return new ModelAndView( templateVars, template );
 	}
 	
+	public static ModelAndView editItem( Request req, Response res ) {
+		Map<String, String> templateVars = new HashMap<String, String>();
+		int itemID = Integer.valueOf( req.params( ":itemID" ) );
+		String template = "editItemForm";
+		Item item = null;
+		
+		Configuration config = Configuration.getInstance();
+		String dbuser = config.getProperty( "dbuser" );
+		String dbpasswd = config.getProperty( "dbpasswd" );
+		DBase db = new DBase( dbuser, dbpasswd );
+		
+		try {
+			item = db.getItem( itemID );
+		} catch ( Exception e ) {
+			//TODO Log exception
+		}
+		
+		// TODO: Check if item has been retrieved already
+		
+		if ( item != null ) {
+			templateVars = item.toMap();
+		} else {
+			templateVars.put( "error", "No such item ID." );
+			template = "error";
+		}
+		
+		return new ModelAndView( templateVars, template );
+	}
+	
+	public static ModelAndView editItemHandler(Request req, Response resp){
+		Map<String, String> templateVars = new HashMap<String, String>();
+		String template = "editItemForm";
+		
+		//itemPic
+		int itemID = Integer.valueOf( req.params( ":itemID" ) );
+		String publicDescription = req.queryParams("itemDescriptionPublic");
+		String privateDescription = req.queryParams("itemDescriptionPrivate");
+		String locationFound = req.queryParams("itemLocationFound");
+		String category = req.queryParams("category");
+		String dateFoundString = req.queryParams("itemDateFound");
+		String status = req.queryParams("status");
+		Date date = Date.valueOf(dateFoundString);
+		
+		
+		Item editedItem = new Item ();
+		editedItem.editItem(publicDescription, privateDescription, locationFound,
+		category, status, date, 1, itemID);
+		
+		
+		
+		return new ModelAndView( templateVars, template );
+		
+	}
+	
 }
