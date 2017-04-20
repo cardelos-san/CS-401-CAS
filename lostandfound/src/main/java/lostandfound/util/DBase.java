@@ -169,7 +169,6 @@ public class DBase {
     	
     		// Execute SQL Update
     		
-    		System.out.println(stmt);
     		stmt.executeUpdate();
         
     	} catch (Exception e) {}

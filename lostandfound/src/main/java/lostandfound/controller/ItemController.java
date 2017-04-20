@@ -43,6 +43,9 @@ public class ItemController {
 	public static ModelAndView addItemHandler( Request req, Response res ){
 		Map<String, String> templateVars = new HashMap<String, String>();
 		
+		Session session = new Session( req );
+		int userID = session.getUserID();
+		
 		//itemPic
 		String publicDescription = req.queryParams("itemDescriptionPublic");
 		String privateDescription = req.queryParams("itemDescriptionPrivate");
@@ -64,7 +67,7 @@ public class ItemController {
 			//if so... 
 				Item newItem = new Item ();
 				newItem.addItem(publicDescription, privateDescription, locationFound,
-						category, status, date, null, 1);
+						category, status, date, null, userID);
 				
 				//parse dateCreated, adminId = need to grab account
 				//public void addItem(String description, String status,
@@ -164,6 +167,8 @@ public class ItemController {
 	
 	public static ModelAndView editItemHandler(Request req, Response resp){
 		
+		Session session = new Session( req );
+		int userID = session.getUserID();
 		
 		//itemPic
 		int itemID = Integer.valueOf( req.params( ":itemID" ) );
@@ -178,7 +183,7 @@ public class ItemController {
 		
 		Item editedItem = new Item ();
 		editedItem.editItem(publicDescription, privateDescription, locationFound,
-		category, status, date, 1, itemID);
+		category, status, date, userID, itemID);
 		
 		resp.redirect("/");
 		
