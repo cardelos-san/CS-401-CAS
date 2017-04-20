@@ -123,7 +123,7 @@ public class ItemController {
 	}
 	
 	
-	public static ModelAndView retrieveItemHandler( Request req, Response resp ) {
+	public static ModelAndView retrieveItemHandler( Request req, Response res ) {
 		Map<String, String> templateVars = new HashMap<String, String>();
 		int itemID = Integer.valueOf( req.params( ":itemID" ) );
 		String template = "retrieveItemForm";
@@ -141,6 +141,7 @@ public class ItemController {
 			// TODO: Log exception
 		}
 		
+		res.redirect( "/" );
 		return new ModelAndView( templateVars, template );
 	}
 	
