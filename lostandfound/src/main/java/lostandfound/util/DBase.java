@@ -300,6 +300,7 @@ public class DBase {
                 
                 item = new Item( itemID, "", publicDescription, privateDescription, locationFound, category,
                 		dateCreated, dateFound, dateRetrieved, status );
+                item.setRetrieval( getItemRetrievalFromItemID( itemID ) );
             }
 
         } catch ( Exception e ) {
@@ -324,6 +325,7 @@ public class DBase {
         String sql, publicDescription, privateDescription, locationFound, category, status;
         int itemId, adminId;
 		java.sql.Date dateCreated, dateFound, dateRetrieved;
+		Item item = null;
 		List<Item> items = new ArrayList<Item>();
         
         // Return if the database is closed.
@@ -348,8 +350,10 @@ public class DBase {
                 dateFound = rset.getDate( "date_found" );
                 dateRetrieved = rset.getDate( "date_retrieved" );
                 adminId = rset.getInt( "added_by_user" );
-                items.add( new Item( itemId, "", publicDescription, privateDescription, locationFound,
-                		category, dateCreated, dateFound, dateRetrieved, status ) );
+                item = new Item( itemId, "", publicDescription, privateDescription, locationFound,
+                		category, dateCreated, dateFound, dateRetrieved, status );
+                item.setRetrieval( getItemRetrievalFromItemID( itemId ) );
+                items.add( item );
             }
 
         } catch (Exception e) {}
@@ -359,6 +363,55 @@ public class DBase {
         catch (Exception e) {}
         
         return items;
+    }
+    
+    /**
+     * getItemRetrievalFromItemID - Gets an item retrieval record for an item
+     * @param itemID ID of the item associated with the retrieval to get
+     * @return returns ItemRetrieval object of the retrieval requested or null if no record found
+     * @throws Exception if unable to get retrieval record
+     */
+    public ItemRetrieval getItemRetrievalFromItemID( int itemID ) throws Exception {
+    	PreparedStatement stmt = null;
+    	ResultSet rset = null; // result - gets returned
+    	String sql, firstName, lastName, email, phone, identification;
+        int retrievalID;
+		ItemRetrieval retrieval = null;
+        
+        // Return if the database is closed.
+        if (!isopen) throw new Exception( "Could not connect to database: Connection closed!" );
+        
+        try {
+            // Create a PreparedStatement for the update.
+            sql = "SELECT * FROM retrieval_records WHERE item_id = ? LIMIT 1";
+            stmt = conn.prepareStatement( sql );
+
+            // Set the parameters in the statement
+            stmt.setInt( 1, itemID );
+
+            // Execute SQL Update
+            rset = stmt.executeQuery();
+
+            if ( rset.next() ) {
+                retrievalID = rset.getInt( "retrieval_id" );
+                firstName = rset.getString( "first_name" );
+                lastName = rset.getString( "last_name" );
+                email = rset.getString( "email" );
+                phone = rset.getString( "phone" );
+                identification = rset.getString( "identification" );
+                
+                retrieval = new ItemRetrieval( retrievalID, firstName, lastName, email, phone, identification );
+            }
+
+        } catch ( Exception e ) {
+        	// TODO: Log exception
+        }
+        
+        // Close the update statement and return.
+        try { stmt.close(); }
+        catch (Exception e) {}
+        
+        return retrieval;
     }
     
     /**
@@ -741,6 +794,12 @@ public class DBase {
     	}
     }
     
+    /**
+     * Sets a new item status in the database
+     * @param itemID Item ID to update
+     * @param status New status to set
+     * @throws Exception if item status cannot be updated
+     */
     public void setItemStatus( Integer itemID, String status ) throws Exception {
     	PreparedStatement stmt = null;
     	String sql;

@@ -225,6 +225,10 @@ public class Item {
 	}
 	*/
 	
+	/**
+	 * Returns a map of the instance values of the Item and associated ItemRetrieval
+	 * @return
+	 */
 	public Map<String,String> toMap() {
 		Map<String,String> map = new HashMap<String,String>();
 		
@@ -237,8 +241,12 @@ public class Item {
 		map.put( "status", status );
 		map.put( "dateReceived" , dateReceived.toString() );
 		map.put( "dateFound" , dateFound.toString() );
-		if ( dateRetrieved != null ) map.put( "dateRetrieved" , dateRetrieved.toString() );
-		// if ( retrieval != null ) map.putAll( retrieval.toMap() );  TODO: Add retrieval stuff like this?
+		map.put( "isRetrieved", ( isRetrieved() ) ? "True" : "False" );
+		
+		if ( isRetrieved() )  {
+			map.put( "dateRetrieved" , dateRetrieved.toString() );
+			map.putAll( retrieval.toMap() );
+		}
 		
 		return map;
 	}
