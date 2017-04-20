@@ -175,6 +175,23 @@ public class Item {
 	}
 	
 	/**
+	 * editItem - Edits an item from the database. Retrieves information from editItemHandler
+	 * in ItemController and calls a method in the DBase class with the given information to modify
+	 * existing item in database.
+	 */
+	
+	public void editItem(String publicDescription, String privateDescription, String locationFound, String category,
+			String status, java.sql.Date dateFound, int adminId, int itemID)
+	{
+		Configuration config = Configuration.getInstance();
+		String dbuser = config.getProperty("dbuser");
+		String dbpasswd = config.getProperty("dbpasswd");
+		DBase db = new DBase(dbuser, dbpasswd);
+		
+		db.editItem(publicDescription, privateDescription, locationFound, category, status, dateFound, adminId,itemID);
+	}
+	
+	/**
 	 * setItemStatus - Updates the status of an item in the database
 	 * @param itemID ID of the item to update
 	 * @param status New status to set

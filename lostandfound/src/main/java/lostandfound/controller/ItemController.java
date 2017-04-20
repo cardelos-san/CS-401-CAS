@@ -47,6 +47,9 @@ public class ItemController {
 		//GET USER INFO: user.getID();
 		//int userId;
 		
+		Session session = new Session( req );
+		int userID = session.getUserID();
+		
 		//itemPic
 		String publicDescription = req.queryParams("itemDescriptionPublic");
 		String privateDescription = req.queryParams("itemDescriptionPrivate");
@@ -68,9 +71,13 @@ public class ItemController {
 		// Compare dateFound to today's date: If date (found) is before today's Date
 		if(date.compareTo(today) < 0)
 		{ */
-			Item newItem = new Item ();
-			newItem.addItem(publicDescription, privateDescription, locationFound,
-					category, status, date, null, 1);
+		
+		//Are all these values valid??
+		
+			//if so... 
+				Item newItem = new Item ();
+				newItem.addItem(publicDescription, privateDescription, locationFound,
+						category, status, date, null, userID);
 				
 			// Redirect user to admin index
 			res.redirect( "/" );
@@ -137,6 +144,7 @@ public class ItemController {
 		return new ModelAndView( templateVars, template );
 	}
 	
+
 	public static ModelAndView deleteItem( Request req, Response res ) {
 		Map<String, String> templateVars = new HashMap<String, String>();
 		int itemID = Integer.valueOf( req.params( ":itemID" ) );
@@ -184,6 +192,65 @@ public class ItemController {
 		res.redirect( "/" );
 		
 		return new ModelAndView( templateVars, template );
+	}
+	
+	
+	public static ModelAndView editItem( Request req, Response res ) {
+		Map<String, String> templateVars = new HashMap<String, String>();
+		int itemID = Integer.valueOf( req.params( ":itemID" ) );
+		String template = "editItemForm";
+		Item item = null;
+		
+		Configuration config = Configuration.getInstance();
+		String dbuser = config.getProperty( "dbuser" );
+		String dbpasswd = config.getProperty( "dbpasswd" );
+		DBase db = new DBase( dbuser, dbpasswd );
+		
+		try {
+			item = db.getItem( itemID );
+		} catch ( Exception e ) {
+			//TODO Log exception
+		}
+		
+		// TODO: Check if item has been retrieved already
+		
+		if ( item != null ) {
+			templateVars = item.toMap();
+		} else {
+			templateVars.put( "error", "No such item ID." );
+			template = "error";
+		}
+		
+		return new ModelAndView( templateVars, template );
+	}
+	
+	/*editItemHandler handles edit request on item
+	 * @WARNING: Need to get adminID from user session. Currently using hard-coded adminID.
+	 */
+	
+	public static ModelAndView editItemHandler(Request req, Response resp){
+		
+		Session session = new Session( req );
+		int userID = session.getUserID();
+		
+		//itemPic
+		int itemID = Integer.valueOf( req.params( ":itemID" ) );
+		String publicDescription = req.queryParams("itemDescriptionPublic");
+		String privateDescription = req.queryParams("itemDescriptionPrivate");
+		String locationFound = req.queryParams("itemLocationFound");
+		String category = req.queryParams("category");
+		String dateFoundString = req.queryParams("itemDateFound");
+		String status = req.queryParams("status");
+		Date date = Date.valueOf(dateFoundString);
+		
+		
+		Item editedItem = new Item ();
+		editedItem.editItem(publicDescription, privateDescription, locationFound,
+		category, status, date, userID, itemID);
+		
+		resp.redirect("/");
+		
+		return null;
 	}
 	
 }

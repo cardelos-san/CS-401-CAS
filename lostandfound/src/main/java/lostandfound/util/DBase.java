@@ -216,10 +216,48 @@ public class DBase {
     
     /**
      * editItem - Edits an item in the database
+     * @WARNING: Maybe need to create edited by user entry in database
+     * 
      */
-    public void editItem()
-    {
+    public void editItem(String publicDescription, String privateDescription, String locationFound, String category, 
+    		String status, java.sql.Date dateFound, int adminId, int itemID) {
     	
+    	PreparedStatement stmt = null;
+        String sql;
+        
+        try {
+            // Create a PreparedStatement for the update.
+        	
+            sql = "UPDATE inventory SET "+ 
+            	  "description_public = ?,"+
+            	  "description_private = ?,"+
+            	  "location_found = ?,"+
+            	  "category = ?,"+
+            	  "status = ?,"+
+    			  "date_found = ?,"+
+    			  "added_by_user = ? "+ 
+    			  "WHERE item_id = ?";
+            stmt = conn.prepareStatement(sql);
+
+            // Set the parameters in the statements
+            stmt.setString(1, publicDescription);
+    		stmt.setString(2, privateDescription);
+    		stmt.setString(3, locationFound);
+    		stmt.setString(4, category);
+    		stmt.setString(5, status);
+    		stmt.setDate(6, dateFound);
+    		stmt.setInt(7, adminId);
+    		stmt.setInt(8, itemID);
+    	
+    		// Execute SQL Update
+    		
+    		stmt.executeUpdate();
+        
+    	} catch (Exception e) {}
+    	
+    	// Close the update statement and return
+    	try {stmt.close();}
+    	catch (Exception e) {}
     }
     
     /**
