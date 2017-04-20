@@ -135,6 +135,7 @@ public class DBase {
     /**
      * editItem - Edits an item in the database
      * @WARNING: Maybe need to create edited by user entry in database
+     * 
      */
     public void editItem(String publicDescription, String privateDescription, String locationFound, String category, 
     		String status, java.sql.Date dateFound, int adminId, int itemID) {
@@ -145,14 +146,14 @@ public class DBase {
         try {
             // Create a PreparedStatement for the update.
         	
-            sql = "UPDATE inventory SET"+ 
+            sql = "UPDATE inventory SET "+ 
             	  "description_public = ?,"+
             	  "description_private = ?,"+
             	  "location_found = ?,"+
             	  "category = ?,"+
             	  "status = ?,"+
     			  "date_found = ?,"+
-    			  "added_by_user = ?"+ 
+    			  "added_by_user = ? "+ 
     			  "WHERE item_id = ?";
             stmt = conn.prepareStatement(sql);
 
@@ -167,6 +168,8 @@ public class DBase {
     		stmt.setInt(8, itemID);
     	
     		// Execute SQL Update
+    		
+    		System.out.println(stmt);
     		stmt.executeUpdate();
         
     	} catch (Exception e) {}

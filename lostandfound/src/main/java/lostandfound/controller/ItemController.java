@@ -158,9 +158,12 @@ public class ItemController {
 		return new ModelAndView( templateVars, template );
 	}
 	
+	/*editItemHandler handles edit request on item
+	 * @WARNING: Need to get adminID from user session. Currently using hard-coded adminID.
+	 */
+	
 	public static ModelAndView editItemHandler(Request req, Response resp){
-		Map<String, String> templateVars = new HashMap<String, String>();
-		String template = "editItemForm";
+		
 		
 		//itemPic
 		int itemID = Integer.valueOf( req.params( ":itemID" ) );
@@ -177,9 +180,9 @@ public class ItemController {
 		editedItem.editItem(publicDescription, privateDescription, locationFound,
 		category, status, date, 1, itemID);
 		
+		resp.redirect("/");
 		
-		
-		return new ModelAndView( templateVars, template );
+		return null;
 		
 	}
 	
