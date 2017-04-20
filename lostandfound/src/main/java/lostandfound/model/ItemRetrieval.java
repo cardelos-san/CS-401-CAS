@@ -1,5 +1,8 @@
 package lostandfound.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import lostandfound.util.Configuration;
@@ -53,5 +56,19 @@ public class ItemRetrieval {
 		
 		db.addItemRetrieval( itemID, firstName, lastName, email, phone, identification );
 		db.close();
+	}
+	
+	
+	public Map<String,String> toMap() {
+		Map<String,String> map = new HashMap<String,String>();
+		
+		map.put( "retrievalID", String.valueOf( retrievalID ) );
+		map.put( "retrievalFirstName", firstName );
+		map.put( "retrievalLastName", lastName );
+		map.put( "retrievalEmail", email );
+		map.put( "retrievalPhone", phone );
+		map.put( "retrievalIdentification", identification );
+		
+		return map;
 	}
 }
