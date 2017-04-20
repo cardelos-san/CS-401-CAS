@@ -26,17 +26,17 @@
 	
 	<!--Implementing DataTables plugin into page-->
 	<script type = "text/javascript">$(document).ready(function(){
-		$('#body').DataTable({
+		var table = $('#table').DataTable({
 			//"processing": true,
 			//"serverSide": true,
 			//"scrollY": 200,
 			select: true,
 			"ajax": "/api/getAllItems",
 			"columnDefs": [ 
-			{"searchable": false, "targets": [1,8]},
-			{"orderable": false, "targets": [1,8]},
-			{"width": "20%", "targets": 1},
-			{"width": "11.5%", "targets": 8}
+				{"searchable": false, "targets": [1,8]},
+				{"orderable": false, "targets": [1,8]},
+				{"width": "20%", "targets": 1},
+				{"width": "11.5%", "targets": 8}
 			],
 			"columns": [
 				{ data: "itemID" },
@@ -62,7 +62,25 @@
 				}
 			]
 		});
+		
+		//Categories filter function	
+		$('a.categoryButton').on( 'click', function () {
+			table
+			.columns( 4 )
+			.search(  $(this).text() )
+			.draw();
+		});
+		
+		$('a.all.categoryButton').on('click', function() {
+		  table
+		  .search('')
+		  .columns(4)
+		  .search('')
+		  .draw();
+		});
+  
 	});
+	
 	</script>
 
 		<title>
@@ -87,21 +105,16 @@
 				<input type = "button" value = "Search">
 			</form><br>-->
 			<!--Categories-->
-			<form action="" method="post">
-				<table id = "categories">
-					<tr>
-						<td><input onChange="submit()" type="checkbox" name="category" value="cellphones"> Cell Phones</td>
-						<td><input onChange="submit()" type="checkbox" name="category" value="books"> Books</td>
-						<td><input onChange="submit()" type="checkbox" name="category" value="headphones"> Headphones</td>
-						<td><input onChange="submit()" type="checkbox" name="category" value="misc"> Miscellaneous</td>
-					</tr>
-					<tr>
-						<td><input onChange="submit()" type="checkbox" name="category" value="wallets"> Wallets</td>
-						<td><input onChange="submit()" type="checkbox" name="category" value="glasses"> Glasses</td>
-						<td><input onChange="submit()" type="checkbox" name="category" value="keys"> Keys</td>
-					</tr>
-				</table></br>
-			</form>
+			
+			<a class="all categoryButton" href="#table">All</a>
+			<a class = "categoryButton" href="#table">Cellphone</a>
+			<a class = "categoryButton" href="#table">Books</a>
+			<a class = "categoryButton" href="#table">Headphones</a>
+			<a class = "categoryButton" href="#table">Miscellaneous</a>
+			<a class = "categoryButton" href="#table">Wallet</a>
+			<a class = "categoryButton" href="#table">Keys</a>
+			<a class = "categoryButton" href="#table">Glasses</a>
+			
 		</div>
 		
 		<div class = "autoAlignTable">
@@ -112,7 +125,7 @@
 			-->
 
 			<!--Dynamic table-->
-			<table id = "body">
+			<table id = "table">
 				<thead class = "boldBorder">
 				<tr>
 					<th class = "lightBorderRight paddingTH itemId">No.</th>

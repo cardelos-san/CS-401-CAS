@@ -17,7 +17,7 @@
 	<script type = "text/javascript" src = "http://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
 	<!--Implementing DataTables plugin into page-->
 	<script type = "text/javascript">$(document).ready(function(){
-		$('#body').DataTable({
+		var table = $('#table').DataTable({
 			//"processing": true,
 			//"serverSide": true,
 			"ajax": "/api/getAllItems",
@@ -26,15 +26,31 @@
 			{"orderable": false, "targets": 1},
 			{"width": "20%", "targets":1}
 			],
-			 "columns": [
-            { data: "itemID" },
-            { data: "image" },
-            { data: "publicDescription" },
-            { data: "category" },
-            { data: "locationFound" },
-            { data: "dateFound" },
-            { data: "status" }
-        ]
+			"columns": [
+				{ data: "itemID" },
+				{ data: "image" },
+				{ data: "publicDescription" },
+				{ data: "category" },
+				{ data: "locationFound" },
+				{ data: "dateFound" },
+				{ data: "status" }
+			]
+		});
+		
+		//Categories filter function	
+		$('a.categoryButton').on( 'click', function () {
+			table
+			.columns(3)
+			.search(  $(this).text() )
+			.draw();
+		});
+		
+		$('a.all.categoryButton').on('click', function() {
+		  table
+		  .search('')
+		  .columns(3)
+		  .search('')
+		  .draw();
 		});
 	});
 	</script>
@@ -100,27 +116,20 @@
 				</form><br>-->
 
 				<!--Categories-->
-				<form action="" method="post">
-					<table id = "categories">
-						<tr>
-							<td><input onChange="submit()" type="checkbox" name="category" value="cellphones"> Cell Phones</td>
-							<td><input onChange="submit()" type="checkbox" name="category" value="books"> Books</td>
-							<td><input onChange="submit()" type="checkbox" name="category" value="headphones"> Headphones</td>
-							<td><input onChange="submit()" type="checkbox" name="category" value="misc"> Miscellaneous</td>
-						</tr>
-						<tr>
-							<td><input onChange="submit()" type="checkbox" name="category" value="wallets"> Wallets</td>
-							<td><input onChange="submit()" type="checkbox" name="category" value="glasses"> Glasses</td>
-							<td><input onChange="submit()" type="checkbox" name="category" value="keys"> Keys</td>
-						</tr>
-					</table></br>
-				</form>
+				<a class="all categoryButton" href="#table">All</a>
+				<a class = "categoryButton" href="#table">Cellphone</a>
+				<a class = "categoryButton" href="#table">Books</a>
+				<a class = "categoryButton" href="#table">Headphones</a>
+				<a class = "categoryButton" href="#table">Miscellaneous</a>
+				<a class = "categoryButton" href="#table">Wallet</a>
+				<a class = "categoryButton" href="#table">Keys</a>
+				<a class = "categoryButton" href="#table">Glasses</a>
 				
 			</div>
 			
 			<div class = "autoAlignTable">
 				<!--Dynamic table-->
-				<table id = "body">
+				<table id = "table">
 					<thead class = "boldBorder">
 					<tr>
 						<th class = "lightBorderRight paddingTH">No.</th>

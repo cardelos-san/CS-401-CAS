@@ -15,8 +15,8 @@
 }
 
 .autoAlignCategories{
-	width:670px;
-    margin: 70px auto 5px;
+	width:800px;
+    margin: 70px auto;
 }
 
 .autoAlign{
@@ -28,7 +28,7 @@
 
 .autoAlignTable{
     width:1000px;
-    margin: 0px auto 70px;
+    margin: 20px auto 70px;
 }
 
 p.welcome{
@@ -55,7 +55,7 @@ p.welcome{
 }
 
 
-table#body {
+table {
     border-top-style: solid;
 	border-left-style: solid;
     border-bottom-style: solid;
@@ -105,6 +105,23 @@ border-width: 1px;
 .paddingSearch{
 	padding-left: 150px;
 }
+
+.categoryButton{
+	background-color: maroon;
+    color: white;
+    padding: 12px 18px;
+    border: none;
+    cursor: pointer;
+    margin: 5px auto;
+    text-decoration: none;
+	text-align: center;
+}
+
+.categoryButton:hover {
+    opacity: 0.8;
+}
+
+
 
 .footer{
 	background-color: pink;
