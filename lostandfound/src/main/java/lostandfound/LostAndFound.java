@@ -1,4 +1,5 @@
 package lostandfound;
+
 import lostandfound.controller.*;
 import lostandfound.model.Item;
 import lostandfound.util.Configuration;
@@ -6,6 +7,9 @@ import lostandfound.util.JsonTransformer;
 
 import static spark.Spark.*;
 import java.io.IOException;
+
+import java.io.*;
+import java.nio.file.*;
 
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
@@ -29,6 +33,11 @@ public class LostAndFound {
 		
 		//Creating empty template objects with template settings//
 		ThymeleafTemplateEngine templateEngine = new ThymeleafTemplateEngine(templateResolver);
+		
+		// Create item images directory if it does not exist
+		Configuration config = Configuration.getInstance();
+		File itemsDir = new File( config.getProperty( "itemimages", "public/images/items" ) );
+		itemsDir.mkdirs();
 		
 		/*Grants static access to public folder contents through browser
 		e.g. type in http://localhost:4567/images/banner.png */

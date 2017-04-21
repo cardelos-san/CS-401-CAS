@@ -3,12 +3,16 @@ package lostandfound.controller;
 import lostandfound.model.*;
 import lostandfound.util.*;
 
+import java.io.*;
+import java.nio.file.*;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.servlet.*;
+import javax.servlet.http.*;
 
 import spark.ModelAndView;
 import spark.Request;
@@ -41,7 +45,8 @@ public class ItemController {
 		return new ModelAndView( templateVars, "addItemForm" );
 	}
 	
-	public static ModelAndView addItemHandler( Request req, Response res ){
+	public static ModelAndView addItemHandler( Request req, Response res ) throws Exception {
+		Configuration config = Configuration.getInstance();
 		Map<String, String> templateVars = new HashMap<String, String>();
 		String template = "addItemForm";
 		//GET USER INFO: user.getID();
@@ -50,7 +55,26 @@ public class ItemController {
 		Session session = new Session( req );
 		int userID = session.getUserID();
 		
-		//itemPic
+		// Image handling
+		req.attribute( "org.eclipse.jetty.multipartConfig", new MultipartConfigElement( "/temp" ) );
+		Part itemPart = req.raw().getPart( "itemPic" );
+		
+		if ( itemPart != null ) {
+			String originalName = SparkUploadFilename.getFileName( itemPart );
+			String extension = originalName.substring( originalName.lastIndexOf( '.' ) );
+			
+			String newName = "test" + extension;
+			File itemImageDir = new File( config.getProperty( "itemimages", "public/images/items" ) );
+			Path imageFilePath = Paths.get( itemImageDir.toString(), newName );
+			Path imageFile = Files.createFile( imageFilePath );
+			try ( InputStream input = itemPart.getInputStream() ) {
+				Files.copy( input, imageFile );
+			}
+			
+			System.out.println( "Copied uploaded file: " + imageFile.toAbsolutePath() );
+		}
+		
+		// Grab other item details from POST data
 		String publicDescription = req.queryParams("itemDescriptionPublic");
 		String privateDescription = req.queryParams("itemDescriptionPrivate");
 		String locationFound = req.queryParams("itemLocationFound");
@@ -71,6 +95,8 @@ public class ItemController {
 		// Compare dateFound to today's date: If date (found) is before today's Date
 		if(date.compareTo(today) < 0)
 		{ */
+		
+
 		
 		//Are all these values valid??
 		
