@@ -35,12 +35,18 @@
 			"columnDefs": [ 
 				{"searchable": false, "targets": [1,8]},
 				{"orderable": false, "targets": [1,8]},
-				{"width": "20%", "targets": 1},
-				{"width": "11.5%", "targets": 8}
+				{"width": "100px", "targets": 1},
+				{"width": "11.5%", "targets": [6,8]}
 			],
 			"columns": [
 				{ data: "itemID" },
-				{ data: "image" },
+				{ data: "image",
+					"fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+						$(nTd).html(
+							"<a target = '_blank' href ='/images/items/" + oData.image + " ' ><img class = 'itemImg' src ='/images/items/" + oData.image + " ' </a>"
+						);
+					} 
+				},
 				{ data: "publicDescription" },
 				{ data: "privateDescription" },
 				{ data: "category" },
