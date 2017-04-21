@@ -27,6 +27,7 @@ CREATE TABLE inventory (
     location_found varchar(255) DEFAULT NULL,
     category enum('cellphone', 'headphones', 'wallet', 'keys', 'books', 'glasses', 'miscellaneous') NOT NULL DEFAULT 'miscellaneous',
     status enum('lost', 'retrieved') NOT NULL DEFAULT 'lost',
+    image varchar(30) DEFAULT NULL,
     date_created timestamp NOT NULL default CURRENT_TIMESTAMP,
     date_found date NOT NULL,
     date_retrieved date NULL DEFAULT NULL,
