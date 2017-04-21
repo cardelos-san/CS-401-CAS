@@ -116,14 +116,14 @@ public class Item {
      * @param adminId the id of the administrator that is processing this transaction
 	 */
 	public void addItem(String publicDescription, String privateDescription, String locationFound, String category,
-			String status, java.sql.Date dateFound, java.sql.Date dateRetrieved, int adminId)
+			String status, String image, java.sql.Date dateFound, java.sql.Date dateRetrieved, int adminId)
 	{
 		Configuration config = Configuration.getInstance();
 		String dbuser = config.getProperty("dbuser");
 		String dbpasswd = config.getProperty("dbpasswd");
 		DBase db = new DBase(dbuser, dbpasswd);
 		
-		db.addItem(publicDescription, privateDescription, locationFound, category, status, dateFound, dateRetrieved, adminId);
+		db.addItem(publicDescription, privateDescription, locationFound, category, status, image, dateFound, dateRetrieved, adminId);
 	}
 	
 	/**

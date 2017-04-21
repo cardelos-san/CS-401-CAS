@@ -13,11 +13,16 @@ import java.util.Map;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 
 public class ItemController {
+	
+	final static Logger logger = LoggerFactory.getLogger( ItemController.class );
 	
 	public static List<Item> getAllItems( Request req, Response resp ) {
 		Configuration config = Configuration.getInstance();
@@ -45,8 +50,8 @@ public class ItemController {
 	}
 	
 	public static ModelAndView addItemHandler( Request req, Response res ) throws Exception {
-		Configuration config = Configuration.getInstance();
 		Map<String, String> templateVars = new HashMap<String, String>();
+		Configuration config = Configuration.getInstance();
 		String template = "addItemForm";
 		//GET USER INFO: user.getID();
 		//int userId;
@@ -55,23 +60,8 @@ public class ItemController {
 		int userID = session.getUserID();
 		
 		// Image handling
-		req.attribute( "org.eclipse.jetty.multipartConfig", new MultipartConfigElement( "/temp" ) );
-		Part itemPart = req.raw().getPart( "itemPic" );
-		
-		if ( itemPart != null ) {
-			String originalName = SparkUploadFilename.getFileName( itemPart );
-			String extension = originalName.substring( originalName.lastIndexOf( '.' ) );
-			
-			String newName = "test" + extension;
-			File itemImageDir = new File( config.getProperty( "itemimages", "public/images/items" ) );
-			Path imageFilePath = Paths.get( itemImageDir.toString(), newName );
-			Path imageFile = Files.createFile( imageFilePath );
-			try ( InputStream input = itemPart.getInputStream() ) {
-				Files.copy( input, imageFile );
-			}
-			
-			System.out.println( "Copied uploaded file: " + imageFile.toAbsolutePath() );
-		}
+		File itemImageDir = new File( config.getProperty( "itemimages", "public/images/items" ) );
+		String imageName = handleImageUpload( req, itemImageDir );
 		
 		// Grab other item details from POST data
 		String publicDescription = req.queryParams("itemDescriptionPublic");
@@ -100,9 +90,9 @@ public class ItemController {
 		//Are all these values valid??
 		
 			//if so... 
-				Item newItem = new Item ();
+				Item newItem = new Item();
 				newItem.addItem(publicDescription, privateDescription, locationFound,
-						category, status, date, null, userID);
+						category, status, imageName, date, null, userID);
 				
 			// Redirect user to admin index
 			res.redirect( "/" );
@@ -277,6 +267,34 @@ public class ItemController {
 		resp.redirect("/");
 		
 		return null;
+	}
+	
+	
+	/**
+	 * handleImageUpload - Handles copying an uploaded image to a file and returns
+	 * the filename or null if nothing was uploaded.
+	 * @param req Request object
+	 * @param itemImageDir Directory in which to create image
+	 * @return Name of the created file or null if no file was uploaded
+	 * @throws ServletException if unable to get part from servlet
+	 * @throws IOException if unable to create new file on filesystem
+	 */
+	private static String handleImageUpload( Request req, File itemImageDir ) throws IOException, ServletException {
+		String imageName = null;
+		req.attribute( "org.eclipse.jetty.multipartConfig", new MultipartConfigElement( "/temp" ) );
+		Part itemPart = req.raw().getPart( "itemPic" );
+		String uploadName = SparkUploadFilename.getFileName( itemPart );
+		if ( uploadName != null && !uploadName.isEmpty() ) {
+			String extension = uploadName.substring( uploadName.lastIndexOf( '.' ) );
+			imageName = System.nanoTime() + extension;
+			Path imageFile = Paths.get( itemImageDir.toString(), imageName );
+			try ( InputStream input = itemPart.getInputStream() ) {
+				Files.copy( input, imageFile );
+			}
+			logger.info( "Copied uploaded file: " + imageFile.toAbsolutePath() );
+		}
+		
+		return imageName;
 	}
 	
 }

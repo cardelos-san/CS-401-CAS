@@ -68,7 +68,7 @@ public class DBase {
      * @param adminId the id of the administrator that is processing this transaction
      */
     public void addItem(String publicDescription, String privateDescription, String locationFound, String category, 
-    		String status, java.sql.Date dateFound, java.sql.Date dateRetrieved, int adminId)
+    		String status, String image, java.sql.Date dateFound, java.sql.Date dateRetrieved, int adminId)
     {
     	PreparedStatement stmt = null;
     	String sql;
@@ -80,7 +80,7 @@ public class DBase {
     		// Create a statement for the update
     		sql = "INSERT INTO inventory (" + 
     				"description_public, description_private, location_found, category, status, " +
-    				"date_found, date_retrieved, added_by_user) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    				"image, date_found, date_retrieved, added_by_user) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     		stmt = conn.prepareStatement(sql);
     	
     		// Set the parameters in the statement
@@ -89,9 +89,10 @@ public class DBase {
     		stmt.setString(3, locationFound);
     		stmt.setString(4, category);
     		stmt.setString(5, status);
-    		stmt.setDate(6, dateFound);
-    		stmt.setDate(7, dateRetrieved);
-    		stmt.setInt(8, adminId);
+    		stmt.setString(6, image);
+    		stmt.setDate(7, dateFound);
+    		stmt.setDate(8, dateRetrieved);
+    		stmt.setInt(9, adminId);
     	
     		// Execute SQL Update
     		stmt.executeUpdate();
@@ -268,7 +269,7 @@ public class DBase {
     public Item getItem( int itemID ) throws Exception {
     	PreparedStatement stmt = null;
     	ResultSet rset = null; // result - gets returned
-    	String sql, publicDescription, privateDescription, locationFound, category, status;
+    	String sql, publicDescription, privateDescription, locationFound, category, status, image;
         int adminId;
 		java.sql.Date dateCreated, dateFound, dateRetrieved;
 		Item item = null;
@@ -297,8 +298,9 @@ public class DBase {
                 dateFound = rset.getDate( "date_found" );
                 dateRetrieved = rset.getDate( "date_retrieved" );
                 adminId = rset.getInt( "added_by_user" );
+                image = rset.getString( "image" );
                 
-                item = new Item( itemID, "", publicDescription, privateDescription, locationFound, category,
+                item = new Item( itemID, image, publicDescription, privateDescription, locationFound, category,
                 		dateCreated, dateFound, dateRetrieved, status );
                 item.setRetrieval( getItemRetrievalFromItemID( itemID ) );
             }
@@ -322,7 +324,7 @@ public class DBase {
     {
     	PreparedStatement stmt = null;
     	ResultSet rset = null;
-        String sql, publicDescription, privateDescription, locationFound, category, status;
+        String sql, publicDescription, privateDescription, locationFound, category, status, image;
         int itemId, adminId;
 		java.sql.Date dateCreated, dateFound, dateRetrieved;
 		Item item = null;
@@ -350,7 +352,8 @@ public class DBase {
                 dateFound = rset.getDate( "date_found" );
                 dateRetrieved = rset.getDate( "date_retrieved" );
                 adminId = rset.getInt( "added_by_user" );
-                item = new Item( itemId, "", publicDescription, privateDescription, locationFound,
+                image = rset.getString( "image" );
+                item = new Item( itemId, image, publicDescription, privateDescription, locationFound,
                 		category, dateCreated, dateFound, dateRetrieved, status );
                 item.setRetrieval( getItemRetrievalFromItemID( itemId ) );
                 items.add( item );
