@@ -1,15 +1,12 @@
 package lostandfound;
 
 import lostandfound.controller.*;
-import lostandfound.model.Item;
 import lostandfound.util.Configuration;
 import lostandfound.util.JsonTransformer;
 
 import static spark.Spark.*;
-import java.io.IOException;
 
 import java.io.*;
-import java.nio.file.*;
 
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
