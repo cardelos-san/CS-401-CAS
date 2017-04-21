@@ -823,6 +823,34 @@ public class DBase {
     		stmt.close();
     	}
     }
+    
+    /**
+     * setItemRetrievalDateToNow - Sets the retrieval date of an item to the current date in the DB
+     * @param itemID Item to set the retrieval date on
+     * @throws Exception if unable to update the retrieval date
+     */
+    public void setItemRetrievalDateToNow( Integer itemID ) throws Exception {
+    	PreparedStatement stmt = null;
+    	String sql;
+    	
+    	if ( !isopen ) {
+    		throw new Exception( "Database connection is not open" );
+    	}
+    	
+    	try {
+    		// Create a statement for the update
+    		sql = "UPDATE inventory SET date_retrieved = CURDATE() WHERE item_id = ? LIMIT 1";
+    		stmt = conn.prepareStatement( sql );
+    		
+    		// Set the parameters in the statement
+    		stmt.setInt( 1, itemID );
+    	
+    		// Execute statement
+    		stmt.executeUpdate();
+    	} finally {
+    		stmt.close();
+    	}
+    }
 
      
  } // End of class

@@ -206,6 +206,8 @@ public class Item {
 		DBase db = new DBase(dbuser, dbpasswd);
 		
 		db.setItemStatus( itemID, status );
+		db.setItemRetrievalDateToNow( itemID );
+		db.close();
 	}
 	
 	/**
