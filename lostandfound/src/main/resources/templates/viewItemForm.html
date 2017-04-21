@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+<html>
+	
+	<!--Page head: Contains CSS and Title-->
+	<head>
+	<link rel="icon" type="image/png" href="/images/favicon.png">
+	<!--Importing CSS-->
+	<link rel="stylesheet" type="text/css" media="screen"  
+      href="/css/LostNFoundStyle.css"/>
+	
+	<title>Retrieve an Item</title>	
+	</head>
+
+	<!--Page body: Contains the form for an admin to add a retrieved item record-->
+	<body id = "background">
+		<!--Page top-->
+		<img id = "banner" src = "/images/banner.png"  >
+		
+		<p class = "welcome"> Welcome, Administrator <span class = "moveRight"> <a href = "/"> Home</a></span> </p>
+		
+		<div class = "autoAlign">
+			<h1>View an Item</h1>
+			<br>
+
+			<!-- Item info -->
+			<h3>Item information</h3>
+			<p>Item ID: <span th:text="${itemID}"></span><br>
+			Item Description (Public): <span th:text="${publicDescription}"></span><br>
+			Item Description (Private): <span th:text="${privateDescription}"></span><br>
+			Item Status: <span th:text="${status}"></span><br>
+			Location Found: <span th:text="${locationFound}"></span><br>
+			Date Found: <span th:text="${dateFound}"></span><br>
+			</p>
+			
+			<!-- If no records found then show 'No Retrieval Records,
+			otherwise show retrieval records. -->
+			<h3>Retrieval Information</h3>
+			<p th:text="${retrievalID == null}? 'No Retrieval Record'"></p>
+			<p th:if = "${retrievalID}">
+			First Name: <span th:text="${retrievalFirstName}"></span><br>
+			Last Name:  <span th:text="${retrievalLastName}"></span><br>
+			Email: <span th:text="${retrievalEmail}"></span><br>
+			Phone Number: <span th:text="${retrievalPhone}"></span><br>
+			Identification: <span th:text="${retrievalIdentification}"></span><br>
+			</p>
+			
+		</div>
+
+	<!--Page footer-->
+	<footer class = "footer">
+		
+		<img  id = "ricLogo" src = "/images/riclogo_footer_156px.png">
+		
+		<p class = "contact"> <a href = ""> Contact Us </a> &ensp; <a href = ""> FAQs </a> </p>
+		
+	</footer>
+	</body>
+
+</html>

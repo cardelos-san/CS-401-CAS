@@ -66,6 +66,7 @@ public class LostAndFound {
 			post( "/deleteItem/:itemID", ItemController::deleteItemHandler, templateEngine);
 			get( "/editItem/:itemID", ItemController::editItem, templateEngine);
 			post( "/editItem/:itemID", ItemController::editItemHandler, templateEngine);
+			get( "/viewItem/:itemID", ItemController::viewItem, templateEngine);
 		});
 		
 		// Test bcrypt hash

@@ -269,6 +269,38 @@ public class ItemController {
 		return null;
 	}
 	
+	/*viewItem gets item data and retrieval data associated with item
+	*/
+	
+	public static ModelAndView viewItem( Request req, Response res ) {
+		Map<String, String> templateVars = new HashMap<String, String>();
+		int itemID = Integer.valueOf( req.params( ":itemID" ) );
+		String template = "viewItemForm";
+		Item item = null;
+		
+		Configuration config = Configuration.getInstance();
+		String dbuser = config.getProperty( "dbuser" );
+		String dbpasswd = config.getProperty( "dbpasswd" );
+		DBase db = new DBase( dbuser, dbpasswd );
+		
+		try {
+			item = db.getItem( itemID );
+		} catch ( Exception e ) {
+			//TODO Log exception
+		}
+		
+		// TODO: Check if item has been retrieved already
+		
+		if ( item != null ) {
+			templateVars = item.toMap();
+		} else {
+			templateVars.put( "error", "No such item ID." );
+			template = "error";
+		}
+		
+		return new ModelAndView( templateVars, template );
+	}
+	
 	
 	/**
 	 * handleImageUpload - Handles copying an uploaded image to a file and returns
