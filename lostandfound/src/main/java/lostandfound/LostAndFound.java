@@ -32,7 +32,7 @@ public class LostAndFound {
 		
 		/*Grants static access to public folder contents through browser
 		e.g. type in http://localhost:4567/images/banner.png */
-		staticFiles.location("/public");
+		staticFiles.externalLocation("public");
 		
 		/*Defining all routes*/
 		get( "/", IndexController::getIndex, templateEngine);
