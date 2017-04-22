@@ -5,84 +5,19 @@
 	<!--Page head: Contains CSS and Title-->
 	<head>
 	<link rel="icon" type="image/png" href="/images/favicon.png">
+	<!--Importing formValidationScript.js-->
+	<script type="text/javascript" src="/javascript/formValidationScript.js"></script>
 	<!--Importing CSS-->
 	<link rel="stylesheet" type="text/css" media="screen"  
       href="/css/LostNFoundStyle.css"/>
 	
 	<title>Add an Item</title>	
-	
-	<script>
-		function validateForm(form){
-			var alertMsg = "";
-
-			if (form.itemDescriptionPublic.value === ""){
-				alertMsg = alertMsg + "Warning: Public Description is required.\n";
-			}
-			
-			if (form.itemLocationFound.value === ""){
-				alertMsg = alertMsg + "Warning: Location Found is required.\n"
-			} 
-			/*
-			var radioLength = document.forms[form].category.length;
-			var isChecked = false;
-			for (int i = 0; i < radioLength; i++){
-				if (document.getElementsByName(form)[i].category.checked){
-					isChecked = true;
-				}
-			}
-			if (!isChecked){
-				alertMsg = alertMsg + "Category must not be empty.\n"
-			}
-			*/
-			var isChecked = false;
-			var nodeList = document.getElementsByTagName('input');
-			for (var i = 0; i < nodeList.length; i++){
-				var node = nodeList[i];
-
-				if (node.getAttribute('type') == 'radio'){
-					if (node.checked){
-						isChecked = true;
-					}
-				}
-			}
-			if (!isChecked){
-				alertMsg = alertMsg + "Warning: Category is required.\n"
-			}
-			
-			//A lost item cannot be entered if it was found after today's date
-			var todaysDate = new Date();
-			//A lost item cannot be entered if it was found before this date
-			var pastDate = new Date("2012-01-01")
-			//The date which user stated the item was found
-			var dateFound = form.itemDateFound.value;
-			//If the item was 'found' after today's date
-			if(Date.parse(todaysDate) < Date.parse(dateFound)){
-				alertMsg = alertMsg + "Warning: Date Found is invalid."
-			}
-			//If the item was 'found' before '2015-01-01'
-			else if(Date.parse(pastDate) > Date.parse(dateFound)){
-				alertMsg = alertMsg + "Warning: Date Found is invalid (before 2012)."
-			}
-			//If the item's date found has not been entered
-			else if(!dateFound){
-				alertMsg = alertMsg + "Warning: Date Found is required."
-			}
-			
-			//If there were no errors, return
-			if (alertMsg === ""){
-				return true;
-			}
-
-			alert(alertMsg);
-			return false;
-		}
-	</script>
 	</head>
 
 	<!--Page body: Contains the form for an admin to add a new item-->
 	<body id = "backgrund">
 		<!--Page top-->
-		<img id = "banner" src = "/images/banner.png"  >
+		<img id = "banner" src = "/images/banner2.png"  >
 		
 		<p class = "welcome"> Welcome, Administrator <span class = "moveRight"> <a href = "/"> Home</a></span> </p>
 		
@@ -117,14 +52,20 @@
 			</form>
 		</div>
 
-	<!--Page footer-->
-	<footer class = "footer">
+		<!--Page footer-->
+		<footer class = "footer">
+			<div class = "container">
+				<span class="contact"><br>
+				<img  id = "ricLogo" src = "/images/riclogo.png" alt="RIC Logo" align="left">
+				600 Mount Pleasant Avenue<br>
+				Providence, RI 02908<br>
+				<a href="tel:401-456-8148">(401) 456-8148</a><br>
+				<a href="mailto:lostandfound@ric.edu">lostandfound@ric.edu</a>
+				</span>
 		
-		<img  id = "ricLogo" src = "/images/riclogo_footer_156px.png">
-		
-		<p class = "contact"> <a href = ""> Contact Us </a> &ensp; <a href = ""> FAQs </a> </p>
-		
-	</footer>
+				<span class = "faq"> <a href = "/faq"> FAQ </a> </span>
+			</div>
+		</footer>
 	</body>
 
 </html>

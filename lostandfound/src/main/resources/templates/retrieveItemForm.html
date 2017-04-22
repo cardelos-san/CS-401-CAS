@@ -5,6 +5,8 @@
 	<!--Page head: Contains CSS and Title-->
 	<head>
 	<link rel="icon" type="image/png" href="/images/favicon.png">
+	<!--Importing formValidationScript.js-->
+	<script type="text/javascript" src="/javascript/retrievalFormValidationScript.js"></script>
 	<!--Importing CSS-->
 	<link rel="stylesheet" type="text/css" media="screen"  
       href="/css/LostNFoundStyle.css"/>
@@ -15,7 +17,7 @@
 	<!--Page body: Contains the form for an admin to add a retreived item record-->
 	<body id = "background">
 		<!--Page top-->
-		<img id = "banner" src = "/images/banner.png"  >
+		<img id = "banner" src = "/images/banner2.png"  >
 		
 		<p class = "welcome"> Welcome, Administrator <span class = "moveRight"> <a href = "/"> Home</a></span> </p>
 		
@@ -31,29 +33,35 @@
 			
 
 			<!--Form-->
-			<form th:action="@{~/item/retrieveItem/} + ${itemID}" method="post">
-				<label class="formLabels">Retriever First Name:</label> <input id="retrievalFirstName" class="inputValues" type="text" name="retrievalFirstName" maxlength="50" required></input>
+			<form th:action="@{~/item/retrieveItem/} + ${itemID}" onSubmit="return validateRetrievalForm(this)" method="post">
+				<label class="formLabels">Retriever First Name:</label> <input id="retrievalFirstName" class="inputValues" type="text" name="retrievalFirstName" maxlength="50"></input>
 				<br>
-				<label class="formLabels">Retriever Last Name:</label> <input id="retrievalLastName" class="inputValues" type="text" name="retrievalLastName" maxlength="50" required></input>
+				<label class="formLabels">Retriever Last Name:</label> <input id="retrievalLastName" class="inputValues" type="text" name="retrievalLastName" maxlength="50"></input>
 				<br>
-				<label class="formLabels">Retriever Email:</label> <input id="retrievalEmail" class="inputValues" type="text" name="retrievalEmail" maxlength="50" required></input>
+				<label class="formLabels">Retriever Email:</label> <input id="retrievalEmail" class="inputValues" type="text" name="retrievalEmail" maxlength="50"></input>
 				<br>
-				<label class="formLabels">Retriever Phone Number:</label> <input id="retrievalPhone" class="inputValues" type="text" name="retrievalPhone" maxlength="10" required></input>
+				<label class="formLabels">Retriever Phone Number:</label> <input id="retrievalPhone" class="inputValues" type="text" name="retrievalPhone" maxlength="10"></input>
 				<br>
-				<label class="formLabels">Retriever Identification:</label> <input id="retrievalIdent" class="inputValues" type="text" name="retrievalIdent" maxlength="30" required></input>
+				<label class="formLabels">Retriever Identification:</label> <input id="retrievalIdent" class="inputValues" type="text" name="retrievalIdent" maxlength="30"></input>
 				<br>
 				<input id="submit" class="inputValues" type="submit" name="submit" value="Submit">
 			</form>
 		</div>
 
-	<!--Page footer-->
-	<footer class = "footer">
+		<!--Page footer-->
+		<footer class = "footer">
+			<div class = "container">
+				<span class="contact"><br>
+				<img  id = "ricLogo" src = "/images/riclogo.png" alt="RIC Logo" align="left">
+				600 Mount Pleasant Avenue<br>
+				Providence, RI 02908<br>
+				<a href="tel:401-456-8148">(401) 456-8148</a><br>
+				<a href="mailto:lostandfound@ric.edu">lostandfound@ric.edu</a>
+				</span>
 		
-		<img  id = "ricLogo" src = "/images/riclogo_footer_156px.png">
-		
-		<p class = "contact"> <a href = ""> Contact Us </a> &ensp; <a href = ""> FAQs </a> </p>
-		
-	</footer>
+				<span class = "faq"> <a href = "/faq"> FAQ </a> </span>
+			</div>
+		</footer>
 	</body>
 
 </html>
