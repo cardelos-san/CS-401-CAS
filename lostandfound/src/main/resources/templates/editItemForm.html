@@ -29,7 +29,7 @@
 			Item Description (Private): <span th:text="${privateDescription}"></span><br>
 			</p>
 
-			<form th:action="@{~/item/editItem/} + ${itemID}" method="post">
+			<form th:action="@{~/item/editItem/} + ${itemID}" method="post" enctype="multipart/form-data">
 				<input type="hidden" name="status" value="lost">
 				<label class="formLabels">Image</label> <input id="itemPic" class="inputValues" type="file" name="itemPic" accept="image/*">
 				<br>

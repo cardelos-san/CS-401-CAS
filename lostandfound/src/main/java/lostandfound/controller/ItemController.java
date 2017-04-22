@@ -24,6 +24,7 @@ public class ItemController {
 	
 	final static Logger logger = LoggerFactory.getLogger( ItemController.class );
 	
+	
 	public static List<Item> getAllItems( Request req, Response resp ) {
 		Configuration config = Configuration.getInstance();
 		DBase db = new DBase( config.getProperty( "dbuser" ), 
@@ -32,6 +33,7 @@ public class ItemController {
 		
 		return items;
 	}
+	
 	
 	/*
 	public static List<Item> getRetrievedItems( Request req, Response resp) {
@@ -44,10 +46,12 @@ public class ItemController {
 	}
 	*/
 	
+	
 	public static ModelAndView addAnItem( Request req, Response res ) {
 		Map<String, String> templateVars = new HashMap<String, String>();
 		return new ModelAndView( templateVars, "addItemForm" );
 	}
+	
 	
 	public static ModelAndView addItemHandler( Request req, Response res ) throws Exception {
 		Map<String, String> templateVars = new HashMap<String, String>();
@@ -61,7 +65,7 @@ public class ItemController {
 		
 		// Image handling
 		File itemImageDir = new File( config.getProperty( "itemimages", "public/images/items" ) );
-		String imageName = handleImageUpload( req, itemImageDir );
+		String imageName = ImageFile.copyImageUploadToFile( req, itemImageDir );
 		
 		// Grab other item details from POST data
 		String publicDescription = req.queryParams("itemDescriptionPublic");
@@ -122,7 +126,7 @@ public class ItemController {
 		try {
 			item = db.getItem( itemID );
 		} catch ( Exception e ) {
-			//TODO Log exception
+			logger.error( "Unable to fetch item with ID '" + itemID + "': " +  e.getMessage() );
 		}
 		
 		// TODO: Check if item has been retrieved already
@@ -153,7 +157,7 @@ public class ItemController {
 			ItemRetrieval.addItemRetrieval( itemID, firstName, lastName, email, phone, ident );
 			Item.setItemStatus( itemID, "retrieved" );
 		} catch ( Exception e ) {
-			// TODO: Log exception
+			logger.error( "Unable to process retrieval for item with ID '" + itemID + "': " +  e.getMessage() );
 		}
 		
 		res.redirect( "/" );
@@ -175,7 +179,7 @@ public class ItemController {
 		try {
 			item = db.getItem( itemID );
 		} catch ( Exception e ) {
-			//TODO Log exception
+			logger.error( "Unable to fetch item with ID '" + itemID + "': " +  e.getMessage() );
 		}
 		
 		// TODO: Check if item has been retrieved already
@@ -190,16 +194,27 @@ public class ItemController {
 		return new ModelAndView( templateVars, template );
 	}
 	
+	
 	public static ModelAndView deleteItemHandler( Request req, Response res ) {
 		Map<String, String> templateVars = new HashMap<String, String>();
 		int itemID = Integer.valueOf( req.params( ":itemID" ) );
+		Item item = null;
 		String template = "deleteItemForm";
 		
+		Configuration config = Configuration.getInstance();
+		String dbuser = config.getProperty( "dbuser" );
+		String dbpasswd = config.getProperty( "dbpasswd" );
+		DBase db = new DBase( dbuser, dbpasswd );
+		
+		File itemImageDir = new File( config.getProperty( "itemimages", "public/images/items" ) );
+		
 		try {
+			item = db.getItem( itemID );
 			Item.deleteCategoryIdMap ( itemID );
 			Item.deleteRetrievalIdMap (itemID);
 			Item.deleteImageIdMap ( itemID);
 			Item.deleteItem( itemID );
+			ImageFile.deleteImageFile( item.image, itemImageDir );
 		} catch ( Exception e ) {
 			// TODO: Log exception
 		}
@@ -225,10 +240,8 @@ public class ItemController {
 		try {
 			item = db.getItem( itemID );
 		} catch ( Exception e ) {
-			//TODO Log exception
+			logger.error( "Unable to fetch item with ID '" + itemID + "': " +  e.getMessage() );
 		}
-		
-		// TODO: Check if item has been retrieved already
 		
 		if ( item != null ) {
 			templateVars = item.toMap();
@@ -244,13 +257,27 @@ public class ItemController {
 	 * @WARNING: Need to get adminID from user session. Currently using hard-coded adminID.
 	 */
 	
-	public static ModelAndView editItemHandler(Request req, Response resp){
-		
+	public static ModelAndView editItemHandler(Request req, Response resp) throws Exception {
+		Configuration config = Configuration.getInstance();
 		Session session = new Session( req );
 		int userID = session.getUserID();
+		int itemID = Integer.valueOf( req.params( ":itemID" ) );
+		
+		// Image handling
+		File itemImageDir = new File( config.getProperty( "itemimages", "public/images/items" ) );
+		String newImageName = ImageFile.copyImageUploadToFile( req, itemImageDir );
+		
+		// Get previous item data
+		String dbuser = config.getProperty( "dbuser" );
+		String dbpasswd = config.getProperty( "dbpasswd" );
+		DBase db = new DBase( dbuser, dbpasswd );
+		Item previousItem = db.getItem( itemID );
+		
+		// Determine if we have a new image or should keep the old one
+		boolean newImageUploaded = ( newImageName != null );
+		String image = ( newImageUploaded ) ? newImageName : previousItem.image;
 		
 		//itemPic
-		int itemID = Integer.valueOf( req.params( ":itemID" ) );
 		String publicDescription = req.queryParams("itemDescriptionPublic");
 		String privateDescription = req.queryParams("itemDescriptionPrivate");
 		String locationFound = req.queryParams("itemLocationFound");
@@ -259,10 +286,11 @@ public class ItemController {
 		String status = req.queryParams("status");
 		Date date = Date.valueOf(dateFoundString);
 		
-		
 		Item editedItem = new Item ();
 		editedItem.editItem(publicDescription, privateDescription, locationFound,
-		category, status, date, userID, itemID);
+		category, status, date, image, userID, itemID);
+		
+		if ( newImageUploaded ) ImageFile.deleteImageFile( previousItem.image, itemImageDir );
 		
 		resp.redirect("/");
 		
@@ -299,34 +327,6 @@ public class ItemController {
 		}
 		
 		return new ModelAndView( templateVars, template );
-	}
-	
-	
-	/**
-	 * handleImageUpload - Handles copying an uploaded image to a file and returns
-	 * the filename or null if nothing was uploaded.
-	 * @param req Request object
-	 * @param itemImageDir Directory in which to create image
-	 * @return Name of the created file or null if no file was uploaded
-	 * @throws ServletException if unable to get part from servlet
-	 * @throws IOException if unable to create new file on filesystem
-	 */
-	private static String handleImageUpload( Request req, File itemImageDir ) throws IOException, ServletException {
-		String imageName = null;
-		req.attribute( "org.eclipse.jetty.multipartConfig", new MultipartConfigElement( "/temp" ) );
-		Part itemPart = req.raw().getPart( "itemPic" );
-		String uploadName = SparkUploadFilename.getFileName( itemPart );
-		if ( uploadName != null && !uploadName.isEmpty() ) {
-			String extension = uploadName.substring( uploadName.lastIndexOf( '.' ) );
-			imageName = System.nanoTime() + extension;
-			Path imageFile = Paths.get( itemImageDir.toString(), imageName );
-			try ( InputStream input = itemPart.getInputStream() ) {
-				Files.copy( input, imageFile );
-			}
-			logger.info( "Copied uploaded file: " + imageFile.toAbsolutePath() );
-		}
-		
-		return imageName;
 	}
 	
 }

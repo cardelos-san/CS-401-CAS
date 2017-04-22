@@ -181,14 +181,14 @@ public class Item {
 	 */
 	
 	public void editItem(String publicDescription, String privateDescription, String locationFound, String category,
-			String status, java.sql.Date dateFound, int adminId, int itemID)
+			String status, java.sql.Date dateFound, String image, int adminId, int itemID)
 	{
 		Configuration config = Configuration.getInstance();
 		String dbuser = config.getProperty("dbuser");
 		String dbpasswd = config.getProperty("dbpasswd");
 		DBase db = new DBase(dbuser, dbpasswd);
 		
-		db.editItem(publicDescription, privateDescription, locationFound, category, status, dateFound, adminId,itemID);
+		db.editItem(publicDescription, privateDescription, locationFound, category, status, dateFound, image, adminId,itemID);
 	}
 	
 	/**

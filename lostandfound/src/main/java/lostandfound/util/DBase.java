@@ -221,7 +221,7 @@ public class DBase {
      * 
      */
     public void editItem(String publicDescription, String privateDescription, String locationFound, String category, 
-    		String status, java.sql.Date dateFound, int adminId, int itemID) {
+    		String status, java.sql.Date dateFound, String image, int adminId, int itemID) {
     	
     	PreparedStatement stmt = null;
         String sql;
@@ -236,6 +236,7 @@ public class DBase {
             	  "category = ?,"+
             	  "status = ?,"+
     			  "date_found = ?,"+
+            	  "image = ?,"+
     			  "added_by_user = ? "+ 
     			  "WHERE item_id = ?";
             stmt = conn.prepareStatement(sql);
@@ -247,8 +248,9 @@ public class DBase {
     		stmt.setString(4, category);
     		stmt.setString(5, status);
     		stmt.setDate(6, dateFound);
-    		stmt.setInt(7, adminId);
-    		stmt.setInt(8, itemID);
+    		stmt.setString(7, image);
+    		stmt.setInt(8, adminId);
+    		stmt.setInt(9, itemID);
     	
     		// Execute SQL Update
     		
