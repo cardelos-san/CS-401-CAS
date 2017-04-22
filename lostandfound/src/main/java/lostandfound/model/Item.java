@@ -210,6 +210,10 @@ public class Item {
 		db.close();
 	}
 	
+	public String getItemStatus () {
+		return status;
+	}
+	
 	/**
      * showRetrievedItem - Search and return all items marked as retrieved in the database
      * @return returns ... (!!! EDIT)

@@ -49,7 +49,24 @@ public class ItemController {
 	
 	public static ModelAndView addAnItem( Request req, Response res ) {
 		Map<String, String> templateVars = new HashMap<String, String>();
-		return new ModelAndView( templateVars, "addItemForm" );
+		String template = "addItemForm";
+		int userID = 0;
+		
+		// Authorization handling
+		Session session = new Session( req );
+		try {
+			userID = session.getUserID();
+		} catch ( Exception e ) {
+			logger.error( "Unauthorized access: " +  e.getMessage() );
+		}
+		
+		// User is not logged-in as Administrator
+		if (userID == 0){
+			templateVars.put( "error", "Unauthorized access" );
+			template = "error";
+		}
+		
+		return new ModelAndView( templateVars, template );
 	}
 	
 	
@@ -57,8 +74,6 @@ public class ItemController {
 		Map<String, String> templateVars = new HashMap<String, String>();
 		Configuration config = Configuration.getInstance();
 		String template = "addItemForm";
-		//GET USER INFO: user.getID();
-		//int userId;
 		
 		Session session = new Session( req );
 		int userID = session.getUserID();
@@ -76,37 +91,13 @@ public class ItemController {
 		String status = req.queryParams("status");
 		
 		Date date = Date.valueOf(dateFoundString);
-		/*
-		// DATE VALIDATION IS PROBABLY BETTER IN HTML FORM!
-		// Get today's date
-		LocalDate todaysDate = LocalDate.now();
-		// Convert it to a String
-		String todaysDateString = todaysDate.toString();
-		// Convert it to Date object
-		Date today = Date.valueOf(todaysDateString);
 		
-		// Compare dateFound to today's date: If date (found) is before today's Date
-		if(date.compareTo(today) < 0)
-		{ */
-		
-
-		
-		//Are all these values valid??
-		
-			//if so... 
-				Item newItem = new Item();
-				newItem.addItem(publicDescription, privateDescription, locationFound,
+		Item newItem = new Item();
+		newItem.addItem(publicDescription, privateDescription, locationFound,
 						category, status, imageName, date, null, userID);
 				
-			// Redirect user to admin index
-			res.redirect( "/" );
-		/*}
-		else
-		{
-			// Let user know dateFound is invalid
-			templateVars.put( "error", "Invalid 'Date Found' entry." );
-			template = "error";
-		} */
+		// Redirect user to admin index
+		res.redirect( "/" );
 		
 		return new ModelAndView( templateVars, template );
 	}
@@ -115,27 +106,53 @@ public class ItemController {
 	public static ModelAndView retrieveItem( Request req, Response res ) {
 		Map<String, String> templateVars = new HashMap<String, String>();
 		int itemID = Integer.valueOf( req.params( ":itemID" ) );
+		//String status = String.valueOf( req.params( ":status" ) );
 		String template = "retrieveItemForm";
 		Item item = null;
+		int userID = 0;
 		
-		Configuration config = Configuration.getInstance();
-		String dbuser = config.getProperty( "dbuser" );
-		String dbpasswd = config.getProperty( "dbpasswd" );
-		DBase db = new DBase( dbuser, dbpasswd );
-		
+		// Authorization handling
+		Session session = new Session( req );		
 		try {
-			item = db.getItem( itemID );
+			userID = session.getUserID();
 		} catch ( Exception e ) {
-			logger.error( "Unable to fetch item with ID '" + itemID + "': " +  e.getMessage() );
+			logger.error( "Unauthorized access: " +  e.getMessage() );
 		}
 		
-		// TODO: Check if item has been retrieved already
-		
-		if ( item != null ) {
-			templateVars = item.toMap();
-		} else {
-			templateVars.put( "error", "No such item ID." );
+		// User is not logged-in as Administrator
+		if (userID == 0){
+			templateVars.put( "error", "Unauthorized access" );
 			template = "error";
+		}
+		
+		// User is logged-in as Administrator
+		else{
+			Configuration config = Configuration.getInstance();
+			String dbuser = config.getProperty( "dbuser" );
+			String dbpasswd = config.getProperty( "dbpasswd" );
+			DBase db = new DBase( dbuser, dbpasswd );
+			
+			try {
+				item = db.getItem( itemID );
+			} catch ( Exception e ) {
+				logger.error( "Unable to fetch item with ID '" + itemID + "': " +  e.getMessage() );
+			}
+			
+			// Check if item has already been retrieved
+			String status = item.getItemStatus();
+			if (status.equals("retrieved")) {
+				templateVars.put( "error", "Item has already been retrieved.");
+				template = "error";
+			}
+			
+			else if ( item != null ) {
+				templateVars = item.toMap();
+			} 
+			
+			else {
+				templateVars.put( "error", "No such item ID." );
+				template = "error";
+			}
 		}
 		
 		return new ModelAndView( templateVars, template );
@@ -170,25 +187,43 @@ public class ItemController {
 		int itemID = Integer.valueOf( req.params( ":itemID" ) );
 		String template = "deleteItemForm";
 		Item item = null;
+		int userID = 0;
 		
-		Configuration config = Configuration.getInstance();
-		String dbuser = config.getProperty( "dbuser" );
-		String dbpasswd = config.getProperty( "dbpasswd" );
-		DBase db = new DBase( dbuser, dbpasswd );
-		
+		// Authorization handling
+		Session session = new Session( req );		
 		try {
-			item = db.getItem( itemID );
+			userID = session.getUserID();
 		} catch ( Exception e ) {
-			logger.error( "Unable to fetch item with ID '" + itemID + "': " +  e.getMessage() );
+			logger.error( "Unauthorized access: " +  e.getMessage() );
 		}
 		
-		// TODO: Check if item has been retrieved already
-		
-		if ( item != null ) {
-			templateVars = item.toMap();
-		} else {
-			templateVars.put( "error", "No such item ID." );
+		// User is not logged-in as Administrator
+		if (userID == 0){
+			templateVars.put( "error", "Unauthorized access" );
 			template = "error";
+		}
+		
+		// User is logged-in as Administrator
+		else{
+			Configuration config = Configuration.getInstance();
+			String dbuser = config.getProperty( "dbuser" );
+			String dbpasswd = config.getProperty( "dbpasswd" );
+			DBase db = new DBase( dbuser, dbpasswd );
+			
+			try {
+				item = db.getItem( itemID );
+			} catch ( Exception e ) {
+				logger.error( "Unable to fetch item with ID '" + itemID + "': " +  e.getMessage() );
+			}
+			
+			// TODO: Check if item has been retrieved already
+			
+			if ( item != null ) {
+				templateVars = item.toMap();
+			} else {
+				templateVars.put( "error", "No such item ID." );
+				template = "error";
+			}
 		}
 		
 		return new ModelAndView( templateVars, template );
@@ -231,23 +266,41 @@ public class ItemController {
 		int itemID = Integer.valueOf( req.params( ":itemID" ) );
 		String template = "editItemForm";
 		Item item = null;
+		int userID = 0;
 		
-		Configuration config = Configuration.getInstance();
-		String dbuser = config.getProperty( "dbuser" );
-		String dbpasswd = config.getProperty( "dbpasswd" );
-		DBase db = new DBase( dbuser, dbpasswd );
-		
+		// Authorization handling
+		Session session = new Session( req );		
 		try {
-			item = db.getItem( itemID );
+			userID = session.getUserID();
 		} catch ( Exception e ) {
-			logger.error( "Unable to fetch item with ID '" + itemID + "': " +  e.getMessage() );
+			logger.error( "Unauthorized access: " +  e.getMessage() );
 		}
 		
-		if ( item != null ) {
-			templateVars = item.toMap();
-		} else {
-			templateVars.put( "error", "No such item ID." );
+		// User is not logged-in as Administrator
+		if (userID == 0){
+			templateVars.put( "error", "Unauthorized access" );
 			template = "error";
+		}
+		
+		// User is logged-in as Administrator
+		else{
+			Configuration config = Configuration.getInstance();
+			String dbuser = config.getProperty( "dbuser" );
+			String dbpasswd = config.getProperty( "dbpasswd" );
+			DBase db = new DBase( dbuser, dbpasswd );
+			
+			try {
+				item = db.getItem( itemID );
+			} catch ( Exception e ) {
+				logger.error( "Unable to fetch item with ID '" + itemID + "': " +  e.getMessage() );
+			}
+			
+			if ( item != null ) {
+				templateVars = item.toMap();
+			} else {
+				templateVars.put( "error", "No such item ID." );
+				template = "error";
+			}
 		}
 		
 		return new ModelAndView( templateVars, template );
@@ -305,25 +358,43 @@ public class ItemController {
 		int itemID = Integer.valueOf( req.params( ":itemID" ) );
 		String template = "viewItemForm";
 		Item item = null;
+		int userID = 0;
 		
-		Configuration config = Configuration.getInstance();
-		String dbuser = config.getProperty( "dbuser" );
-		String dbpasswd = config.getProperty( "dbpasswd" );
-		DBase db = new DBase( dbuser, dbpasswd );
-		
+		// Authorization handling
+		Session session = new Session( req );		
 		try {
-			item = db.getItem( itemID );
+			userID = session.getUserID();
 		} catch ( Exception e ) {
-			//TODO Log exception
+			logger.error( "Unauthorized access: " +  e.getMessage() );
 		}
 		
-		// TODO: Check if item has been retrieved already
-		
-		if ( item != null ) {
-			templateVars = item.toMap();
-		} else {
-			templateVars.put( "error", "No such item ID." );
+		// User is not logged-in as Administrator
+		if (userID == 0){
+			templateVars.put( "error", "Unauthorized access" );
 			template = "error";
+		}
+		
+		// User is logged-in as Administrator
+		else{
+			Configuration config = Configuration.getInstance();
+			String dbuser = config.getProperty( "dbuser" );
+			String dbpasswd = config.getProperty( "dbpasswd" );
+			DBase db = new DBase( dbuser, dbpasswd );
+			
+			try {
+				item = db.getItem( itemID );
+			} catch ( Exception e ) {
+				//TODO Log exception
+			}
+			
+			// TODO: Check if item has been retrieved already
+			
+			if ( item != null ) {
+				templateVars = item.toMap();
+			} else {
+				templateVars.put( "error", "No such item ID." );
+				template = "error";
+			}
 		}
 		
 		return new ModelAndView( templateVars, template );
