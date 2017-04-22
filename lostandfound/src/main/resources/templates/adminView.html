@@ -59,15 +59,25 @@
 				{ data: "status" },
 				{ data: "itemID",
 					"fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-						$(nTd).html(
-							"<a href='/item/viewItem/" + oData.itemID + "'><img src='/images/ic_pageview_black_18px.svg' title='View Item'></a>" +
-							" " +
-							"<a href='/item/retrieveItem/" + oData.itemID + "'><img src='/images/ic_keyboard_return_black_18px.svg' title='Retrieve Item'></a>" +
-							" " +
-							"<a href='/item/editItem/" + oData.itemID + "'><img src='/images/ic_edit_black_18px.svg' title='Edit'></a>" +
-							" " +
-							"<a href='/item/deleteItem/" + oData.itemID + "'><img src='/images/ic_delete_black_18px.svg' title='Delete'></a>"
-						);
+						if ( !oData.retrieved ) {
+							$(nTd).html(
+								"<a href='/item/viewItem/" + oData.itemID + "'><img src='/images/ic_pageview_black_18px.svg' title='View Item'></a>" +
+								" " +
+								"<a href='/item/retrieveItem/" + oData.itemID + "'><img src='/images/ic_keyboard_return_black_18px.svg' title='Retrieve Item'></a>" +
+								" " +
+								"<a href='/item/editItem/" + oData.itemID + "'><img src='/images/ic_edit_black_18px.svg' title='Edit'></a>" +
+								" " +
+								"<a href='/item/deleteItem/" + oData.itemID + "'><img src='/images/ic_delete_black_18px.svg' title='Delete'></a>"
+							);
+						} else {
+							$(nTd).html(
+								"<a href='/item/viewItem/" + oData.itemID + "'><img src='/images/ic_pageview_black_18px.svg' title='View Item'></a>" +
+								" " +
+								"<a href='/item/editItem/" + oData.itemID + "'><img src='/images/ic_edit_black_18px.svg' title='Edit'></a>" +
+								" " +
+								"<a href='/item/deleteItem/" + oData.itemID + "'><img src='/images/ic_delete_black_18px.svg' title='Delete'></a>"
+							);
+						}
 					}
 				}
 			]
