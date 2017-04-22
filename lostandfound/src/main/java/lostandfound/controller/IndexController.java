@@ -19,4 +19,9 @@ public class IndexController {
 		return new ModelAndView( templateVars, template );
 	}	
 	
+	public static ModelAndView faq( Request request, Response response ){
+		Map<String, String> templateVars = new HashMap<String, String>();
+		
+		return new ModelAndView( templateVars, "faq");
+	}
 }

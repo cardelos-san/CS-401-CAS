@@ -1,118 +1,47 @@
 <!DOCTYPE html>
 
 <html>
-	
+
 	<!--Page head. Contains scripts and CSS-->
 	<head>
 	<link rel="icon" type="image/png" href="/images/favicon.png">
 	<!--Importing CSS for DataTables plugin, in addition to internal CSS-->
-	<link rel = "stylesheet" type = "text/css" href ="http://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css"/>
 	<link rel="stylesheet" type="text/css" media="screen"  
       href="/css/LostNFoundStyle.css"/>
-	<!--Importing loginScript.js-->
-	<script type="text/javascript" src="/javascript/loginScript.js"></script>
-	<!--Importing jQuery library-->
-	<script type = "text/javascript" src = "http://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-	<!--Importing DataTables plugin-->
-	<script type = "text/javascript" src = "http://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
 
-	<!--Select Library-->
-	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.13/b-1.2.4/fh-3.1.2/sc-1.4.2/se-1.2.0/datatables.min.css"/>
-	<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.13/b-1.2.4/fh-3.1.2/sc-1.4.2/se-1.2.0/datatables.min.js"></script>
-	
-	<!--Buttons Library-->
-	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.2.4/css/buttons.dataTables.min.css"/>
-	<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.2.4/js/dataTables.buttons.min.js"></script>
-	
-	<!--Implementing DataTables plugin into page-->
-	<script type = "text/javascript">$(document).ready(function(){
-		var table = $('#table').DataTable({
-			//"processing": true,
-			//"serverSide": true,
-			//"scrollY": 200,
-			select: true,
-			"ajax": "/api/getAllItems",
-			"columnDefs": [ 
-				{"searchable": false, "targets": [1,8]},
-				{"orderable": false, "targets": [1,8]},
-				{"width": "100px", "targets": 1},
-				{"width": "11.5%", "targets": [6,8]}
-			],
-			"columns": [
-				{ data: "itemID" },
-				{ data: "image",
-					"fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-						if ( oData.image != null ) {
-							$(nTd).html(
-								"<a target = '_blank' href ='/images/items/" + oData.image + " ' ><img class = 'itemImg' src ='/images/items/" + oData.image + " ' </a>"
-							);
-						} else {
-							$(nTd).html("")
-						} 
-					} 
-				},
-				{ data: "publicDescription" },
-				{ data: "privateDescription" },
-				{ data: "category" },
-				{ data: "locationFound" },
-				{ data: "dateFound" },
-				{ data: "status" },
-				{ data: "itemID",
-					"fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-						$(nTd).html(
-							"<a href='/item/viewItem/" + oData.itemID + "'><img src='/images/ic_pageview_black_18px.svg' title='View Item'></a>" +
-							" " +
-							"<a href='/item/retrieveItem/" + oData.itemID + "'><img src='/images/ic_keyboard_return_black_18px.svg' title='Retrieve Item'></a>" +
-							" " +
-							"<a href='/item/editItem/" + oData.itemID + "'><img src='/images/ic_edit_black_18px.svg' title='Edit'></a>" +
-							" " +
-							"<a href='/item/deleteItem/" + oData.itemID + "'><img src='/images/ic_delete_black_18px.svg' title='Delete'></a>"
-						);
-					}
-				}
-			]
-		});
-		
-		//Categories filter function	
-		$('a.categoryButton').on( 'click', function () {
-			table
-			.columns( 4 )
-			.search(  $(this).text() )
-			.draw();
-		});
-		
-		$('a.all.categoryButton').on('click', function() {
-		  table
-		  .search('')
-		  .columns(4)
-		  .search('')
-		  .draw();
-		});
-  
-	});
-	
-	</script>
-
-		<title>
-			Rhode Island College Lost and Found
-		</title>
-		
+		<title>FAQ</title>
 	</head>
+
 	<!--Page body, contains images, menus, and table-->
-	<body id = "background">
+	<body id ="background">
 		<!--Page top-->
 		<img id = "banner" src = "/images/banner2.png">
 		
-		<p class = "welcome"> Welcome, Administrator 
-		<span class = "moveRight"> 
-		<a href="/session/logout" >Log Out</a>
-		</span> </p>
+		<p class = "welcome"> Welcome <span class = "moveRight"> <a href = "/"> Home</a></span> </p>
 		
-		<div class = "autoAlignCategories">
-			
-			
-		</div>
+			<div class = "autoAlign">
+				<h1>Frequently Asked Questions</h1>
+				
+				<h3 class="questions" id="questions1" name="questions1">What is this?</h3>
+				<p class="answers" id="answer1" name="answer1">This is a 'Lost and Found' website accessible to all. If you lost an item at Rhode Island College, search through our 'Lost and Found' database, simply displayed on the homepage for your accessibility and convenience, and see if anyone has picked it up!</p>
+
+				<h3 class="questions" id="questions2" name="questions2">How do I retrieve my lost item?</h3>
+				<p class="answers" id="answer3" name="answer3">Once you find an item that you think belongs to you, that means someone has found it and turned it in at the 'Welcome and Info Center'. To retrieve your item, visit the Welcome and Info Center located on the main floor of the Student Union building. A state ID or Student ID is required before any items can be returned to you.</p>
+
+				<h3 class="questions" id="questions3" name="questions3">What if I can't find my item in the Lost and Found website?</h3>
+				<p class="answers" id="answer3" name="answer3">If you lost an item and can't find it on our website, that means it has not been found yet. Continue to visit the website frequently for any updates.</p>
+
+				<p>Requesting unreceived item: Coming soon!</p>
+
+				<h3 class="questions" id="questions4" name="questions4">How do I make an account?</h3>
+				<p class="answers" id="answer4" name="answer4">Only administrators have accounts and access to manage the database. All other users should be using the database as a 'Guest' and require no log-ins.</p>
+
+				<h3 class="questions" id="questions5" name="questions5">What if someone retrieved an item that belongs to me?</h3>
+				<p class="answers" id="answer5" name="answer5">In the rare occasion that we mistakenly gave an item to the wrong person, please contact us right away at (401) 456-8148 or visit the Welcome and Info Center. Please bring a valid photo ID. Immediate action will take place in cooperation with Rhode Island College's security department.</p>
+
+			</div>
 		
+
 		<!--Page footer-->
 		<footer class = "footer">
 			<div class = "container">

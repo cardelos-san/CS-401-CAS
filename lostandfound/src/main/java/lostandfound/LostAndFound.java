@@ -42,6 +42,7 @@ public class LostAndFound {
 		
 		/*Defining all routes*/
 		get( "/", IndexController::getIndex, templateEngine);
+		get ( "/faq", IndexController::faq, templateEngine);
 		path( "/api", () -> {
 			get( "/getAllItems", ItemController::getAllItems, new JsonTransformer());
 		});
