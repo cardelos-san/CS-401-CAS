@@ -13,9 +13,9 @@
 	</head>
 
 	<!--Page body: Contains the form for an admin to delete an item-->
-	<body>
+	<body id = "background">
 		<!--Page top-->
-		<img id = "banner" src = "/images/banner2.png"  >
+		<a href = "/"><img id = "banner" src = "/images/banner2.png"></a>
 		
 		<p class = "welcome"> Welcome, Administrator <span class = "moveRight"> <a href = "/"> Home</a></span> </p>
 		
@@ -37,15 +37,15 @@
 
 			<!--Form-->
 			<form th:action="@{~/item/deleteItem/} + ${itemID}" method="post">
-				<h3 class="formLabels">Are you sure you want to delete this item?</h3>
-				<button id="cancelBtn" class="inputValues" type="button" name="cancelBtn" value="Cancel" onclick="window.location.href='/';">Cancel</button>
+				<h3>Are you sure you want to delete this item?</h3>
+				<button id="cancelButton" class="inputValues" type="button" name="cancelButton" value="Cancel" onclick="window.location.href='/';">Cancel</button>
 				<input id="submit" class="inputValues" type="submit" name="submit" value="Submit">
 			</form>
 		</div>
 
 		<!--Page footer-->
 		<footer class = "footer">
-			<div class = "container">
+			<div class = "container2">
 				<span class="contact"><br>
 				<img  id = "ricLogo" src = "/images/riclogo.png" alt="RIC Logo" align="left">
 				600 Mount Pleasant Avenue<br>

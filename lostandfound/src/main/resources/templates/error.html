@@ -12,9 +12,7 @@
 	<!--Importing loginScript.js-->
 	<script type="text/javascript" src="/javascript/loginScript.js"></script>
 
-		<title>
-			Error
-		</title>
+		<title>Error</title>
 	</head>
 
 	<!--Page body, contains images, menus, and table-->
@@ -23,22 +21,17 @@
 		<img id = "banner" src = "/images/banner2.png">
 		
 		<p class = "welcome"> Welcome
-		<span class = "moveRight"> 
-		
-		</span>
+		<span class = "moveRight"><a href = "/"> Home</a></span>
 		</p>
-		
-		
 		
 			<div class = "autoAlign">
 				<h1>Error!</h1>
 				<p th:if="${error}" th:text="${error}" style="color:red">Error: Something went wrong!</p>
 			</div>
 		
-
 		<!--Page footer-->
 		<footer class = "footer">
-			<div class = "container">
+			<div class = "container2">
 				<span class="contact"><br>
 				<img  id = "ricLogo" src = "/images/riclogo.png" alt="RIC Logo" align="left">
 				600 Mount Pleasant Avenue<br>

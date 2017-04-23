@@ -48,7 +48,6 @@ p.welcome{
 	border: groove black;
 }
 
-
 .search {
 	width:300px;
 }
@@ -56,17 +55,19 @@ p.welcome{
 .functionButton {
 	width:75px;
     margin: 5px auto;
+    background-color: black;
+    color: white;
 }
 
 #categories{
 	width:100%;
 }
 
+
 #background{
 	background-color: #f7f7f7;
-	
+	background-image: url("/images/CampusMap2.png");
 }
-
 
 table {
     border-top-style: solid;
@@ -134,8 +135,6 @@ border-width: 1px;
     opacity: 0.8;
 }
 
-
-
 .footer{
 	background-color: pink;
 	border-top-style: groove;
@@ -146,9 +145,9 @@ border-width: 1px;
 	box-shadow: 0px 500px 0px 500px pink;
 }
 
-.container{
+.container2{
 	display: inline;
-	margin-top: -20px;
+	margin-top: 20px;
 }
 
 #ricLogo{
@@ -169,6 +168,10 @@ border-width: 1px;
 /*Template form Labels*/
 .formLabels{
 	width: 100px;
+}
+
+h1 {
+	color: maroon;
 }
 
 /*Login style and modal style*/
@@ -206,6 +209,16 @@ button:hover {
     background-color: #f44336;
 }
 
+#cancelButton {
+	background-color: maroon;
+    color: white;
+    padding: 14px 20px;
+    margin: 6px 0;
+    border: none;
+    cursor: pointer;
+    width: 20%;
+}
+
 #submit {
 	background-color: maroon;
     color: white;
@@ -213,7 +226,7 @@ button:hover {
     margin: 6px 0;
     border: none;
     cursor: pointer;
-    width: 100%;
+    width: 20%;
 }
 
 #submit:hover {
