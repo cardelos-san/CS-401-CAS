@@ -168,6 +168,7 @@ border-width: 1px;
 /*Template form Labels*/
 .formLabels{
 	width: 100px;
+	font-weight: bold;
 }
 
 h1 {
