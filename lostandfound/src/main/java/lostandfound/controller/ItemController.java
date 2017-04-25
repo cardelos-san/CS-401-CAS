@@ -25,7 +25,7 @@ public class ItemController {
 	final static Logger logger = LoggerFactory.getLogger( ItemController.class );
 	
 	
-	public static List<Item> getAllItems( Request req, Response resp ) {
+	public static List<Item> getAllItems( Request req, Response resp ) throws Exception {
 		Configuration config = Configuration.getInstance();
 		DBase db = new DBase( config.getProperty( "dbuser" ), 
 				config.getProperty( "dbpasswd" ) );

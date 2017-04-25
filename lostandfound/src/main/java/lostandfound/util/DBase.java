@@ -10,7 +10,13 @@
 package lostandfound.util;
 
 import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
+
+import lostandfound.controller.ItemController;
 import lostandfound.model.*;
 import java.sql.*; //Allows you to use JDBC classes/interfaces
 import java.time.LocalDate;
@@ -18,6 +24,7 @@ import java.util.Date;
 
 public class DBase {
 
+	private final Logger logger = LoggerFactory.getLogger( ItemController.class );
 	private Connection conn;
     private boolean isopen;
     
@@ -308,12 +315,11 @@ public class DBase {
             }
 
         } catch ( Exception e ) {
-        	// TODO: Log exception
+        	logger.error( "Error getting item from database: " + e.getMessage() );
+        	throw e;
+        } finally {
+        	stmt.close();
         }
-        
-        // Close the update statement and return.
-        try { stmt.close(); }
-        catch (Exception e) {}
         
         return item;
     }
@@ -321,8 +327,9 @@ public class DBase {
     /**
      * getAllItem - View all information of an item in the database
      * @return returns a list of all the items in the database
+     * @throws Exception if unable to retrieve items from database 
      */
-    public List<Item> getAllItems()
+    public List<Item> getAllItems() throws Exception
     {
     	PreparedStatement stmt = null;
     	ResultSet rset = null;
@@ -361,12 +368,13 @@ public class DBase {
                 items.add( item );
             }
 
-        } catch (Exception e) {}
-        
-        // Close the update statement and return.
-        try {stmt.close();}
-        catch (Exception e) {}
-        
+        } catch (Exception e) {
+        	logger.error( "Error getting item from database: " + e.getMessage() );
+        	throw e;
+        } finally {
+        	stmt.close();
+        }
+
         return items;
     }
     
@@ -409,12 +417,11 @@ public class DBase {
             }
 
         } catch ( Exception e ) {
-        	// TODO: Log exception
+        	logger.error( "Error getting item from database: " + e.getMessage() );
+        	throw e;
+        } finally {
+        	stmt.close();
         }
-        
-        // Close the update statement and return.
-        try { stmt.close(); }
-        catch (Exception e) {}
         
         return retrieval;
     }
