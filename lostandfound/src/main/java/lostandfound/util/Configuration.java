@@ -55,8 +55,6 @@ public final class Configuration {
 		String propFile = System.getProperty( "PROP_FILE", "config.properties" );
 		try {
 			props.load( new FileInputStream( propFile ) );
-		} catch ( FileNotFoundException e ) {
-			throw new RuntimeException( "Unable to open properties file: " + e.getMessage() );
 		} catch ( IOException e ) {
 			throw new RuntimeException( "Unable to open properties file: " + e.getMessage() );
 		}
