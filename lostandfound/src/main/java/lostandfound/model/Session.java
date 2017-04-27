@@ -8,14 +8,21 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 
+import lostandfound.controller.SessionController;
 import lostandfound.util.Configuration;
 import lostandfound.util.DBase;
 import org.mindrot.jbcrypt.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import spark.Request;
 import spark.Response;
 
 
 public class Session {
+	
+	final static Logger logger = LoggerFactory.getLogger( Session.class );
+	
 	private Integer userID;
 	private boolean isGuest;
 	private Request request;
@@ -136,13 +143,14 @@ public class Session {
 			db.close();
 		}
 		
-		if ( hash.isEmpty() ) {
-			return false;
-		} else {
-			return BCrypt.checkpw( passwd, hash );
-		}
+		// If hash is empty return false else return the result of BCrypt check
+		return ( hash.isEmpty() ) ? false : BCrypt.checkpw( passwd, hash );
 	}
 	
+	/**
+	 * Gets the first name of the user currently logged into the session or "Guest" if a guest session
+	 * @return First name of the logged in user
+	 */
 	public String getUserFirstNameFromSession() {
 		if ( isGuest ) return "Guest";
 		Configuration config = Configuration.getInstance();
@@ -154,7 +162,7 @@ public class Session {
 		try {
 			user = db.getUserFromID( userID );
 		} catch ( Exception e ) {
-			// Log exception
+			logger.warn( "Could not get user with ID " + userID, e );
 		} finally {
 			db.close();
 		}
@@ -170,7 +178,7 @@ public class Session {
 		String hash = request.cookie( "userID" );
 		request.session().removeAttribute( "userID" );
 		if ( hash != null ) {
-			response.cookie( "/", "userID", "", 0, false ); // Ugly hack due to https://github.com/perwendel/spark/issues/780
+			response.cookie( "/", "userID", "", 0, false ); // Hack due to https://github.com/perwendel/spark/issues/780
 			// TODO: Use the below line in 2.5.6 when released:
 			//response.removeCookie( "/", "userID" );
 			Configuration config = Configuration.getInstance();
@@ -181,8 +189,7 @@ public class Session {
 			try {
 				db.deleteCookieHashForUser( hash, userID );
 			} catch ( Exception e ) {
-				// Failed to remove hash from database - non-fatal
-				// Log exception
+				logger.warn( "Could note remove user hash " + hash, e );
 			} finally {
 				db.close();
 			}
