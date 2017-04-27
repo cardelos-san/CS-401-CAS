@@ -4,6 +4,9 @@ import java.security.GeneralSecurityException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import lostandfound.model.*;
 import lostandfound.util.Configuration;
 import lostandfound.util.DBase;
@@ -12,6 +15,8 @@ import spark.Request;
 import spark.Response;
 
 public class SessionController {
+	
+	final static Logger logger = LoggerFactory.getLogger( SessionController.class );
 
 	public static ModelAndView displayLogin( Request req, Response res ) {
 		Map<String, String> templateVars = new HashMap<String, String>();
@@ -43,7 +48,7 @@ public class SessionController {
 			try {
 				user = db.getUserFromEmail( email );
 			} catch ( Exception e ) {
-				// TODO: Log exception
+				// Unable to retrieve user ID from email
 				String errorMsg = "Error: Invalid email or password.";
 				templateVars.put( "error" , errorMsg );
 				return new ModelAndView( templateVars, "loginForm" );
@@ -57,8 +62,7 @@ public class SessionController {
 				try {
 					session.setCookieFromSession( res );
 				} catch ( Exception e ) {
-					// Unable to set cookie
-					// TODO: Log exception
+					logger.error( "Unable to set cookie", e );
 				}
 			}
 			// Redirect user to index

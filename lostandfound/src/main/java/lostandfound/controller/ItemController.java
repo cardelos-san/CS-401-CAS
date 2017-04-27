@@ -207,8 +207,6 @@ public class ItemController {
 				logger.error( "Unable to fetch item with ID '" + itemID + "': " +  e.getMessage() );
 			}
 			
-			// TODO: Check if item has been retrieved already
-			
 			if ( item != null ) {
 				templateVars = item.toMap();
 			} else {
@@ -221,7 +219,7 @@ public class ItemController {
 	}
 	
 	
-	public static ModelAndView deleteItemHandler( Request req, Response res ) {
+	public static ModelAndView deleteItemHandler( Request req, Response res ) throws Exception {
 		Map<String, String> templateVars = new HashMap<String, String>();
 		int itemID = Integer.valueOf( req.params( ":itemID" ) );
 		Item item = null;
@@ -242,7 +240,8 @@ public class ItemController {
 			Item.deleteItem( itemID );
 			ImageFile.deleteImageFile( item.image, itemImageDir );
 		} catch ( Exception e ) {
-			// TODO: Log exception
+			logger.error( "Unable to delete item with ID " + itemID, e );
+			throw e;
 		}
 		
 		// Redirect user to admin index
@@ -356,7 +355,7 @@ public class ItemController {
 		try {
 			userID = session.getUserID();
 		} catch ( Exception e ) {
-			logger.error( "Unauthorized access: " +  e.getMessage() );
+			logger.error( "Unauthorized access", e );
 		}
 		
 		// User is not logged-in as Administrator
@@ -375,10 +374,8 @@ public class ItemController {
 			try {
 				item = db.getItem( itemID );
 			} catch ( Exception e ) {
-				//TODO Log exception
+				logger.error( "Unable to retrieve item with ID " + itemID, e );
 			}
-			
-			// TODO: Check if item has been retrieved already
 			
 			if ( item != null ) {
 				templateVars = item.toMap();
