@@ -4,14 +4,10 @@ import lostandfound.model.*;
 import lostandfound.util.*;
 
 import java.io.*;
-import java.nio.file.*;
 import java.sql.Date;
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.servlet.*;
-import javax.servlet.http.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -106,7 +102,6 @@ public class ItemController {
 	public static ModelAndView retrieveItem( Request req, Response res ) {
 		Map<String, String> templateVars = new HashMap<String, String>();
 		int itemID = Integer.valueOf( req.params( ":itemID" ) );
-		//String status = String.valueOf( req.params( ":status" ) );
 		String template = "retrieveItemForm";
 		Item item = null;
 		int userID = 0;
@@ -136,22 +131,18 @@ public class ItemController {
 				item = db.getItem( itemID );
 			} catch ( Exception e ) {
 				logger.error( "Unable to fetch item with ID '" + itemID + "': " +  e.getMessage() );
+				templateVars.put( "error", "No such item ID." );
+				template = "error";
 			}
 			
 			// Check if item has already been retrieved
-			String status = item.getItemStatus();
-			if (status.equals("retrieved")) {
-				templateVars.put( "error", "Item has already been retrieved.");
-				template = "error";
-			}
-			
-			else if ( item != null ) {
-				templateVars = item.toMap();
-			} 
-			
-			else {
-				templateVars.put( "error", "No such item ID." );
-				template = "error";
+			if (item != null) {
+				if (item.getItemStatus().equals("retrieved")) {
+					templateVars.put( "error", "Item has already been retrieved.");
+					template = "error";
+				} else {
+					templateVars = item.toMap();
+				}
 			}
 		}
 		
