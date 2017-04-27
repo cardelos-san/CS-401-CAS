@@ -43,21 +43,20 @@ public class LostAndFound {
 		/*Defining all routes*/
 		get( "/", IndexController::getIndex, templateEngine);
 		get ( "/faq", IndexController::faq, templateEngine);
+		
+		// REST API routes
 		path( "/api", () -> {
 			get( "/getAllItems", ItemController::getAllItems, new JsonTransformer());
 		});
-		/*
-		path( "/api", () -> {
-			get( "/getRetrievedItems", ItemController::getRetrievedItems, new JsonTransformer());
-		});
-		*/
+
+		// Session (login) routes
 		path( "/session", () -> {
 			get( "/login", SessionController::displayLogin, templateEngine);
 			post( "/login", SessionController::handleLogin, templateEngine);
 			get( "/logout", SessionController::handleLogout);
 		});
 		
-
+		// Item routes
 		path( "/item", () -> {
 			get( "/addItem", ItemController::addAnItem, templateEngine);
 			post( "/addItem",ItemController::addItemHandler, templateEngine);
@@ -70,7 +69,7 @@ public class LostAndFound {
 			get( "/viewItem/:itemID", ItemController::viewItem, templateEngine);
 		});
 		
-		// Test bcrypt hash
+		// Show BCrypt hash for password (keep until user mgmt code is implemented)
 		get( "/bcrypt/:pw", ( req, res ) -> BCrypt.hashpw( req.params( ":pw" ), BCrypt.gensalt() ) );
 	}
 		
