@@ -426,55 +426,6 @@ public class DBase {
         return retrieval;
     }
     
-    /**
-     * showRetrievedItem - Search and return all items marked as retrieved in the database
-     * @return returns a list of all retrieved items in the database
-     */
-    /*
-    public List<Item> showRetrievedItems()
-    {
-    	PreparedStatement stmt = null;
-    	ResultSet rset = null; // result - gets returned
-        String sql, description, status;
-        int itemId, adminId;
-		java.sql.Date dateCreated, dateFound, dateRetrieved;
-		List<Item> retrievedItems = new ArrayList<Item>();
-        
-        // Return if the database is closed.
-        if (!isopen) return null;
-    	
-    	try{	
-        	// Create a PreparedStatement for the update.
-        	sql = "SELECT * FROM inventory WHERE inventory.status = 'Retrieved'";
-        	stmt = conn.prepareStatement(sql);
-        
-        	// Execute SQL Update
-        	rset = stmt.executeQuery();
-        	
-        	// Process the result set
-            // Loop through the result and print
-            while (rset.next()) {
-                itemId = rset.getInt(1);
-                description = rset.getString(2);
-                status = rset.getString(3);
-                dateCreated = rset.getDate(4);
-                dateFound = rset.getDate(5);
-                dateRetrieved = rset.getDate(6);
-                adminId = rset.getInt(7);
-                
-                retrievedItems.add(new Item (itemId, "", description, "", dateCreated, status));
-            }
-        	
-    	} catch (Exception e) {}
-    	
-    	// Close the query statement and return.
-        try {stmt.close();}
-        catch (Exception e) {}
-        
-        return retrievedItems;
-    }
-    */
-    
     
     /**
      * processRetrieval - Processes an item retrieval by getting, from the retriever, all personal
