@@ -13,6 +13,7 @@ public class IndexController {
 		Map<String, String> templateVars = new HashMap<String, String>();
 		Session session = new Session( request );
 		
+		// Choose which index to serve based on session information
 		String template = ( session.isGuest() ) ? "indexServerSideEnabled" : "adminView";
 		templateVars.put( "userFirstName", session.getUserFirstNameFromSession() );
 		
