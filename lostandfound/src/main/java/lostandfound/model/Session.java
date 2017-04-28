@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 
-import lostandfound.controller.SessionController;
 import lostandfound.util.Configuration;
 import lostandfound.util.DBase;
 import org.mindrot.jbcrypt.*;
@@ -49,7 +48,7 @@ public class Session {
 					Integer tmpID = db.getUserIDFromCookieHash( hash );
 					if ( tmpID != null ) setUserID( tmpID );
 				} catch ( SQLException e ) {
-					// Log exception
+					logger.warn( "Unable to set user ID from cookie", e );
 				} finally {
 					db.close();
 				}
