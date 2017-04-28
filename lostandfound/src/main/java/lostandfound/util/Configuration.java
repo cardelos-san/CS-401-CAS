@@ -53,8 +53,8 @@ public final class Configuration {
 	private static Properties loadProperties() {
 		Properties props = new Properties();
 		String propFile = System.getProperty( "PROP_FILE", "config.properties" );
-		try {
-			props.load( new FileInputStream( propFile ) );
+		try ( FileInputStream inputStream = new FileInputStream( propFile ) ) {
+			props.load( inputStream );
 		} catch ( IOException e ) {
 			throw new RuntimeException( "Unable to open properties file: " + e.getMessage() );
 		}
