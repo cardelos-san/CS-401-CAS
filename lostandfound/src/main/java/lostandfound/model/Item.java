@@ -215,23 +215,6 @@ public class Item {
 	}
 	
 	/**
-     * showRetrievedItem - Search and return all items marked as retrieved in the database
-     * @return returns ... (!!! EDIT)
-     * WARNING: THIS INFO SHOULD BE RETURNED, SHOULD NOT PRINT IN DBASE
-     */
-	/*
-	public void showRetrievedItems()
-	{
-		Configuration config = Configuration.getInstance();
-		String dbuser = config.getProperty("dbuser");
-		String dbpasswd = config.getProperty("dbpasswd");
-		DBase db = new DBase(dbuser, dbpasswd);
-		
-		db.showRetrievedItems();
-	}
-	*/
-	
-	/**
 	 * Returns a map of the instance values of the Item and associated ItemRetrieval
 	 * @return
 	 */

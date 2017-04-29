@@ -30,19 +30,6 @@ public class ItemController {
 		return items;
 	}
 	
-	
-	/*
-	public static List<Item> getRetrievedItems( Request req, Response resp) {
-		Configuration config = Configuration.getInstance();
-		DBase db = new DBase( config.getProperty( "dbuser" ), 
-				config.getProperty( "dbpasswd" ) );
-		List<Item> retrievedItems = db.showRetrievedItems();
-		
-		return retrievedItems;
-	}
-	*/
-	
-	
 	public static ModelAndView addAnItem( Request req, Response res ) {
 		Map<String, String> templateVars = new HashMap<String, String>();
 		String template = "addItemForm";
