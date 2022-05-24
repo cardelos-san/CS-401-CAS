@@ -6,7 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
+import javax.xml.bind.annotation.adapters.HexBinaryAdapter; //JAXB @Deprecated as of Java 11. Added Maven dependency to pom file for Java 8+
 
 import lostandfound.util.Configuration;
 import lostandfound.util.DBase;
