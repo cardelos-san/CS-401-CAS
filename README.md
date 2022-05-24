@@ -10,4 +10,13 @@ This is a lost and found system developed for CS-401 at RIC. It is designed to h
     -DPROP_FILE=PATH_TO_PROP_FILE
 4. Once the application is launched it can be reached by navigating your browser to http://localhost:4567/
 
-<img src = "/example.PNG">
+Project Images:
+
+<img src = "/util/project images/guest_view.PNG">
+<img src = "/util/project images/admin_view.PNG">
+
+ <p float="center">
+  <img src="/util/project images/edit_item.PNG" width="300" height="300" />
+  <img src="/util/project images/retrieve_item.PNG" width="300" height="300" />
+  <img src="/util/project images/retrieve_record.PNG" width="300" height="300" />
+</p>
