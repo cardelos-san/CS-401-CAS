@@ -11,3 +11,5 @@ This is a lost and found system developed for CS-401 at RIC. It is designed to h
 4. Once the application is launched it can be reached by navigating your browser to http://localhost:4567/
 
 ![alt text](https://github.com/cardelos-san/CS-401-CAS/blob/master/example.png?raw=true)
+
+<img src = "/example.PNG">
